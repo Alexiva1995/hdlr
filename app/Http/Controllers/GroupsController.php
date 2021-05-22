@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Groups;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class GroupsController extends Controller
 {
@@ -47,11 +48,19 @@ class GroupsController extends Controller
     {
         $validate = $request->validate([
             'name' => ['required', 'unique:groups'],
+            'img' => ['required', 'mimes:jpeg,png']
         ]);
         try {
             if ($validate) {
 
-                Groups::create($request->all());
+                $path = $request->file('img')->store(
+                    'groups'
+                );               
+
+                $group = Groups::create($request->all());
+
+                $group->img = $path;
+                $group->save();
                 
                 return redirect()->back()->with('msj-success', 'Nuevo Grupo Creada');
             }
@@ -80,7 +89,8 @@ class GroupsController extends Controller
     public function edit($id)
     {
         try {
-            $category = Groups::find($id)->only('name', 'description', 'id', 'status');
+            $category = Groups::find($id)->only('name', 'description', 'id', 'status', 'img');
+            $category['img'] = asset('media/'.$category['img']);
             return json_encode($category);
         } catch (\Throwable $th) {
             dd($th);
@@ -104,13 +114,26 @@ class GroupsController extends Controller
         }else{
             $validate = true;
         }
+
+        if ($request->file('img')) {
+            $validate = $request->validate([
+                'img' => ['required', 'mimes:jpeg,png'],
+            ]);
+        }
         
         try {
             if ($validate) {
 
+
                 $category->name = $request->name;
                 $category->status = $request->status;
                 $category->description = $request->description;
+                if ($request->file('img')) {
+                    $path = $request->file('img')->store(
+                        'groups'
+                    );
+                    $category->img = $path;
+                }
                 $category->save();                
                 
                 return redirect()->back()->with('msj-success', 'Grupo '.$id.' Actualizada ');

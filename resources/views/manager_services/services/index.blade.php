@@ -14,7 +14,6 @@
 @push('page_js')
 <script src="{{asset('assets/js/librerias/vue.js')}}"></script>
 <script src="{{asset('assets/js/librerias/axios.min.js')}}"></script>
-<script src="{{asset('assets/js/librerias/emojionearea.min.js')}}"></script>
 @endpush
 
 @push('custom_js')
@@ -29,13 +28,13 @@
                 <div class="card-body card-dashboard">
                     <div class="col-12">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modalNewServices">
-                            <i class="fa fa-plus"> Nuevo Servicio</i>
+                            <i class="fa fa-plus"> Nuevo Paquete</i>
                         </button>
                     </div>
                     <div class="col-12 mt-1">
-                        <form action="{{route('services.index')}}" method="get" id="filtro">
+                        <form action="{{route('package.index')}}" method="get" id="filtro">
                             <fieldset class="form-group">
-                                <label for="">Filtro por categoria</label>
+                                <label for="">Filtro por Grupos</label>
                                 <select name="category" class="form-control" required v-on:change="aplicFiltro()">
                                     <option value="" disabled selected>Elige una opcion</option>
                                     @foreach ($categories as $category)
@@ -55,15 +54,11 @@
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    {{-- <th>Input de Informacion Adicional</th> --}}
-                                    <th>API ServiceID</th>
-                                    <th>API Provider</th>
-                                    <th>Precio por cada 1.000($)</th>
-                                    <th>Min / Max Orden</th>
+                                    <th>Nombre</th>
+                                    <th>Deposito Minimo</th>
+                                    <th>Fecha Vencimiento</th>
+                                    <th>Precio</th>
                                     <th>Description</th>
-                                    <th>Drip-feed</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
                                 </tr>
@@ -72,49 +67,14 @@
                                 @foreach ($services as $service)
                                 <tr class="text-center">
                                     <td>{{$service->id}}</td>
-                                    <td>{{$service->package_name}}</td>
-                                    <td>{{$service->type}}</td>
-                                    {{-- <td>
-                                        @if ($service->input_adicionales != null)
-                                            @foreach ($service->input_adicionales as $input)
-                                                <p>{{$input}}</p>
-                                            @endforeach
-                                        @endif
-                                    </td> --}}
-                                    <td>{{$service->api_service_id}}</td>
-
-                                    @if ($service->api_provide_name == '1')
-                                    <td>CustomServer Version 10.1</td>
-                                    @elseif($service->api_provide_name == '2')
-                                    <td>HQ second server</td>
-                                    @elseif($service->api_provide_name == '3')
-                                    <td>Hq tercer servidor dedicated</td>
-                                    @elseif($service->api_provide_name == '4')
-                                    <td>Cuarta Api Dedicated</td>
-                                    @elseif($service->api_provide_name == '5')
-                                    <td>Proxima Api en Proceso</td>
-                                    @elseif($service->api_provide_name == '6')
-                                    <td>yoyo</td>
-                                    @elseif($service->api_provide_name == '7')
-                                    <td>BulkFollows</td>
-                                    @elseif($service->api_provide_name == '8')
-                                    <td>Tony Pannel</td>
-                                    @endif
-
-
+                                    <td>{{$service->name}}</td>
+                                    <td>{{$service->minimum_deposit}}</td>
+                                    <td>{{date('d-m-Y', strtotime($service->expired))}}</td>
                                     <td>{{$service->price}}</td>
-                                    <td>{{$service->minimum_amount}} / {{$service->maximum_amount}}</td>
                                     <td>
                                         <button class="btn btn-info" onclick="vm_adminService.getDescription('{{$service->id}}')">
                                             <i class="fa fa-eye"></i>
                                         </button>
-                                    </td>
-                                    <td>
-                                        @if ($service->drip_feed == 1)
-                                            <span class="badge badge-success text-white">Activo</span>
-                                        @else
-                                            <span class="badge badge-warning text-white">Desactivado</span>
-                                        @endif
                                     </td>
                                     <td>
                                         @if ($service->status == 1)
@@ -128,7 +88,7 @@
                                             <i class="fa fa-edit"></i>
                                         </button>
                                         <button class="btn btn-danger" onclick="vm_adminService.deleteData('{{$service->id}}')">
-                                            <form action="{{route('services.destroy', $service->id)}}" method="post" id="delete{{$service->id}}">
+                                            <form action="{{route('package.destroy', $service->id)}}" method="post" id="delete{{$service->id}}">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>

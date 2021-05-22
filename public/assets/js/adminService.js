@@ -1,18 +1,5 @@
 var vm_adminService = new Vue({
     el: '#adminServices',
-    created: function(){
-        $(document).ready(function(){
-            $("#emojioneareaNew").emojioneArea({
-                pickerPosition: "bottom",
-                tonesStyle: "radio"
-            });
-
-            $("#emojioneareaEdit").emojioneArea({
-                pickerPosition: "bottom",
-                tonesStyle: "radio"
-            });
-        })
-    },
     data: function(){
         return{
             Service: [],
@@ -30,10 +17,10 @@ var vm_adminService = new Vue({
          * @param {integer} id 
          */
         getEditData: function (id) {
-            let url = route('services.edit', id)
+            let url = route('package.edit', id)
             axios.get(url).then((response) => {
                 this.Service = response.data
-                this.Route = route('services.update', this.Service.id)
+                this.Route = route('package.update', this.Service.id)
                 if (this.Service.description != null) {
                     $('#summernoteEdit').summernote('pasteHTML', this.Service.description)
                 }
@@ -65,7 +52,7 @@ var vm_adminService = new Vue({
          * @param {integer} id 
          */
         getDescription: function(id){
-            let url = route('services.show', id)
+            let url = route('package.show', id)
             axios.get(url).then((response) => {
                 this.Description = response.data
                 $('#modalDescriptionServices').modal('show')

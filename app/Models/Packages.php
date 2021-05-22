@@ -9,6 +9,6 @@ class Packages extends Model
     protected $table = 'packages';
 
     protected $fillable = [
-        'name', 'group_id', 'price', 'description', 'status'
+        'name', 'group_id', 'price', 'description', 'status', 'minimum_deposit', 'expired'
     ];
 }

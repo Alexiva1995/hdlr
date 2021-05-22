@@ -35,8 +35,9 @@
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Img</th>
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
                                 </tr>
@@ -45,6 +46,9 @@
                                 @foreach ($categories as $category)
                                 <tr class="text-center">
                                     <td>{{$category->id}}</td>
+                                    <td>
+                                        <img src="{{asset('media/'.$category->img)}}" alt="" height="100" width="100">
+                                    </td>
                                     <td>{{$category->name}}</td>
                                     <td>{!!$category->description!!}</td>
                                     <td>

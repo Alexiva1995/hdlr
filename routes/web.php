@@ -39,7 +39,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         // Ruta para visualizar el arbol o la matriz
         Route::get('{type}', 'TreeController@index')->name('genealogy_type');
         // Ruta para visualizar el arbol o la matriz de un usuario en especifico
-        Route::get('{type}/{id}', 'TreeController@moretree')->name('genealogy_type_id'); 
+        Route::get('{type}/{id}', 'TreeController@moretree')->name('genealogy_type_id');
     });
 
     // Ruta para la billetera
