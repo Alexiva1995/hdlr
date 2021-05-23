@@ -20,7 +20,7 @@
                                     <input type="text" name="name" class="form-control" required>
                                 </fieldset>
                             </div>
-                            <div class="col-12">
+                            {{-- <div class="col-12">
                                 <fieldset class="form-group">
                                     <label for="">Elige una Categoria</label>
                                     <select name="group_id" id="" class="form-control" required>
@@ -30,7 +30,8 @@
                                         @endforeach
                                     </select>
                                 </fieldset>
-                            </div>
+                            </div> --}}
+                            <input type="hidden" name="group_id" value="{{$idgrupo}}">
                             <div class="col-12 col-md-6">
                                 <fieldset class="form-group">
                                     <label for="">Deposito Minimo</label>

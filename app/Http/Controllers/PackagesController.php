@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Groups;
 use App\Models\Packages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class PackagesController extends Controller
@@ -18,22 +19,15 @@ class PackagesController extends Controller
     {
          try {
              // title
-             View::share('titleg', 'Paquetes');
+             View::share('titleg', 'Paquetes - Grupos');
 
              $categories = Groups::all()->where('status', 1);
-             if (!empty(request()->category)) {
-                 $services = Packages::all()->where('group_id', request()->category);
 
-                 $category = Groups::find(request()->category);
-                 $name_category = $category->name;
-             }
-
-         return view('manager_services.services.index', compact('categories', 'services','name_category'));
+            return view('manager_services.services.index', compact('categories'));
          } catch (\Throwable $th) {
-             dd($th);
-         }
-
-
+            Log::error('Packages - index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -43,7 +37,24 @@ class PackagesController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            // title
+            View::share('titleg', 'Paquetes - Agregar');
+
+            $categories = Groups::all()->where('status', 1);
+            if (!empty(request()->category)) {
+                
+                $category = Groups::find(request()->category);
+                $services = $category->getPackage;
+                $name_category = $category->name;
+                $idgrupo = $category->id;
+            }
+
+           return view('manager_services.services.create', compact('categories', 'services','name_category', 'idgrupo'));
+        } catch (\Throwable $th) {
+            Log::error('Packages - create -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -69,7 +80,8 @@ class PackagesController extends Controller
                 return redirect($route)->with('msj-success', 'Nuevo Servicio Creado');
             }
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Packages - store -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
 
     }
@@ -89,7 +101,8 @@ class PackagesController extends Controller
             $route = route('package.index').'?category='.$category;
             return redirect($route)->with('msj-success', 'Servicio '.$id.' Eliminado');
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Packages - destroy -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -105,7 +118,8 @@ class PackagesController extends Controller
             $service = Packages::find($id);
             return $service->description;
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Packages - show -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -121,7 +135,8 @@ class PackagesController extends Controller
             $category = Packages::find($id);
             return json_encode($category);
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Packages - edit -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -152,8 +167,9 @@ class PackagesController extends Controller
                  return redirect($route)->with('msj-success', 'Servicio '.$id.' Actualizado ');
              }
          } catch (\Throwable $th) {
-             dd($th);
-         }
+            Log::error('Packages - update -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
 }

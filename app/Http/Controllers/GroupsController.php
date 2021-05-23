@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Groups;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 
 class GroupsController extends Controller
 {
@@ -24,7 +24,8 @@ class GroupsController extends Controller
 
             return view('manager_services.categories.index', compact('categories'));
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Grupos - Index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -65,7 +66,8 @@ class GroupsController extends Controller
                 return redirect()->back()->with('msj-success', 'Nuevo Grupo Creada');
             }
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Grupos - store -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -93,7 +95,8 @@ class GroupsController extends Controller
             $category['img'] = asset('media/'.$category['img']);
             return json_encode($category);
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Grupos - edit -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -139,7 +142,8 @@ class GroupsController extends Controller
                 return redirect()->back()->with('msj-success', 'Grupo '.$id.' Actualizada ');
             }
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Grupos - update -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -156,7 +160,8 @@ class GroupsController extends Controller
 
             return redirect()->back()->with('msj-success', 'Grupo '.$id.' Eliminada');
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Grupos - destroy -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 }

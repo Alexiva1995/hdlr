@@ -29,9 +29,14 @@ class LiquidactionController extends Controller
      */
     public function index()
     {
-        View::share('titleg', 'General Liquidaciones');
-        $comisiones = $this->getTotalComisiones([], null);
-        return view('settlement.index', compact('comisiones'));
+        try {
+            View::share('titleg', 'General Liquidaciones');
+            $comisiones = $this->getTotalComisiones([], null);
+            return view('settlement.index', compact('comisiones'));
+        } catch (\Throwable $th) {
+            Log::error('Liquidaction - index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -41,12 +46,17 @@ class LiquidactionController extends Controller
      */
     public function indexPendientes()
     {
-        View::share('titleg', 'Liquidaciones Pendientes');
-        $liquidaciones = Liquidaction::where('status', 0)->get();
-        foreach ($liquidaciones as $liqui) {
-            $liqui->fullname = $liqui->getUserLiquidation->fullname;
+        try {
+            View::share('titleg', 'Liquidaciones Pendientes');
+            $liquidaciones = Liquidaction::where('status', 0)->get();
+            foreach ($liquidaciones as $liqui) {
+                $liqui->fullname = $liqui->getUserLiquidation->fullname;
+            }
+            return view('settlement.pending', compact('liquidaciones'));
+        } catch (\Throwable $th) {
+            Log::error('Liquidaction - indexPendientes -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-        return view('settlement.pending', compact('liquidaciones'));
     }
 
     /**
@@ -57,13 +67,18 @@ class LiquidactionController extends Controller
      */
     public function indexHistory($status)
     {
-        View::share('titleg', 'Liquidaciones '.$status);
-        $estado = ($status == 'Reservadas') ? 2 : 1;
-        $liquidaciones = Liquidaction::where('status', $estado)->get();
-        foreach ($liquidaciones as $liqui) {
-            $liqui->fullname = $liqui->getUserLiquidation->fullname;
+        try {
+            View::share('titleg', 'Liquidaciones '.$status);
+            $estado = ($status == 'Reservadas') ? 2 : 1;
+            $liquidaciones = Liquidaction::where('status', $estado)->get();
+            foreach ($liquidaciones as $liqui) {
+                $liqui->fullname = $liqui->getUserLiquidation->fullname;
+            }
+            return view('settlement.history', compact('liquidaciones', 'estado'));
+        } catch (\Throwable $th) {
+            Log::error('Liquidaction - indexHistory -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-        return view('settlement.history', compact('liquidaciones', 'estado'));
     }
 
     /**
@@ -107,12 +122,9 @@ class LiquidactionController extends Controller
                 return redirect()->back()->with('msj-success', 'Liquidaciones Generada Exitoxamente');
             }
         } catch (\Throwable $th) {
-            Log::error('Store LiquidactionController -> '.$th);
-            dd($th);
+            Log::error('Liquidaction - store -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-
-
-
     }
 
     /**
@@ -122,29 +134,34 @@ class LiquidactionController extends Controller
      */
     public function show($id)
     {
-        $comiciones = Wallet::where([
-            ['status', '=', 0],
-            ['liquidation_id', '=', null],
-            ['tipo_transaction', '=', 0],
-            ['iduser', '=', $id]
-        ])->get();
-
-        foreach ($comiciones as $comi) {
-            $fecha = new Carbon($comi->created_at);
-            $comi->fecha = $fecha->format('Y-m-d');
-            $comi->referido = User::find($comi->referred_id)->only('fullname');
-        }
-        
-        $user = User::find($id);
-
-        $detalles = [
-            'iduser' => $id,
-            'fullname' => $user->fullname,
-            'comisiones' => $comiciones,
-            'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
-        ];
-
-        return json_encode($detalles);        
+        try {
+            $comiciones = Wallet::where([
+                ['status', '=', 0],
+                ['liquidation_id', '=', null],
+                ['tipo_transaction', '=', 0],
+                ['iduser', '=', $id]
+            ])->get();
+    
+            foreach ($comiciones as $comi) {
+                $fecha = new Carbon($comi->created_at);
+                $comi->fecha = $fecha->format('Y-m-d');
+                $comi->referido = User::find($comi->referred_id)->only('fullname');
+            }
+            
+            $user = User::find($id);
+    
+            $detalles = [
+                'iduser' => $id,
+                'fullname' => $user->fullname,
+                'comisiones' => $comiciones,
+                'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
+            ];
+    
+            return json_encode($detalles);  
+        } catch (\Throwable $th) {
+            Log::error('Liquidaction - show -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }   
     }
 
     /**
@@ -155,26 +172,31 @@ class LiquidactionController extends Controller
      */
     public function edit($id)
     {
-        $comiciones = Wallet::where([
-            ['liquidation_id', '=', $id],
-        ])->get();
+       try {
+            $comiciones = Wallet::where([
+                ['liquidation_id', '=', $id],
+            ])->get();
 
-        foreach ($comiciones as $comi) {
-            $fecha = new Carbon($comi->created_at);
-            $comi->fecha = $fecha->format('Y-m-d');
-            $comi->referido = User::find($comi->referred_id)->only('fullname');
+            foreach ($comiciones as $comi) {
+                $fecha = new Carbon($comi->created_at);
+                $comi->fecha = $fecha->format('Y-m-d');
+                $comi->referido = User::find($comi->referred_id)->only('fullname');
+            }
+            $user = User::find($comiciones->pluck('iduser')[0]);
+
+            $detalles = [
+                'idliquidaction' => $id,
+                'iduser' => $user->id,
+                'fullname' => $user->fullname,
+                'comisiones' => $comiciones,
+                'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
+            ];
+
+            return json_encode($detalles);
+        } catch (\Throwable $th) {
+            Log::error('Liquidaction - edit -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-        $user = User::find($comiciones->pluck('iduser')[0]);
-
-        $detalles = [
-            'idliquidaction' => $id,
-            'iduser' => $user->id,
-            'fullname' => $user->fullname,
-            'comisiones' => $comiciones,
-            'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
-        ];
-
-        return json_encode($detalles);
     }
 
     /**
@@ -260,7 +282,8 @@ class LiquidactionController extends Controller
             }
             return $comisiones;
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Liquidaction - getTotalComisiones -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -322,8 +345,8 @@ class LiquidactionController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
-            Log::error('Generar Liquidacion ->'.$th);
-            dd($th);
+            Log::error('Liquidaction - generarLiquidation -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -380,7 +403,8 @@ class LiquidactionController extends Controller
                 return redirect()->back()->with('msj-success', 'La Liquidacion fue '.$accion.' con exito');
             }
         } catch (\Throwable $th) {
-            Log::error('Funcion procesarLiquidacion -> '.$th);
+            Log::error('Liquidaction - saveLiquidation -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 

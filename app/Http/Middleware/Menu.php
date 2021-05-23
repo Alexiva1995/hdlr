@@ -219,11 +219,11 @@ class Menu
             // Fin Liquidaciones
             
             // Administracion de servicios
-            'Productos' => [
+            'Ecommerce' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'fa fa-cog',
+                'icon' => 'feather icon-shopping-cart',
                 'complementoruta' => '',
                 'submenus' => [
                     [
@@ -233,10 +233,16 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Paquetes',
+                        'name' => 'Productos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('package.index'),
-                        'complementoruta' => '?category=1'
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Tienda',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('shop'),
+                        'complementoruta' => ''
                     ],
                 ],
             ],
@@ -244,7 +250,7 @@ class Menu
             // Usuarios
             'Usuarios' => [
                 'submenu' => 0,
-                'ruta' => '',
+                'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                 'icon' => 'fa fa-users',
                 'complementoruta' => '',

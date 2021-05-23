@@ -76,8 +76,8 @@ class WalletController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            Log::error('Funcion payComisiones -> '.$th);
-            return redirect()->back()->with('msj', 'Ocurrio un error, Por favor comunicarse con el administrador');
+            Log::error('Wallet - payComision -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -135,8 +135,8 @@ class WalletController extends Controller
             }
             return $saldos;
         } catch (\Throwable $th) {
-           // return redirect()->back()->with('msj', 'Ocurrio un error, Por favor comunicarse con el administrador');
-           Log::error('Funcion getSaldo -> '.$th);
+            Log::error('Wallet - getSaldos -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -171,8 +171,8 @@ class WalletController extends Controller
                 $wallet->update(['balance' => $saldoAcumulado]);
             }
         } catch (\Throwable $th) {
-            // return redirect()->back()->with('msj', 'Ocurrio un error, Por favor comunicarse con el administrador');
-            Log::error('Funcion saveWallet -> '.$th);
+            Log::error('Wallet - saveWallet -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -191,8 +191,8 @@ class WalletController extends Controller
             }
             return $wallet;
         } catch (\Throwable $th) {
-            // return redirect()->back()->with('msj', 'Ocurrio un error, Por favor comunicarse con el administrador');
-            Log::error('Funcion getTotalComision -> '.$th);
+            Log::error('Wallet - getTotalComision -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -233,8 +233,8 @@ class WalletController extends Controller
             }
             return $totalComision;
         } catch (\Throwable $th) {
-            // return redirect()->back()->with('msj', 'Ocurrio un error, Por favor comunicarse con el administrador');
-            Log::error('Funcion getDataGraphiComisiones -> '.$th);
+            Log::error('Wallet - getDataGraphiComisiones -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 }

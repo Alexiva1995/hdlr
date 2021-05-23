@@ -20,7 +20,7 @@
                         <div class="row">
                             @foreach ($items as $grupo)
                             <div class="col-12 col-md-4">
-                                <a href="{{route('package.create').'/?category='.$grupo->id}}">
+                                <a href="{{route('shop.products', $grupo->id)}}">
                                     <div class="card">
                                         <div class="card-content">
                                             <img class="card-img-top img-fluid" src="{{asset('media/'.$grupo->img)}}" alt="{{$grupo->name}}">

@@ -48,6 +48,12 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('/', 'WalletController@index')->name('wallet.index');
     });
 
+    Route::prefix('shop')->group(function ()
+    {
+        Route::get('/', 'TiendaController@index')->name('shop');
+        Route::get('/groups/{idgroup}/products', 'TiendaController@products')->name('shop.products');
+    });
+
     /**
      * Seccion del sistema para el admin
      */

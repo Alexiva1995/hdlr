@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class TreeController extends Controller
@@ -28,7 +29,8 @@ class TreeController extends Controller
             $base->logoarbol = asset('assets/img/sistema/logoarbol.png');
             return view('genealogy.tree', compact('trees', 'type', 'base'));
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -48,7 +50,8 @@ class TreeController extends Controller
             View::share('titleg', 'Referidos '.$title);
             return view('genealogy.listNetwork', compact('users', 'title', 'allNetwork'));
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - indexNewtwork -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -68,7 +71,8 @@ class TreeController extends Controller
                 'indirectos' => $indirectos
             ];
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - getTotalUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -92,7 +96,8 @@ class TreeController extends Controller
             $trees = $this->getChildren($childres, 2, $genealogyType[$type]);
             return $trees;
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - getDataEstructura -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -115,7 +120,8 @@ class TreeController extends Controller
             $base->logoarbol = asset('assets/img/sistema/logoarbol.png');
             return view('genealogy.tree', compact('trees', 'type', 'base'));
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - moretree -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -140,7 +146,8 @@ class TreeController extends Controller
                 return $users;
             }
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - getChildren -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -162,7 +169,8 @@ class TreeController extends Controller
             }
             return $resul;
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - getData -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -217,7 +225,8 @@ class TreeController extends Controller
             }
             return $array_tree_user;
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - getChildrens2 -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
@@ -233,18 +242,23 @@ class TreeController extends Controller
      */
     public function getSponsor($child, $array_tree_user, $nivel, $typeTree, $keySponsor): array
     {
-        if (!is_array($array_tree_user))
-        $array_tree_user = [];
-    
-        $data = $this->getDataSponsor($child, $nivel, $typeTree);
+        try {
+            if (!is_array($array_tree_user))
+            $array_tree_user = [];
         
-        if (count($data) > 0) {
-            foreach($data as $user){
-                $array_tree_user [] = $user;
-                $array_tree_user = $this->getSponsor($user->$keySponsor, $array_tree_user, ($nivel+1), $typeTree, $keySponsor);
+            $data = $this->getDataSponsor($child, $nivel, $typeTree);
+            
+            if (count($data) > 0) {
+                foreach($data as $user){
+                    $array_tree_user [] = $user;
+                    $array_tree_user = $this->getSponsor($user->$keySponsor, $array_tree_user, ($nivel+1), $typeTree, $keySponsor);
+                }
             }
+            return $array_tree_user;   
+        } catch (\Throwable $th) {
+            Log::error('Tree - getSponsor -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-        return $array_tree_user;
     }
 
 
@@ -288,7 +302,8 @@ class TreeController extends Controller
             }
             return $resul;
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - getPosition -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
   }
   /**
@@ -329,7 +344,8 @@ class TreeController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Tree - verificarOtraPosition -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
   }
 /**
@@ -353,7 +369,8 @@ class TreeController extends Controller
              ])->select('id')->orderBy('id')->get()->toArray();
           }
       } catch (\Throwable $th) {
-          dd($th);
+        Log::error('Tree - getIDs -> Error: '.$th);
+        abort(403, "Ocurrio un error, contacte con el administrador");
       }
   }
 }

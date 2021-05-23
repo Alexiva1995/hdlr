@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
-
 use App\Http\Controllers\TreeController;
-use App\Http\Controllers\TicketsController;
-use App\Http\Controllers\ServiciosController;
-use App\Http\Controllers\AddSaldoController;
 use App\Http\Controllers\WalletController;
 
 class HomeController extends Controller
@@ -40,16 +36,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        View::share('titleg', '');
-        $data = $this->dataDashboard(Auth::id());
-        return view('dashboard.index', compact('data'));
+        try {
+            View::share('titleg', '');
+            $data = $this->dataDashboard(Auth::id());
+            return view('dashboard.index', compact('data'));
+        } catch (\Throwable $th) {
+            Log::error('Home - index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     public function indexUser()
     {
-        View::share('titleg', '');
-        $data = $this->dataDashboard(Auth::id());
-        return view('dashboard.indexUser', compact('data'));
+        try {
+            View::share('titleg', '');
+            $data = $this->dataDashboard(Auth::id());
+            return view('dashboard.indexUser', compact('data'));
+        } catch (\Throwable $th) {
+            Log::error('Home - indexUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -65,7 +71,6 @@ class HomeController extends Controller
             'directos' => $cantUsers['directos'],
             'indirectos' => $cantUsers['indirectos'],
             'wallet' => Auth::user()->wallet,
-            'balance' => Auth::user()->balance,
             'comisiones' => $this->walletController->getTotalComision($iduser),
             'tickets' => 0,
             'ordenes' => 0,
@@ -82,15 +87,20 @@ class HomeController extends Controller
      */
     public function getDataGraphic(): string
     {
-        $iduser = Auth::id();
-        $data = [
-            'comisiones' => $this->walletController->getDataGraphiComisiones($iduser),
-            'tickets' => [],
-            'saldo' => [],
-            'ordenes' => []
-        ];
-        
-        return json_encode($data);
+        try {
+            $iduser = Auth::id();
+            $data = [
+                'comisiones' => $this->walletController->getDataGraphiComisiones($iduser),
+                'tickets' => [],
+                'saldo' => [],
+                'ordenes' => []
+            ];
+            
+            return json_encode($data);
+        } catch (\Throwable $th) {
+            Log::error('Home - getDataGraphic -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
