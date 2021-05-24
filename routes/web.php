@@ -48,11 +48,20 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('/', 'WalletController@index')->name('wallet.index');
     });
 
+    // Ruta para la tienda
     Route::prefix('shop')->group(function ()
     {
         Route::get('/', 'TiendaController@index')->name('shop');
         Route::get('/groups/{idgroup}/products', 'TiendaController@products')->name('shop.products');
     });
+
+    // Ruta para las funciones por alla que no correspondan a otra seccion
+    Route::prefix('ajax')->group(function ()
+    {
+        Route::get('/update/{side}/binary', 'HomeController@updateSideBinary')->name('ajax.update.side.binary');
+    });
+
+    
 
     /**
      * Seccion del sistema para el admin

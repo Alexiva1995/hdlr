@@ -18,8 +18,10 @@
                     <div class="text-center">
                         <h1 class="mb-2 text-white">Bienvenido {{$data['usuario']}}</h1>
                         <p class="m-auto w-75">
-                            Tu saldo actual es $ {{number_format($data['wallet'], '2', ',', '.')}} <br>
-                            ¿Qué tal recargar tu saldo?
+                            <a href="{{route('package.index')}}" target=""
+                                class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light">
+                                Agregar Paquete
+                            </a>
                         </p>
                     </div>
                 </div>

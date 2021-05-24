@@ -16,6 +16,9 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
+                    <div class="m-2">
+                        <a href="{{route('shop')}}" class="btn btn-primary"> Volver a los Grupos</a>
+                    </div>
                     @foreach ($services->chunk(3) as $items)
                         <div class="row">
                             @foreach ($items as $product)

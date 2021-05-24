@@ -33,6 +33,21 @@ var vm_dashboard = new Vue({
         },
 
         /**
+         * Permite Actualizar el lado a registrar un usuario
+         * @param {string} side 
+         */
+        updateBinarySide: function(side){
+            let url = route('ajax.update.side.binary', side)
+            axios.get(url).then((response) => {
+                if (response.data == 'bien') {
+                    getlink(side)
+                }
+            }).catch(function (error) {
+                toastr.warning("Ocurrio un error al Actualizar el lado binario", '¡Advertencia!', { "progressBar": true });
+            })
+        },
+
+        /**
          * Permite generar la grafica de saldo
          */
         graphicSaldo: function(){

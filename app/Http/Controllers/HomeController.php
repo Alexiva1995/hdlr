@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\TreeController;
@@ -78,6 +79,23 @@ class HomeController extends Controller
         ];
 
         return $data;
+    }
+
+    /**
+     * Permite actualizar el lado a registrar de un usuario
+     *
+     * @param string $side
+     * @return void
+     */
+    public function updateSideBinary($side): string
+    {
+        try {
+            DB::table('users')->where('id', Auth::id())->update(['binary_side_register' => $side]);
+            return json_encode('bien');
+        } catch (\Throwable $th) {
+            Log::error('Home - indexUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**

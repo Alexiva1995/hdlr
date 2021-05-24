@@ -3,9 +3,11 @@
 {{-- vendor css --}}
 @push('vendor_css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/charts/apexcharts.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/extensions/tether-theme-arrows.css')}}">
+<link rel="stylesheet" type="text/css"
+    href="{{asset('assets/app-assets/vendors/css/extensions/tether-theme-arrows.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/extensions/tether.min.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/extensions/shepherd-theme-default.css')}}">
+<link rel="stylesheet" type="text/css"
+    href="{{asset('assets/app-assets/vendors/css/extensions/shepherd-theme-default.css')}}">
 @endpush
 
 {{-- page css --}}
@@ -35,6 +37,11 @@
 
 @section('content')
 <section id="dashboard-analytics">
+    @if (Auth::user()->admin == 1)
+    {{-- Primera Seccion --}}
+    @include('dashboard.componente.adminsection')
+    {{-- Fin Primera Seccion --}}
+    @else
     {{-- Primera Seccion --}}
     @include('dashboard.componente.firstsection')
     {{-- Fin Primera Seccion --}}
@@ -44,5 +51,9 @@
     {{-- Tercera Seccion --}}
     @include('dashboard.componente.thirdsection')
     {{-- Fin Tercera Seccion --}}
+    @endif
+
+    {{-- link de referido --}}
+    @include('layouts.componenteDashboard.linkReferido')
 </section>
 @endsection

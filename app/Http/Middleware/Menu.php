@@ -147,6 +147,64 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin inicio
+               // Ecommerce
+               'Ecommerce' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-shopping-cart',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Grupos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('group.index'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Productos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('package.index'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Tienda',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('shop'),
+                        'complementoruta' => ''
+                    ],
+                ],
+            ],
+            // Fin Ecommerce
+            // Informenes
+            'Informenes' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-file-text',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Pedidos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Liquidaciones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                ],
+            ],
+            // Fin Informenes
             // Red
             'Red' => [
                 'submenu' => 1,
@@ -217,36 +275,6 @@ class Menu
                 ],
             ],
             // Fin Liquidaciones
-            
-            // Administracion de servicios
-            'Ecommerce' => [
-                'submenu' => 1,
-                'ruta' => 'javascript:;',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-shopping-cart',
-                'complementoruta' => '',
-                'submenus' => [
-                    [
-                        'name' => 'Grupos',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('group.index'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Productos',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('package.index'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Tienda',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('shop'),
-                        'complementoruta' => ''
-                    ],
-                ],
-            ],
-            // Fin Administracion de servicios
             // Usuarios
             'Usuarios' => [
                 'submenu' => 0,

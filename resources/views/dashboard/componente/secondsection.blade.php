@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="text-bold-700 mt-1">$ {{number_format($data['balance'], '2', ',', '.')}}
+                            <h2 class="text-bold-700 mt-1">$ {{number_format($data['wallet'], '2', ',', '.')}}
                             </h2>
                             <p class="mb-0">Tu dinero</p>
                         </div>
