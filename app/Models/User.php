@@ -72,7 +72,7 @@ class User extends Authenticatable
      */
     public function getUserOrden()
     {
-        return $this->hasMany('App\Models\OrdenService', 'iduser');
+        return $this->hasMany('App\Models\OrdenPurchases', 'iduser');
     }
 
 }

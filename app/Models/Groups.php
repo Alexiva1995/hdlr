@@ -23,4 +23,14 @@ class Groups extends Model
     {
         return $this->hasMany('App\Models\Packages', 'group_id');
     }
+
+    /**
+     * Permite obtener todos los paquetes de un grupo
+     *
+     * @return void
+     */
+    public function getOrdenPurchase()
+    {
+        return $this->hasMany('App\Models\OrdenPurchases', 'group_id');
+    }
 }
