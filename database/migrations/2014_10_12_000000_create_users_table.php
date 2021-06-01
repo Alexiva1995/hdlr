@@ -28,8 +28,11 @@ class CreateUsersTable extends Migration
             $table->bigInteger('binary_id')->default(1)->comment('ID del usuario binario');
             $table->enum('binary_side', ['I', 'D'])->nullable()->comment('Permite saber si esta en la derecha o izquierda en el binario');
             $table->enum('binary_side_register', ['I', 'D'])->default('I')->comment('Permite saber porque lado va a registrar a un nuevo usuario');
+            $table->longtext('dni')->nullable();
+            $table->longtext('wallet_address')->nullable();
+            $table->longtext('photoDB')->nullable();
             $table->enum('admin', [0, 1])->default(0)->comment('permite saber si un usuario es admin o no');
-            $table->enum('status', [0, 1, 2, 3, 4, 5])->default(0)->comment('0 - inactivo, 1 - activo, 2 - suspendido, 3 - bloqueado, 4 - caducado, 5 - eliminado');
+            $table->enum('status', [0, 1, 2])->default(0)->comment('0 - inactivo, 1 - activo, 2 - eliminado');
             $table->rememberToken();
             $table->timestamps();
         });

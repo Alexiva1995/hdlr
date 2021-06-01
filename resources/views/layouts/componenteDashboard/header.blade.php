@@ -38,16 +38,29 @@
                                 @endif
                             </div>
 
+                            @if (Auth::user()->photoDB != NULL)
+                            <span>
+                                <img class="round" src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
+                                    alt="{{ Auth::user()->fullname }}" height="50" width="50">
+                            </span>
+                            @else
                             <span>
                                 <img class="round" src="{{asset('assets/img/sistema/logoarbol.png')}}"
                                     alt="{{ Auth::user()->fullname }}" height="50" width="50">
                             </span>
+                            @endif
+                    
 
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{{ route('profile') }}" >
                                 <i class="feather icon-user"></i> Editar Perfil
                             </a>
+                            @if (session('impersonated_by'))
+                            <a class="dropdown-item" href="{{ route('impersonate.stop') }}">
+                                <i class="feather icon-log-in"></i> Volver a mi Usuario
+                            </a>    
+                            @endif
                             {{-- <a class="dropdown-item" href="app-email.html">
                                 <i class="feather icon-mail"></i> My Inbox
                             </a>
