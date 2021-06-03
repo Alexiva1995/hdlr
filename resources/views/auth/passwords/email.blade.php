@@ -4,11 +4,11 @@
 @push('custom_css')
 <style>
     .bg-fucsia {
-        background: transparent linear-gradient(180deg, #FF3366 0%, #D61168 100%) 0% 0% no-repeat padding-box;
+        background: transparent linear-gradient(180deg, #007DFF 0%, #188EFF 100%) 0% 0% no-repeat padding-box;
     }
 
     .text-rosado {
-        color: #FF3366;
+        color: #007DFF;
     }
 
     .btn-login {
@@ -32,9 +32,8 @@
         <div class="col-md-4 col-sm-8 col-12">
             {{-- header --}}
             <div class="col-12 text-center mb-2">
-                <img src="{{asset('assets/img/sistema/logo-viral_media-blanco.png')}}" alt="logo" height="40"
-                    class="mb-3">
-                <h5 class="text-white">Bienvenido a <br> ViralMediaPanel</h5>
+                <img src="{{asset('assets/img/HDLRS--vertical-blanco.png')}}" alt="logo" height="150" width="190">
+                <h5 class="text-white">Bienvenido a HDLRS</h5>
             </div>
             {{-- cuerpo login --}}
             <div class="card card-margin">
@@ -74,8 +73,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0 mt-5">
-                            <div class="col-12 mt-5">
+                        <div class="form-group row mb-0">
+                            <div class="col-12">
                                 <button type="submit" class="btn bg-fucsia btn-login text-white btn-block">
                                     {{ __('Enviar Código') }}
                                 </button>

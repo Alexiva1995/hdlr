@@ -324,7 +324,7 @@ body {
         <i class='fab fa-youtube'></i>
       </a>
     </footer>
-    <a type="button" href="{{ route('login') }}" class="btn btn-primary btn-lg text-dark mt-3">Entrar al Backoffice</a>
+    <a type="button" href="{{ route('login') }}" class="btn btn-info btn-lg text-dark mt-3">Entrar al Backoffice</a>
     <div class='wave'></div>
     <div class='wave wave2'></div>
     <div class='wave wave3'></div>

@@ -232,7 +232,7 @@
 }
 .horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li > .dropdown-menu .active > a {
   background : #F8F8F8;
-  color : #7367F0;
+  color : #188EFF;
   font-weight : 500;
 }
 .horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li > .dropdown-menu .open.active > a {
@@ -256,8 +256,8 @@
   border-radius : 4px;
 }
 .horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li.active > a {
-  background : -webkit-linear-gradient(332deg, #7367F0, rgba(115, 103, 240, 0.7));
-  background :         linear-gradient(118deg, #7367F0, rgba(115, 103, 240, 0.7));
+  background : -webkit-linear-gradient(332deg, #188EFF, rgba(115, 103, 240, 0.7));
+  background :         linear-gradient(118deg, #188EFF, rgba(115, 103, 240, 0.7));
   box-shadow : 0 0 6px 1px rgba(115, 103, 240, 0.6);
   color : #FFFFFF;
   border-radius : 4px;
@@ -280,7 +280,7 @@
 }
 
 .horizontal-menu .navbar-dark .nav-item.active > a {
-  border-bottom : 2px solid #7367F0;
+  border-bottom : 2px solid #188EFF;
   background-color : #313C50;
 }
 
@@ -341,8 +341,8 @@
   color : #494949;
 }
 .horizontal-layout.vertical-overlay-menu:not(.dark-layout) .main-menu .navigation li ul li.active ul li.active a {
-  background : -webkit-linear-gradient(332deg, #7367F0, rgba(115, 103, 240, 0.7));
-  background :         linear-gradient(118deg, #7367F0, rgba(115, 103, 240, 0.7));
+  background : -webkit-linear-gradient(332deg, #188EFF, rgba(115, 103, 240, 0.7));
+  background :         linear-gradient(118deg, #188EFF, rgba(115, 103, 240, 0.7));
   box-shadow : 0 0 10px 1px rgba(115, 103, 240, 0) !important;
   color : #FFFFFF;
   border-radius : 4px;

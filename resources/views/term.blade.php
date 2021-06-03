@@ -4,11 +4,11 @@
 @push('custom_css')
 <style>
     .bg-fucsia {
-        background: transparent linear-gradient(180deg, #FF3366 0%, #D61168 100%) 0% 0% no-repeat padding-box;
+        background: transparent linear-gradient(180deg, #007DFF 0%, #188EFF 100%) 0% 0% no-repeat padding-box;
     }
 
     .text-rosado {
-        color: #FF3366;
+        color: #007DFF;
     }
 
     .btn-login {

@@ -1,10 +1,10 @@
  <!-- BEGIN: Main Menu-->
  <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow bg-purple-alt" data-scroll-to-active="true">
-    <div class="navbar-header">
+    <div class="navbar-header mb-5">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto">
                 <a class="navbar-brand" href="{{route('home')}}">
-                     <img src="{{ asset('assets/img/sistema/logo-viral_media-blanco.png') }}" height="35">
+                     <img src="{{ asset('assets/img/HDLRS--vertical-blanco.png') }}" height="150">
                      {{-- <div class="brand-logo"></div>  --}}
                     {{-- <h2 class="brand-text mb-0">Vuexy</h2> --}}
                 </a>
@@ -17,7 +17,7 @@
             </li>
         </ul>
     </div>
-    <div class="shadow-bottom"></div>
+    <div class="shadow-bottom mt-3"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main bg-purple-alt" id="main-menu-navigation" data-menu="menu-navigation">
             @if (!empty($menu))
