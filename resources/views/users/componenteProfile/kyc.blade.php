@@ -102,20 +102,9 @@ $(document).ready(function() {
 
                                                 </div>
 
-                                                @if (Auth::user()->dni !=NULL && Auth::user()->status == 0)
+                                                @if (Auth::user()->dni == NULL && Auth::user()->status == 0)
 
-                                                @if (Auth::user()->dni !=NULL)
-
-                                                <div class="col-12 mt-2 mb-2">
-                                                    <div class="form-group">
-                                                        <div class="controls">
-                                                            <h2 class="text-center font-weight-bold text-primary">DNI SUBIDO, CUENTA
-                                                                ACTUALMENTE EN REVISION</h2>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                @endif
+                                            
 
                                                 <div class="col-12">
                                                     <div class="form-group">
@@ -153,12 +142,23 @@ $(document).ready(function() {
                                                     </div>
 
                                                 </div>
-                                                @else
+                                                @elseif(Auth::user()->dni != NULL && Auth::user()->status == 1)
 
                                                 <div class="col-12 mt-2 mb-2">
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <h2 class="text-center font-weight-bold text-primary">CUENTA ACTUALMENTE ACTIVA</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @elseif (Auth::user()->dni !=NULL)
+
+                                                <div class="col-12 mt-2 mb-2">
+                                                    <div class="form-group">
+                                                        <div class="controls">
+                                                            <h2 class="text-center font-weight-bold text-primary">DNI SUBIDO, CUENTA
+                                                                ACTUALMENTE EN REVISION</h2>
                                                         </div>
                                                     </div>
                                                 </div>

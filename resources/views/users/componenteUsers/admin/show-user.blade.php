@@ -18,8 +18,8 @@
 @push('custom_js')
 <script>
     $(document).ready(function () {
-        @if($user->photoDB != NULL)
-        previewPersistedFile("{{asset('storage/dni/'.$user->dni)}}",'photo_preview');
+        @if($user-> dni != NULL)
+        previewPersistedFile("{{asset('storage/dni/'.$user->dni)}}", 'photo_preview');
         @endif
     });
 
@@ -61,100 +61,76 @@
                     <div class="card-body">
                         <div class="form-body">
 
-                            <form action="{{ route('users.update-user',$user->id) }}" method="POST"
+                            <form action="{{ route('users.verify-user',$user->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Nombre</label>
-                                        <input type="email" readonly id="email" class="form-control"
-                                            value="{{ $user->name }}" name="email">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Apellido</label>
-                                        <input type="email" readonly id="email" class="form-control"
-                                            value="{{ $user->last_name }}" name="email">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" readonly id="email" class="form-control"
-                                            value="{{ $user->email }}" name="email">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Whatsapp</label>
-                                        <input type="text" readonly id="whatsapp" class="form-control"
-                                            value="{{ $user->whatsapp }}" name="whatsapp">
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <div class="controls">
-                                            <h2 class="font-weight-bold">DNI</h2>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Nombre</label>
+                                            <input type="email" readonly id="email" class="form-control"
+                                                value="{{ $user->name }}" name="email">
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="media">
-                                        <div class="custom-file">
-                                            <label class="custom-file-label" for="dni">Seleccione su
-                                                Foto <b>(Se permiten JPG o PNG.
-                                                    Tamaño máximo de 800kB)</b></label>
-                                            <input type="file" id="dni"
-                                                class="custom-file-input @error('dni') is-invalid @enderror"
-                                                name="dni" onchange="previewFile(this, 'photo_preview')"
-                                                accept="image/*">
-                                            @error('dni')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Apellido</label>
+                                            <input type="email" readonly id="email" class="form-control"
+                                                value="{{ $user->last_name }}" name="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" readonly id="email" class="form-control"
+                                                value="{{ $user->email }}" name="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Whatsapp</label>
+                                            <input type="text" readonly id="whatsapp" class="form-control"
+                                                value="{{ $user->whatsapp }}" name="whatsapp">
                                         </div>
                                     </div>
 
-                                    <div class="row mb-4 mt-4 d-none" id="photo_preview_wrapper">
-                                        <div class="col"></div>
-                                        <div class="col-auto">
-                                            <img id="photo_preview" class="img-fluid rounded" />
+                                    <div class="col-12">
+
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                <h2 class="font-weight-bold text-center">DNI del usuario</h2>
+                                            </div>
                                         </div>
-                                        <div class="col"></div>
+
+                                        <div class="row mb-4 mt-1 d-none" id="photo_preview_wrapper">
+                                            <div class="col"></div>
+                                            <div class="col-auto">
+                                                <img id="photo_preview" class="img-fluid rounded" />
+                                            </div>
+                                            <div class="col"></div>
+                                        </div>
+
                                     </div>
 
-                                </div>
 
+                                    <div class="col-12 mt-1 d-flex flex-row-reverse">
 
-                                <div class="col-8 mt-2 d-flex justify-conten-center">
-                                <div class="col-4">
-                                    <button type="submit"
-                                        class="btn btn-primary mr-1 mb-1 waves-effect waves-light">Verificar</button>
-                                </div>
-                                <div class="col-4">
-                                    <a href="{{ route('users.list-user') }}"
-                                        class="btn btn-danger mr-1 mb-1 waves-effect waves-light">Cancelar</a>
-                                </div>
-                            </div>
+                                        <a href="{{ route('users.list-user') }}"
+                                            class="btn btn-danger mr-1 mb-1 waves-effect waves-light">Cancelar</a>
+
+                                        <button type="submit"
+                                            class="btn btn-primary mr-1 mb-1 waves-effect waves-light">Verificar</button>
+                                    </div>
+
                             </form>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 </section>
 @endsection
-
-
-
-
-

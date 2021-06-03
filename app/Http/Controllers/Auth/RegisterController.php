@@ -78,7 +78,7 @@ class RegisterController extends Controller
     {
         try {
             $fullname = explode(' ', $data['name']);
-            $whatsapp = '-';
+            $whatsapp = '-----';
             $binary_side = '';
             $binary_id = 0;
             if (!empty($data['referred_id'])) {

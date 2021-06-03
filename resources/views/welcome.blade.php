@@ -297,7 +297,7 @@ body {
 /* Under
 --------------------------------------------*/
 .under {
-  background-color: #6F57DA;
+  background-color: #0F88FF;
 }
 
 </style>
@@ -305,26 +305,26 @@ body {
 <body>
   <!-- Tutorial: http://bit.ly/2N0hpde -->
 <div class='under'>
-    <img src="{{asset('assets/img/sistema/logomenu.png')}}" class="under__footer" width="100" height="400" alt="bg-img">
+    <img src="{{asset('assets/img/HDLRS--vertical-color.png')}}" class="under__footer" width="100" height="450" alt="bg-img">
     <header class='under__content'>
-      <h1 class='under__title'><b>Estamos en Mantenimiento</b></h1>
-      <div class='under__text text-dark'>Estamos realizando cambios en la pagina. Síguenos en nuestras redes sociales para mantenerte informado.</div>
+      <h1 class='under__title mb-1'><b>Bienvenido a HDLRS</b></h1>
+      {{-- <div class='under__text text-dark'>Estamos realizando cambios en la pagina. Síguenos en nuestras redes sociales para mantenerte informado.</div> --}}
     </header>
     <footer class='under__footer'>
-      <a href='https://www.facebook.com/Viralmediaproducciones/' target='_blank'>
+      <a href='#' target='_blank'>
         <i class='fab fa-facebook-f'></i>
       </a>
-      <a href='https://t.me/viralmediapanel' target='_blank'>
+      <a href='#' target='_blank'>
         <i class='fab fa-telegram'></i>
       </a>
-      <a href='https://play.google.com/store/apps/details?id=com.ViralMedia.panelOk' target='_blank'>
+      <a href='#' target='_blank'>
         <i class='fab fa-google-play'></i>
       </a>
-      <a href='https://www.youtube.com/c/ViralMediaOficial' target='_blank'>
+      <a href='#' target='_blank'>
         <i class='fab fa-youtube'></i>
       </a>
     </footer>
-    <a type="button" href="{{ route('login') }}" class="btn btn-info btn-lg text-dark mt-3">Volver a la pagina de login</a>
+    <a type="button" href="{{ route('login') }}" class="btn btn-primary btn-lg text-dark mt-3">Entrar al Backoffice</a>
     <div class='wave'></div>
     <div class='wave wave2'></div>
     <div class='wave wave3'></div>

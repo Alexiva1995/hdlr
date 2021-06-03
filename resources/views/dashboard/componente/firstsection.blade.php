@@ -39,9 +39,13 @@
                         @endif
 
                         
-                        @if (Auth::user()->status == 0)
+                        @if (Auth::user()->status == 0 && Auth::user()->dni == NULL )
                         <p class="m-auto w-75">
                             El estado de tu cuenta esta: Inactiva <span class="text-danger h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 0)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: Procesando <span class="text-warning h3">◉</span><br>
                         </p>
                         @elseif (Auth::user()->status == 1)
                         <p class="m-auto w-75">
