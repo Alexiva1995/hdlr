@@ -17,13 +17,15 @@
 
 @push('custom_js')
 <script>
-      $(document).ready(function() {
-        @if(!$user->getMedia('photo')->isEmpty())
-            @if(in_array($user->getMedia('photo')->first()->mime_type,array("image/png", "image/gif", "image/jpeg")))
-              previewPersistedFile("{{ $user->getMedia('photo')->first()->file }}", 'photo_preview');
-            @endif
+
+
+$(document).ready(function() {
+          @if($user->photoDB != NULL)
+                previewPersistedFile("{{asset('storage/photo/'.$user->photoDB)}}", 'photo_preview');
           @endif
-      });
+        });
+   
+
 
     function previewFile(input, preview_id) {
         if (input.files && input.files[0]) {
@@ -73,12 +75,27 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link d-flex py-75" id="account-pill-pass" data-toggle="pill"
+                                href="#account-vertical-pass" aria-expanded="false">
+                                <i class="feather icon-lock mr-50 font-medium-3"></i>
+                                Cambiar la contraseña
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex py-75"
+                                href="{{ route('kyc') }}">
+                                <i class="feather icon-file-text mr-50 font-medium-3"></i>
+                                Verificar KYC
+                            </a>
+                        </li>
+
+                        {{-- <li class="nav-item">
                             <a class="nav-link d-flex py-75"
                                 href="{{ route('profile.change-password')}}">
                                 <i class="feather icon-lock mr-50 font-medium-3"></i>
                                 Cambiar la contraseña
                             </a>
-                        </li>
+                        </li> --}}
                         {{-- <li class="nav-item">
                             <a class="nav-link d-flex py-75" id="account-pill-social" data-toggle="pill"
                                 href="#account-vertical-social" aria-expanded="false">
@@ -95,6 +112,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="tab-content">
+                                    
                                     <div role="tabpanel" class="tab-pane active" id="account-vertical-general"
                                         aria-labelledby="account-pill-general" aria-expanded="true">
 
@@ -102,12 +120,23 @@
 
                                     </div>
 
-                              <div class="tab-pane fade " id="account-vertical-social" role="tabpanel"
+                                    <div role="tabpanel" class="tab-pane" id="account-vertical-pass"
+                                        aria-labelledby="account-pill-pass" aria-expanded="false">
+
+                                        @include('users.componenteProfile.changePassword')
+
+                                    </div>
+
+                         
+
+                                </div>
+
+                              {{-- <div class="tab-pane fade " id="account-vertical-social" role="tabpanel"
                                     aria-labelledby="account-pill-social" aria-expanded="false">
 
                                     @include('users.componenteProfile.api-profile')
                                    
-                                </div>
+                                </div> --}}
 
                             </div>
                         </div>

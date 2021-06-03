@@ -1,6 +1,72 @@
-<div class="row">
+<div class="row mt-1">
     {{-- Seccion ayuda --}}
-    <div class="col-12 col-md-5 mt-1">
+
+    <div class="col-6">
+
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+            <h1><b> Ahorro Circular </b></h1>
+            <div class="row">
+                <div class="card-content col-6">
+                    <div class="card-body">
+                        <div class="card-body text-center">
+                        <img src="{{asset('assets/img/sistema/24-7-support.png')}}" alt="card-img-left">
+                            <h4 class="card-title mt-2">
+                                <strong>
+                                    Reinversion de Comissiones
+                                </strong>
+                                <h4>
+                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter"><b>REINVERTIR</b></a href="javascript:;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content col-6">
+                    <div class="card-body">
+                        <div class="card-body text-center">
+                        <img src="{{asset('assets/img/sistema/24-7-support.png')}}" alt="card-img-left">
+                            <h4 class="card-title mt-2">
+                                <strong>
+                                    Reinversion del Capital
+                                </strong>
+                                <h4>
+                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter"><b>REINVERTIR</b></a href="javascript:;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+          <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Planes
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+    </div>
+
+    <div class="col-6">
         <div class="card h-100 d-flex justify-content-center align-items-center">
             <div class="card-content">
                 <div class="card-body">
@@ -23,8 +89,9 @@
             </div>
         </div>
     </div>
+
     {{-- Seccion Grafico --}}
-    <div class="col-12 col-md-7">
+    <div class="col-12">
         <div class="row">
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-100">

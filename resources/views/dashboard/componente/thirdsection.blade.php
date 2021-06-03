@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row mb-3">
     <div class="col-12 mt-1">
-        <h2 class="divide-dashboard-title">Red de referidos</h2>
+        {{-- <h2 class="divide-dashboard-title">Red de referidos</h2> --}}
         <div class="col-12">
             <div class="row">
-                <div class="col-lg-4 col-sm-6 col-12">
+                <div class="col-lg-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
@@ -21,7 +21,7 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-6 col-12">
+                <div class="col-lg-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
@@ -39,7 +39,7 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-6 col-12">
+                <div class="col-lg-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
@@ -57,6 +57,60 @@
                         </div> --}}
                     </div>
                 </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-start pb-2">
+                            <div>
+                                <h2 class="text-bold-700">100</h2>
+                                <p class="mb-0">Total de Rewards</p>
+                            </div>
+                            <div class="avatar bg-rgba-success p-50">
+                                <div class="avatar-content">
+                                    <i class="fa fa-money text-success font-medium-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="card-content">
+                            <div id="line-area-chart-7"></div>
+                        </div> --}}
+                    </div>
+                </div>
+
+
+     
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body card-dashboard">
+                            <h1>Inversiones</h1>
+                                <div class="table-responsive">
+                                    <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                                        <thead class="">
+                                            <tr class="text-center text-white bg-purple-alt2">
+                                                <th>ID</th>
+                                                <th>Inicio</th>
+                                                <th>Vence</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr class="text-center">
+
+                                                <td>1</td>
+
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @include('layouts.componenteDashboard.optionDatatable')
+
             </div>
         </div>
     </div>

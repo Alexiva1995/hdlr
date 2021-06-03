@@ -38,7 +38,7 @@
                                     <th>ID</th>
                                     <th>Perfil</th>
                                     <th>Email</th>
-                                    <th>Fondo</th>
+                                    <th>Kyc</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
                                     <th>Fecha de Creacion</th>
@@ -52,7 +52,14 @@
                                     <td>{{ $item->id}}</td>
                                     <td>{{ $item->fullname}}</td>
                                     <td>{{ $item->email}}</td>
-                                    <td>{{ $item->balance}}</td>
+
+                                    @if ($item->dni != NULL && $item->status == '0')
+                                    <td><span class="text-primary">Verificar</span></td>
+                                    @elseif ($item->dni == NULL)
+                                    <td>No Disponible</td>
+                                    @elseif ($item->dni != NULL && $item->status == '1')
+                                    <td>Verificado</td>
+                                    @endif
 
                                     @if ($item->admin == '1')
                                     <td>Administrador</td>
@@ -65,16 +72,16 @@
                                     @elseif($item->status == '1')
                                     <td> <a class=" btn btn-success text-white text-bold-600">Activo</a></td>
                                     @elseif($item->status == '2')
-                                    <td> <a class=" btn btn-warning text-white text-bold-600">Suspendido</a></td>
-                                    @elseif($item->status == '3')
-                                    <td> <a class=" btn btn-danger text-white text-bold-600">Bloqueado</a></td>
-                                    @elseif($item->status == '4')
-                                    <td> <a class=" btn btn-danger text-white text-bold-600">Caducado</a></td>
-                                    @elseif($item->status == '5')
-                                    <td> <a class=" btn btn-danger text-white text-bold-600">Eliminado</a></td> 
+                                    <td> <a class=" btn btn-warning text-white text-bold-600">Eliminado</a></td>
                                     @endif
                                     <td>{{ $item->created_at}}</td>
-                                    <td>@if(Auth::user()->id == $item->id)
+                                    <td>
+                                    
+                                    @if ($item->dni != NULL)
+                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600">Verificar</a>
+                                    @endif
+                                    
+                                    @if(Auth::user()->id == $item->id)
                                     <a href="{{ route('profile') }}" class="btn btn-secondary text-bold-600">Editar</a>
                                     @else
                                     <a href="{{ route('users.edit-user',$item->id) }}" class="btn btn-secondary text-bold-600">Editar</a>
@@ -82,8 +89,8 @@
                                     
                                     <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn" id="formImpersonate">
                                         @csrf
-                                    <button class="btn btn-primary">
-                                        <i class="fa fa-eye"></i>
+                                    <button class="btn btn-primary text-bold-600">
+                                    Ver
                                     </button>
                                      </form>
 

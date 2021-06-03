@@ -65,6 +65,27 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     });
 
     
+    //Ruta usuarios
+    Route::prefix('user')->group(function(){
+    
+        Route::get('user-list', 'UserController@listUser')->name('users.list-user')->middleware('auth', 'checkrole:1');
+        Route::get('user-edit/{id}', 'UserController@editUser')->name('users.edit-user');
+        Route::get('user-show/{id}', 'UserController@showUser')->name('users.show-user');
+        Route::patch('user-update/{id}', 'UserController@updateUser')->name('users.update-user');
+        Route::delete('user/delete/{id}','UserController@destroyUser')->name('users.destroy-user');
+        Route::get('profile', 'UserController@editProfile')->name('profile');
+        Route::get('kyc', 'UserController@kyc')->name('kyc');
+        Route::patch('profile-update', 'UserController@updateProfile')->name('profile.update');
+        Route::patch('profile-update-kyc', 'UserController@updateProfileKYC')->name('profile.update.kyc');
+        Route::get('change-password', 'ChangePasswordController@change-password')->name('profile.change-password');
+        Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
+
+        Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
+        Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
+    });
+
+
+
 
     /**
      * Seccion del sistema para el admin

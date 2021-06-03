@@ -21,6 +21,40 @@
                             Tu saldo actual es $ {{number_format($data['wallet'], '2', ',', '.')}} <br>
                             ¿Qué tal recargar tu saldo?
                         </p>
+                        
+                        <br>
+                        
+                        @if (Auth::user()->dni == NULL)
+                        <p class="m-auto w-75">
+                            Verificacion de la cuenta: Sin verificar <span class="text-danger h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 0)
+                        <p class="m-auto w-75">
+                            Verificacion de la cuenta: En revision <span class="text-warning h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 1)
+                        <p class="m-auto w-75">
+                        Verificacion de la cuenta: Verificada <span class="text-success h3">◉</span><br>
+                        </p>
+                        @endif
+
+                        
+                        @if (Auth::user()->status == 0)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: Inactiva <span class="text-danger h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->status == 1)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: Activa <span class="text-success h3">◉</span><br>
+                        </p>
+                        @endif
+                  
+                        @if (Auth::user()->dni == NULL)
+                        <p class="card-text">
+                            <a class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" href="{{ route('kyc') }}" id="referrals_link" onclick="copyReferralsLink();">Verificación KYC <i class="far fa-copy"></i></a>
+                        </p>    
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -32,7 +66,10 @@
                 <div class="card-body pb-0 pt-1">
                     <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250" height="250"
                         class="float-right px-1">
-                    <p class="card-text mt-3">Invita a tus amigos <br> y gana una comision</p>
+                    <h4 class="card-text mt-3">Invita a tus amigos <br> y gana una comision</h4>
+                    <p class="card-text">
+                        <button class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" data-link="http://localhost:8000/register?referred_id={{Auth::user()->id}}" id="referrals_link" onclick="copyReferralsLink();">Copiar link de referido <i class="far fa-copy"></i></button>
+                    </p>
                     <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
                     <div class="col-12">
                         <h5 class="text-white">Lado Activo:
@@ -55,3 +92,16 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    function copyReferralsLink(){   
+        let copyText = $('#referrals_link').attr('data-link');
+        const textArea = document.createElement('textarea');
+        textArea.textContent = copyText;
+        document.body.append(textArea);      
+        textArea.select();      
+        document.execCommand("copy");    
+        textArea.remove();
+    }
+</script>

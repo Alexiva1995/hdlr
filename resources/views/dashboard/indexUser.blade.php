@@ -1,6 +1,6 @@
-@php
+{{-- @php
 $new = \App\Models\News::where('status', '1')->get();
-@endphp
+@endphp --}}
 @extends('layouts.dashboard')
 
 {{-- vendor css --}}
@@ -36,6 +36,11 @@ $new = \App\Models\News::where('status', '1')->get();
 <script src="{{asset('assets/js/dashboard.js')}}"></script>
 
 <script>
+    $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+</script>
+{{-- <script>
     var vm_news = new Vue({
         el: '#news',
         created: function(){
@@ -46,17 +51,16 @@ $new = \App\Models\News::where('status', '1')->get();
         },
     })
     
-    </script>
+    </script> --}}
 @endpush
 
 @section('content')
 
-@if(!$new->isEmpty())
+{{-- @if(!$new->isEmpty())
 
-{{-- modal de noticia --}}
 @include('ajust.news-component.news-modal')
 
-@endif
+@endif --}}
 
 <section id="dashboard-analytics">
     {{-- Primera Seccion --}}
