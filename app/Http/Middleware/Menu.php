@@ -233,12 +233,6 @@ class Menu
                         'ruta' => '',
                         'complementoruta' => ''
                     ],
-                    [
-                        'name' => 'Liquidaciones',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
-                        'complementoruta' => ''
-                    ],
                 ],
             ],
             // Fin Informenes

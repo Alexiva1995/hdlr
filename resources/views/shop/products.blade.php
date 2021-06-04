@@ -29,7 +29,11 @@
                                             <h4 class="card-title">{{$product->name}}</h4>
                                             <p class="card-text">{{$product->description}}</p>
                                             <p class="card-text">Fecha Vencimiento: <br> {{date('d-m-Y', strtotime($product->expired))}}</p>
-                                            <button class="btn btn-success waves-effect waves-light">Comprar</button>
+                                            <form action="{{route('shop.procces')}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="idproduct" value="{{$product->id}}">
+                                                <button type="submit" class="btn btn-success waves-effect waves-light">Comprar</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

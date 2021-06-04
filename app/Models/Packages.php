@@ -17,8 +17,18 @@ class Packages extends Model
      *
      * @return void
      */
-    public function getPackage()
+    public function getGroup()
     {
         return $this->belongsTo('App\Models\Packages', 'group_id', 'id');
+    }
+
+    /**
+     * Permite obtener todos los paquetes de un grupo
+     *
+     * @return void
+     */
+    public function getOrdenPurchase()
+    {
+        return $this->hasMany('App\Models\OrdenPurchases', 'package_id');
     }
 }

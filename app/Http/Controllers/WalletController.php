@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddSaldo;
+use App\Models\OrdenPurchases;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -48,29 +48,28 @@ class WalletController extends Controller
     public function payComision()
     {
         try {
-            $saldos = $this->getSaldos();
-            foreach ($saldos as $saldo) {
-                $sponsors = $this->treeController->getSponsor($saldo->iduser, [], 0, 'ID', 'referred_id');
+            $ordenes = $this->getOrdens();
+            foreach ($ordenes as $orden) {
+                $sponsors = $this->treeController->getSponsor($orden->iduser, [], 0, 'ID', 'referred_id');
                 // dd($sponsors);
                 if (!empty($sponsors)) {
                     foreach ($sponsors as $sponsor) {
-                        if ($sponsor->id != $saldo->iduser) {
-                            if ($sponsor->nivel <= 5) {
-                                $pocentaje = $this->getPorcentage($sponsor->nivel);
-                                $monto = $this->recalcularMonto($saldo->saldo, $saldo->metodo_pago);
-                                $comision = ($monto * $pocentaje);
-                                $concepto = 'Comision del usuario '.$saldo->getUser->fullname.' por un monto de '.$saldo->saldo;
-                                $data = [
-                                    'iduser' => $sponsor->id,
-                                    'referred_id' => $saldo->iduser,
-                                    'orden_id' => $saldo->id,
-                                    'debito' => $comision,
-                                    'descripcion' => $concepto,
-                                    'status' => 0,
-                                    'tipo_transaction' => 0,
-                                ];
-                                $this->saveWallet($data);
+                        if ($sponsor->id != $orden->iduser) {
+                            $concepto = 'Comision del usuario '.$orden->getUser->fullname.' por un monto de '.$orden->total;
+                            if ($sponsor->status == 1) {
+                                if ($sponsor->nivel <= 4) {
+                                    // $pocentaje = $this->getPorcentage($sponsor->nivel);
+                                    // $monto = $orden->total;
+                                    // $comision = ($monto * 1);
+                                    $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, $orden->total, $concepto);
+                                }else{
+                                    $this->preSaveWallet(2, $orden->iduser, $orden->id, $orden->total, $concepto);
+                                }
+                            } else {
+                                $this->preSaveWallet(2, $orden->iduser, $orden->id, $orden->total, $concepto);
                             }
+                            
+                            
                         }
                     }
                 }
@@ -82,6 +81,30 @@ class WalletController extends Controller
     }
 
     /**
+     * Permita general el arreglo que se guardara en la wallet
+     *
+     * @param integer $iduser
+     * @param integer $idreferido
+     * @param integer $idorden
+     * @param float $monto
+     * @param string $concepto
+     * @return void
+     */
+    private function preSaveWallet(int $iduser, int $idreferido, int $idorden,  float $monto, string $concepto)
+    {
+        $data = [
+            'iduser' => $sponsor->id,
+            'referred_id' => $orden->iduser,
+            'orden_id' => $orden->id,
+            'debito' => $comision,
+            'descripcion' => $concepto,
+            'status' => 0,
+            'tipo_transaction' => 0,
+        ];
+        $this->saveWallet($data);
+    }
+
+    /**
      * Permite obtener el porcentaje a pagar
      *
      * @param integer $nivel
@@ -90,7 +113,7 @@ class WalletController extends Controller
     public function getPorcentage(int $nivel): float
     {
         $nivelPorcentaje = [
-            1 => 0.20, 2 => 0.10, 3 => 0.05, 4 => 0.02, 5 => 0.03
+            1 => 0.20, 2 => 0.10, 3 => 0.05, 4 => 0.02, 5 => 0
         ];
 
         return $nivelPorcentaje[$nivel];
@@ -114,28 +137,28 @@ class WalletController extends Controller
     }
 
     /**
-     * Permite obtener las compras de saldo de los ultimos 30 dias
+     * Permite obtener las compras de saldo de los ultimos 5 dias
      *
      * @param integer $iduser
      * @return object
      */
-    public function getSaldos($iduser = null): object
+    public function getOrdens($iduser = null): object
     {
         try {
             $fecha = Carbon::now();
             if ($iduser == null) {
-                $saldos = AddSaldo::where([
+                $saldos = OrdenPurchases::where([
                     ['estado', '=', 1]
-                ])->whereDate('created_at', '>=', $fecha->subDay(10))->get();
+                ])->whereDate('created_at', '>=', $fecha->subDay(5))->get();
             }else{
-                $saldos = AddSaldo::where([
+                $saldos = OrdenPurchases::where([
                     ['iduser', '=', $iduser],
                     ['estado', '=', 1]
-                ])->whereDate('created_at', '>=', $fecha->subDay(10))->get();
+                ])->whereDate('created_at', '>=', $fecha->subDay(5))->get();
             }
             return $saldos;
         } catch (\Throwable $th) {
-            Log::error('Wallet - getSaldos -> Error: '.$th);
+            Log::error('Wallet - getOrdes -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }

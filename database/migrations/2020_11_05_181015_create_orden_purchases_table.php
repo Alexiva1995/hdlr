@@ -23,6 +23,7 @@ class CreateOrdenPurchasesTable extends Migration
             $table->foreign('package_id')->references('id')->on('packages');
             $table->integer('cantidad');
             $table->decimal('total');
+            $table->string('idtransacion')->nullable()->comment('ID de la transacion');
             $table->enum('status', [0, 1, 2, 3])->default(0)->comment('0 - En Espera, 1 - Completada, 2 - Rechazada, 3 - Cancelada');
             $table->timestamps();
         });
