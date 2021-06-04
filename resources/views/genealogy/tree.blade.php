@@ -11,8 +11,8 @@
     <div class="padre">
         <ul>
             <li class="baseli">
-                <a class="base" href="http://">
-                    <img src="{{$base->logoarbol}}" alt="{{$base->name}}" title="{{$base->name}}" height="96">
+                <a class="base" href="#">
+                    <img src="{{$base->logoarbol}}" alt="{{$base->name}}" title="{{$base->name}}" height="82" class="pt-1">
                 </a>
                 {{-- Nivel 1 --}}
                 <ul>

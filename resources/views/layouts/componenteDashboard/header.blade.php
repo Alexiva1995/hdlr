@@ -45,7 +45,7 @@
                             </span>
                             @else
                             <span>
-                                <img class="round" src="{{asset('assets/img/sistema/logoarbol.png')}}"
+                                <img class="round" src="{{asset('assets/img/sistema/favicon.png')}}"
                                     alt="{{ Auth::user()->fullname }}" height="50" width="50">
                             </span>
                             @endif

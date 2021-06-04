@@ -66,7 +66,7 @@ class Menu
             ],
             // Fin añadir saldo
             // Red
-            'Red' => [
+            'Organización' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -77,12 +77,6 @@ class Menu
                         'name' => 'Arbol',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('genealogy_type', 'tree'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Binario',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_type', 'matriz'),
                         'complementoruta' => ''
                     ],
                     [
@@ -109,14 +103,57 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin tickets
-            // Billetera
-            'Billetera' => [
-                'submenu' => 0,
-                'ruta' => route('wallet.index'),
+            'Inverisones' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-credit-card',
+                'icon' => 'feather icon-users',
                 'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Activas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('genealogy_type', 'tree'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Culminadas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.index'),
+                        'complementoruta' => '',
+                    ],
+                ],
             ],
+            // Red
+            'Financiero' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-users',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Pagos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('genealogy_type', 'tree'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.index'),
+                        'complementoruta' => '',
+                    ],
+                    [
+                        'name' => 'Referidos en Red',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('genealogy_list_network', 'network'),
+                        'complementoruta' => ''
+                    ],
+                ],
+            ],
+            // Billetera
+      
             // Fin billetera
             // Historial de Ordenes
             'Historial de Ordenes' => [
@@ -217,12 +254,6 @@ class Menu
                         'name' => 'Arbol',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('genealogy_type', 'tree'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Binario',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_type', 'matriz'),
                         'complementoruta' => ''
                     ],
                     [

@@ -43,7 +43,7 @@
     position: absolute;
     top: 0;
     right: 50%;
-    border-top: 2px solid #693ED0;
+    border-top: 2px solid #46B0FE;
     width: 50%;
     height: 20px;
 }
@@ -51,7 +51,7 @@
 .padre li::after {
     right: auto;
     left: 50%;
-    border-left: 2px solid #693ED0;
+    border-left: 2px solid #46B0FE;
 }
 
 /*We need to remove left-right connectors from elements without 
@@ -75,7 +75,7 @@ right connector from last child*/
 
 /*Adding back the vertical connector to the last nodes*/
 .padre li:last-child::before {
-    border-right: 2px solid #693ED0;
+    border-right: 2px solid #46B0FE;
     border-radius: 0 5px 0 0;
     -webkit-border-radius: 0 5px 0 0;
     -moz-border-radius: 0 5px 0 0;
@@ -93,13 +93,13 @@ right connector from last child*/
     position: absolute;
     top: 0;
     left: 50%;
-    border-left: 2px solid #693ED0;
+    border-left: 2px solid #46B0FE;
     width: 0;
     height: 20px;
 }
 
 .padre li a {
-    border: 2px solid #693ED0;
+    border: 2px solid #46B0FE;
     /* padding: 8px 5px; */
     text-decoration: none;
     color: #666;

@@ -26,7 +26,7 @@ class TreeController extends Controller
             $trees = $this->getDataEstructura(Auth::id(), $type);
             $type = ucfirst($type);
             $base = Auth::user();
-            $base->logoarbol = asset('assets/img/sistema/logoarbol.png');
+            $base->logoarbol = asset('assets/img/sistema/favicon.png');
             return view('genealogy.tree', compact('trees', 'type', 'base'));
         } catch (\Throwable $th) {
             Log::error('Tree - index -> Error: '.$th);
@@ -117,7 +117,7 @@ class TreeController extends Controller
             $trees = $this->getDataEstructura($id, $type);
             $type = ucfirst($type);
             $base = User::find($id);
-            $base->logoarbol = asset('assets/img/sistema/logoarbol.png');
+            $base->logoarbol = asset('assets/img/sistema/favicon.png');
             return view('genealogy.tree', compact('trees', 'type', 'base'));
         } catch (\Throwable $th) {
             Log::error('Tree - moretree -> Error: '.$th);
@@ -165,7 +165,7 @@ class TreeController extends Controller
             $resul = User::where($typeTree, '=', $id)->get();
             foreach ($resul as $user) {
                 $user->nivel = $nivel;
-                $user->logoarbol = asset('assets/img/sistema/logoarbol.png');
+                $user->logoarbol = asset('assets/img/sistema/favicon.png');
             }
             return $resul;
         } catch (\Throwable $th) {

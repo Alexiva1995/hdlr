@@ -3,8 +3,8 @@
     <div class="navbar-header mb-5">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto">
-                <a class="navbar-brand ml-1" href="{{route('home')}}">
-                     <img src="{{ asset('assets/img/HDLRS--vertical-blanco.png') }}" height="150">
+                <a class="navbar-brand " href="{{route('home')}}">
+                     <img src="{{ asset('assets/img/HDLRS-side.png') }}" height="150">
                      {{-- <div class="brand-logo"></div>  --}}
                     {{-- <h2 class="brand-text mb-0">Vuexy</h2> --}}
                 </a>
@@ -19,7 +19,7 @@
     </div>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
-        <ul class="navigation navigation-main bg-purple-alt mt-3" id="main-menu-navigation" data-menu="menu-navigation">
+        <ul class="navigation navigation-main bg-purple-alt mt-4" id="main-menu-navigation" data-menu="menu-navigation">
             @if (!empty($menu))
             @foreach ($menu as $index => $item)
                 @if ($item['submenu'] == 0)

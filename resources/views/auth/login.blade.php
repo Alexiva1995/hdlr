@@ -31,7 +31,7 @@
         <div class="col-md-4 col-sm-8 col-12">
             {{-- header --}}
             <div class="col-12 text-center">
-                <img src="{{asset('assets/img/HDLRS--vertical-blanco.png')}}" alt="logo" height="150" width="190">
+                <img src="{{asset('assets/img/HDLRS-side.png')}}" alt="logo" height="140" width="190">
                 <h5 class="text-white">Bienvenido a HDLRS</h5>
             </div>
             {{-- cuerpo login --}}
