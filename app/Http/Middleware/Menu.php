@@ -38,6 +38,7 @@ class Menu
        // $orden = app($OrdenService)->find($id);
 
         return [
+
             // Inicio
             'Inicio' => [
                 'submenu' => 0,
@@ -47,6 +48,7 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin inicio
+
             // Servicios
             'Servicios' => [
                 'submenu' => 0,
@@ -56,6 +58,7 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin Servicios
+
             // Añadir Saldo
             'Añadir Saldo' => [
                 'submenu' => 0,
@@ -65,7 +68,8 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin añadir saldo
-            // Red
+
+            // Organización
             'Organización' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
@@ -93,21 +97,14 @@ class Menu
                     ],
                 ],
             ],
-            // Fin red
-             // tickets
-             'Tickets' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-tag',
-                'complementoruta' => '',
-            ],
-            // Fin tickets
+            // Fin Organización
+       
+            //Inverisones
             'Inverisones' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-users',
+                'icon' => 'feather icon-activity',
                 'complementoruta' => '',
                 'submenus' => [
                     [
@@ -124,12 +121,14 @@ class Menu
                     ],
                 ],
             ],
-            // Red
+            // Fin Inverisones
+
+            // Financiero
             'Financiero' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-users',
+                'icon' => 'feather icon-dollar-sign',
                 'complementoruta' => '',
                 'submenus' => [
                     [
@@ -144,17 +143,10 @@ class Menu
                         'ruta' => route('wallet.index'),
                         'complementoruta' => '',
                     ],
-                    [
-                        'name' => 'Referidos en Red',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'network'),
-                        'complementoruta' => ''
-                    ],
                 ],
             ],
-            // Billetera
-      
-            // Fin billetera
+            // Fin Financiero
+
             // Historial de Ordenes
             'Historial de Ordenes' => [
                 'submenu' => 0,
@@ -164,6 +156,16 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin historial de ordenes
+
+            // tickets
+              'Tickets' => [
+                'submenu' => 0,
+                'ruta' => '',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-tag',
+                'complementoruta' => '',
+            ],
+            // Fin tickets
         ];
     }
 
@@ -173,19 +175,6 @@ class Menu
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
     /**
      * Permite Obtener el menu del admin
      *
@@ -203,6 +192,7 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin inicio
+
                // Ecommerce
                'Ecommerce' => [
                 'submenu' => 1,
@@ -232,6 +222,7 @@ class Menu
                 ],
             ],
             // Fin Ecommerce
+
             // Informenes
             'Informenes' => [
                 'submenu' => 1,
@@ -255,8 +246,9 @@ class Menu
                 ],
             ],
             // Fin Informenes
-            // Red
-            'Red' => [
+
+            // Organización
+            'Organización' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -283,7 +275,8 @@ class Menu
                     ],
                 ],
             ],
-            // Fin red
+            // Fin Organización
+
             // Liquidaciones
             'Liquidaciones' => [
                 'submenu' => 1,
@@ -310,15 +303,10 @@ class Menu
                         'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
                     ],
-                    [
-                        'name' => 'Liquidaciones Reservadas',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.history.status', 'Reservadas'),
-                        'complementoruta' => ''
-                    ],
                 ],
             ],
             // Fin Liquidaciones
+
             // Usuarios
             'Usuarios' => [
                 'submenu' => 0,
@@ -328,6 +316,7 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin Usuarios
+
         ];
     }
 }

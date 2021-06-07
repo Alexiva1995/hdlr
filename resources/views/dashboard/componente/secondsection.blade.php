@@ -90,6 +90,43 @@
         </div>
     </div>
 
+
+
+     
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body card-dashboard">
+                <h1>Inversiones</h1>
+                    <div class="table-responsive">
+                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                            <thead class="">
+                                <tr class="text-center text-white bg-purple-alt2">
+                                    <th>ID</th>
+                                    <th>Inicio</th>
+                                    <th>Vence</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr class="text-center">
+
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     {{-- Seccion Grafico --}}
     <div class="col-12">
         <div class="row">

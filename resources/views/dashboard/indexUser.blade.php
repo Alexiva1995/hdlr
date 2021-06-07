@@ -73,4 +73,7 @@ $new = \App\Models\News::where('status', '1')->get();
     @include('dashboard.componente.thirdsection')
     {{-- Fin Tercera Seccion --}}
 </section>
+
+@include('layouts.componenteDashboard.optionDatatable')
+
 @endsection
