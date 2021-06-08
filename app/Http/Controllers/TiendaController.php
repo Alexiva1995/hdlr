@@ -52,7 +52,7 @@ class TiendaController extends Controller
             // title
             View::share('titleg', 'Tienda - Productos');
             $category = Groups::find($idgroup);
-            $services = $category->getPackage;
+            $services = $category->getPackage->where('status', 1);
 
             return view('shop.products', compact('services'));
         } catch (\Throwable $th) {

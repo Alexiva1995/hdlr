@@ -19,7 +19,7 @@ class Packages extends Model
      */
     public function getGroup()
     {
-        return $this->belongsTo('App\Models\Packages', 'group_id', 'id');
+        return $this->belongsTo('App\Models\Groups', 'group_id', 'id');
     }
 
     /**

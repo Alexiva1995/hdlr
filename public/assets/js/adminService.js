@@ -26,7 +26,7 @@ var vm_adminService = new Vue({
                 }
                 $('#modalEditServices').modal('show')
             }).catch(function (error) {
-                console.log(error)
+                toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
         },
         /**
@@ -57,7 +57,7 @@ var vm_adminService = new Vue({
                 this.Description = response.data
                 $('#modalDescriptionServices').modal('show')
             }).catch((error) => {
-                console.log(error)
+                toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
         },
 

@@ -19,7 +19,7 @@ var vm_liquidation = new Vue({
                 this.ComisionesDetalles = response.data
                 $('#modalModalDetalles').modal('show')
             }).catch(function (error) {
-                console.log(error)
+                toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
         },
 
@@ -34,7 +34,7 @@ var vm_liquidation = new Vue({
                 this.ComisionesDetalles = response.data
                 $('#modalModalDetalles').modal('show')
             }).catch(function (error) {
-                console.log(error)
+                toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
         },
 
@@ -51,7 +51,7 @@ var vm_liquidation = new Vue({
                 this.ComisionesDetalles = response.data
                 $('#modalModalAccion').modal('show')
             }).catch(function (error) {
-                console.log(error)
+                toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
         }
     }

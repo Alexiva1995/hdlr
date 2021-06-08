@@ -21,7 +21,7 @@ var vm_category = new Vue({
                 }
                 $('#modalEditCategories').modal('show')
             }).catch(function (error) {
-                console.log(error)
+                toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
         },
         /**

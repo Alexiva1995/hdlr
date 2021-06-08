@@ -113,6 +113,11 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::resource('liquidation', 'LiquidactionController');
         });
 
+        Route::prefix('accounting')->group(function(){
+            
+            Route::resource('commission_closing', 'CierreComisionController');
+        });
+
         
     });
 

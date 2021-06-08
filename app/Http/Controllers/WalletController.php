@@ -41,36 +41,34 @@ class WalletController extends Controller
     }
 
     /**
-     * Permite pagar las comisiones de los usuarios
+     * Permite pagar las comisiones a los usuarios
      *
+     * @param float $monto
+     * @param integer $iduser
+     * @param string $name_referred
+     * @param integer $idcierre
      * @return void
      */
-    public function payComision()
+    public function payComision($monto, $iduser, $name_referred, $idcierre)
     {
         try {
-            $ordenes = $this->getOrdens();
-            foreach ($ordenes as $orden) {
-                $sponsors = $this->treeController->getSponsor($orden->iduser, [], 0, 'ID', 'referred_id');
-                // dd($sponsors);
-                if (!empty($sponsors)) {
-                    foreach ($sponsors as $sponsor) {
-                        if ($sponsor->id != $orden->iduser) {
-                            $concepto = 'Comision del usuario '.$orden->getUser->fullname.' por un monto de '.$orden->total;
-                            if ($sponsor->status == 1) {
-                                if ($sponsor->nivel <= 4) {
-                                    // $pocentaje = $this->getPorcentage($sponsor->nivel);
-                                    // $monto = $orden->total;
-                                    // $comision = ($monto * 1);
-                                    $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, $orden->total, $concepto);
-                                }else{
-                                    $this->preSaveWallet(2, $orden->iduser, $orden->id, $orden->total, $concepto);
-                                }
-                            } else {
-                                $this->preSaveWallet(2, $orden->iduser, $orden->id, $orden->total, $concepto);
+            $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
+            // dd($sponsors);
+            if (!empty($sponsors)) {
+                foreach ($sponsors as $sponsor) {
+                    if ($sponsor->id != $iduser) {
+                        $concepto = 'Comision del usuario '.$name_referred.' por un monto de '.$monto;
+                        if ($sponsor->status == 1) {
+                            if ($sponsor->nivel <= 4) {
+                                $pocentaje = $this->getPorcentage($sponsor->nivel);
+                                $comision = ($monto * $pocentaje);
+                                $this->preSaveWallet($sponsor->id, $iduser, $idcierre, $comision, $concepto);
+                            }else{
+                                $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
                             }
-                            
-                            
-                        }
+                        } else {
+                            $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
+                        }   
                     }
                 }
             }
@@ -93,10 +91,10 @@ class WalletController extends Controller
     private function preSaveWallet(int $iduser, int $idreferido, int $idorden,  float $monto, string $concepto)
     {
         $data = [
-            'iduser' => $sponsor->id,
-            'referred_id' => $orden->iduser,
-            'orden_id' => $orden->id,
-            'debito' => $comision,
+            'iduser' => $iduser,
+            'referred_id' => $idreferido,
+            'cierre_comision_id' => $idorden,
+            'debito' => $monto,
             'descripcion' => $concepto,
             'status' => 0,
             'tipo_transaction' => 0,
@@ -113,7 +111,7 @@ class WalletController extends Controller
     public function getPorcentage(int $nivel): float
     {
         $nivelPorcentaje = [
-            1 => 0.20, 2 => 0.10, 3 => 0.05, 4 => 0.02, 5 => 0
+            1 => 0.20, 2 => 0.05, 3 => 0.02, 4 => 0.01, 5 => 0.02
         ];
 
         return $nivelPorcentaje[$nivel];
@@ -172,26 +170,32 @@ class WalletController extends Controller
     public function saveWallet($data)
     {
         try {
-            if ($data['tipo_transaction'] == 1) {
-                $wallet = Wallet::create($data);
-                $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['credito']);
-                $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                $wallet->update(['balance' => $saldoAcumulado]);
-            }else{
-                if ($data['orden_id'] != null) {
-                    $check = Wallet::where([
-                        ['iduser', '=', $data['iduser']],
-                        ['orden_id', '=', $data['orden_id']]
-                    ])->first();
-                    if ($check == null) {
+            if ($data['iduser'] != 1) {
+                if ($data['tipo_transaction'] == 1) {
+                    $wallet = Wallet::create($data);
+                    $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['credito']);
+                    $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
+                    $wallet->update(['balance' => $saldoAcumulado]);
+                }else{
+                    if ($data['cierre_comision_id'] != null) {
+                        if ($data['iduser'] == 2) {
+                            $wallet = Wallet::create($data);
+                        }elseif($data['iduser'] > 2){
+                            $check = Wallet::where([
+                                ['iduser', '=', $data['iduser']],
+                                ['cierre_comision_id', '=', $data['cierre_comision_id']]
+                            ])->first();
+                            if ($check == null) {
+                                $wallet = Wallet::create($data);
+                            }
+                        }
+                    }else{
                         $wallet = Wallet::create($data);
                     }
-                }else{
-                    $wallet = Wallet::create($data);
+                    $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['debito']);
+                    $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
+                    $wallet->update(['balance' => $saldoAcumulado]);
                 }
-                $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['debito']);
-                $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                $wallet->update(['balance' => $saldoAcumulado]);
             }
         } catch (\Throwable $th) {
             Log::error('Wallet - saveWallet -> Error: '.$th);

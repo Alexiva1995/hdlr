@@ -166,25 +166,6 @@ class Menu
             // Fin historial de ordenes
         ];
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     /**
      * Permite Obtener el menu del admin
@@ -284,6 +265,15 @@ class Menu
                 ],
             ],
             // Fin red
+            // Cierre Comisiones
+            'Cierre Comisiones' => [
+                'submenu' => 0,
+                'ruta' => route('commission_closing.index'),
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => '-',
+                'complementoruta' => '',
+            ],
+            // Fin Cierre Comisiones
             // Liquidaciones
             'Liquidaciones' => [
                 'submenu' => 1,
