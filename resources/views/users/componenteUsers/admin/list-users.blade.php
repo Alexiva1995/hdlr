@@ -18,7 +18,8 @@
 @endpush
 
 @push('custom_js')
-<script src="{{asset('assets/js/ordenFollowers.js')}}"></script>
+
+{{-- <script src="{{asset('assets/js/ordenFollowers.js')}}"></script> --}}
 @endpush
 
 @section('content')
@@ -77,7 +78,7 @@
                                     <td>{{ $item->created_at}}</td>
                                     <td>
                                     
-                                    @if ($item->dni != NULL)
+                                    @if ($item->dni != NULL && $item->status == 0)
                                      <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600">Verificar</a>
                                     @endif
                                     
@@ -87,7 +88,7 @@
                                     <a href="{{ route('users.edit-user',$item->id) }}" class="btn btn-secondary text-bold-600">Editar</a>
                                     
                                     
-                                    <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn" id="formImpersonate">
+                                    <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn">
                                         @csrf
                                     <button class="btn btn-primary text-bold-600">
                                     Ver

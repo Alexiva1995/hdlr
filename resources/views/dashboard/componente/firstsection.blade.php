@@ -55,7 +55,7 @@
                   
                         @if (Auth::user()->dni == NULL)
                         <p class="card-text">
-                            <a class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" href="{{ route('kyc') }}" id="referrals_link" onclick="copyReferralsLink();">Verificación KYC <i class="far fa-copy"></i></a>
+                            <a class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" href="{{ route('kyc') }}">Verificación KYC <i class="far fa-copy"></i></a>
                         </p>    
                         @endif
 
@@ -67,30 +67,14 @@
     <div class="col-lg-6 col-md-12 col-12 mt-1">
         <div class="card text-white bg-gradient-danger bg-red-alt h-100">
             <div class="card-content d-flex justify-contents-start align-items-center">
-                <div class="card-body pb-0 pt-1">
+                <div class="card-body pb-0 pt-3">
                     <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250" height="250"
                         class="float-right px-1">
                     <h4 class="card-text mt-3">Invita a tus amigos <br> y gana una comision</h4>
                     <p class="card-text">
                         <button class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" data-link="http://localhost:8000/register?referred_id={{Auth::user()->id}}" id="referrals_link" onclick="copyReferralsLink();">Copiar link de referido <i class="far fa-copy"></i></button>
                     </p>
-                    <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
-                    <div class="col-12">
-                        <h5 class="text-white">Lado Activo:
-                            @if (Auth::user()->binary_side_register == 'I')
-                            Izquierda
-                            @else
-                            Derecha
-                            @endif
-                        </h5>
-                        <h6 class="text-white">Cambiar lado</h6>
-                        <a href="javascript:;" class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" v-on:click="updateBinarySide('D')">
-                            Derecha
-                        </a>
-                        <a href="javascript:;" class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" v-on:click="updateBinarySide('I')">
-                            Izquierda
-                        </a>
-                    </div>
+                    <h4 class="card-title text-white">¡Todo es mejor con amigos!</h4>
                 </div>
             </div>
         </div>
@@ -98,14 +82,3 @@
 </div>
 
 
-<script>
-    function copyReferralsLink(){   
-        let copyText = $('#referrals_link').attr('data-link');
-        const textArea = document.createElement('textarea');
-        textArea.textContent = copyText;
-        document.body.append(textArea);      
-        textArea.select();      
-        document.execCommand("copy");    
-        textArea.remove();
-    }
-</script>
