@@ -168,17 +168,7 @@ class Menu
             // Fin tickets
         ];
     }
-<<<<<<< HEAD
     
-=======
-
-
-
-
-
-
-
->>>>>>> origin/main
     /**
      * Permite Obtener el menu del admin
      *
