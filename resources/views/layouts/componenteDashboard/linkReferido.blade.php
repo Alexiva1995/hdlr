@@ -20,14 +20,14 @@
 
         Swal.fire({
             title: "Link Copiado",
-            text: "El Lado Registro fue actualizado, Lado De Registro Actual: "+lado,
+            text: "Ya puedes pegarlo en su navegador",
             type: "success",
             confirmButtonClass: 'btn btn-primary',
             buttonsStyling: false,
         }).then(function(result){
-                if (result.value) {
-                    window.location.reload();
-                }
+                // if (result.value) {
+                //     window.location.reload();
+                // }
             });
     }
 </script>

@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
+/*+
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -113,9 +113,15 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::resource('liquidation', 'LiquidactionController');
         });
 
+        //Rutas para el cierre de productos
         Route::prefix('accounting')->group(function(){
-            
             Route::resource('commission_closing', 'CierreComisionController');
+        });
+
+        //Rutas para los reportes
+        Route::prefix('reports')->group(function(){
+            Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
+            Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
         });
 
         

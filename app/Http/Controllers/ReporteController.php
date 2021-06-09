@@ -20,7 +20,13 @@ class ReporteController extends Controller
     {
         $ordenes = OrdenPurchases::all();
 
-        
+        foreach ($ordenes as $orden) {
+            $orden->name = $orden->getOrdenUser->fullname;
+            $orden->grupo = $orden->getGroupOrden->name;
+            $orden->paquete = $orden->getPackageOrden->name;
+        }
+
+        return view('reports.perdido', compact('ordenes'));
     }
 
     /**
@@ -30,8 +36,16 @@ class ReporteController extends Controller
      */
     public function indexComision()
     {
-        $wallets = Wallet::all();
+        $wallets = Wallet::where([
+            ['tipo_transaction', '=', 0],
+            ['status', '!=', '3']
+        ])->get();
 
+        foreach ($wallets as $wallet) {
+            $wallet->name = $wallet->getWalletUser->fullname;
+            $wallet->referido = $wallet->getWalletReferred->fullname;
+        }
 
+        return view('reports.comision', compact('wallets'));
     }
 }

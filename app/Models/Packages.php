@@ -27,7 +27,7 @@ class Packages extends Model
      *
      * @return void
      */
-    public function getOrdenPurchase()
+    public function E()
     {
         return $this->hasMany('App\Models\OrdenPurchases', 'package_id');
     }

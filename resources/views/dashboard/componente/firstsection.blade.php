@@ -19,7 +19,7 @@
                         <h1 class="mb-2 text-white">Bienvenido {{$data['usuario']}}</h1>
                         <p class="m-auto w-75">
                             Tu saldo actual es $ {{number_format($data['wallet'], '2', ',', '.')}} <br>
-                            ¿Qué tal recargar tu saldo?
+                            {{-- ¿Qué tal recargar tu saldo? --}}
                         </p>
                         
                         <br>
@@ -72,7 +72,7 @@
                         class="float-right px-1">
                     <h4 class="card-text mt-3">Invita a tus amigos <br> y gana una comision</h4>
                     <p class="card-text">
-                        <button class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" data-link="http://localhost:8000/register?referred_id={{Auth::user()->id}}" id="referrals_link" onclick="copyReferralsLink();">Copiar link de referido <i class="far fa-copy"></i></button>
+                        <button class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" onclick="getlink()">Copiar link de referido <i class="fa fa-copy"></i></button>
                     </p>
                     <h4 class="card-title text-white">¡Todo es mejor con amigos!</h4>
                 </div>

@@ -33,18 +33,6 @@
 {{-- custom js --}}
 @push('custom_js')
 <script src="{{asset('assets/js/dashboard.js')}}"></script>
-
-<script>
-    function copyReferralsLink(){   
-        let copyText = $('#referrals_link').attr('data-link');
-        const textArea = document.createElement('textarea');
-        textArea.textContent = copyText;
-        document.body.append(textArea);      
-        textArea.select();      
-        document.execCommand("copy");    
-        textArea.remove();
-    }
-</script>
 @endpush
 
 @section('content')

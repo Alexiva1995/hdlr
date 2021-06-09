@@ -39,7 +39,7 @@ var vm_liquidation = new Vue({
         },
 
         /**
-         * Permite obtener la informacion de las comisiones de las liquidaciones para aprobar o reversar
+         * Permite obtener la informacion de las comisiones de las -liquidaciones para aprobar o reversar
          * @param {integer} iduser
          * @param {string} status
          */

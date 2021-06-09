@@ -228,13 +228,13 @@ class Menu
                     [
                         'name' => 'Pedidos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('reports.pedidos'),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Comisiones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('reports.comision'),
                         'complementoruta' => ''
                     ],
                 ],

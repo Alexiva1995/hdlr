@@ -444,11 +444,11 @@ class LiquidactionController extends Controller
         $concepto = 'Liquidacion Reservada - Motivo: '.$comentario;
         $arrayWallet =[
             'iduser' => $liquidacion->iduser,
-            'orden_id' => null,
+            'cierre_comision_id' => null,
             'referred_id' => $liquidacion->iduser,
             'debito' => $liquidacion->monto_bruto,
             'descripcion' => $concepto,
-            'status' => 1,
+            'status' => 3,
             'tipo_transaction' => 0,
         ];
 
