@@ -49,22 +49,12 @@ class Menu
             ],
             // Fin inicio
 
-            // Servicios
-            'Servicios' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-briefcase',
-                'complementoruta' => '',
-            ],
-            // Fin Servicios
-
             // Añadir Saldo
-            'Añadir Saldo' => [
+            'Ecommerce' => [
                 'submenu' => 0,
-                'ruta' => '',
+                'ruta' => route('shop'),
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-plus-circle',
+                'icon' => 'feather icon-shopping-cart',
                 'complementoruta' => '',
             ],
             // Fin añadir saldo
@@ -110,13 +100,13 @@ class Menu
                     [
                         'name' => 'Activas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_type', 'tree'),
+                        'ruta' => '',
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Culminadas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('wallet.index'),
+                        'ruta' => '',
                         'complementoruta' => '',
                     ],
                 ],
@@ -134,7 +124,7 @@ class Menu
                     [
                         'name' => 'Pagos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_type', 'tree'),
+                        'ruta' => '',
                         'complementoruta' => ''
                     ],
                     [
@@ -188,12 +178,12 @@ class Menu
             // Fin inicio
 
                // Ecommerce
-               'Ecommerce' => [
-                'submenu' => 1,
-                'ruta' => 'javascript:;',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-shopping-cart',
-                'complementoruta' => '',
+            'Ecommerce' => [
+            'submenu' => 1,
+            'ruta' => 'javascript:;',
+            'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+            'icon' => 'feather icon-shopping-cart',
+            'complementoruta' => '',
                 'submenus' => [
                     [
                         'name' => 'Grupos',
@@ -202,7 +192,7 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Productos',
+                        'name' => 'Paquetes',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('package.index'),
                         'complementoruta' => ''
