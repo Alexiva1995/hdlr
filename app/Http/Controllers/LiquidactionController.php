@@ -311,7 +311,7 @@ class LiquidactionController extends Controller
             }
 
             $bruto = $comisiones->sum('debito');
-            $feed = ($bruto * 0);
+            $feed = ($bruto * 0.025);
             $total = ($bruto - $feed);
 
             $arrayLiquidation = [

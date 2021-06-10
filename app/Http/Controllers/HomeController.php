@@ -11,6 +11,7 @@ use App\Http\Controllers\WalletController;
 
 class HomeController extends Controller
 {
+    public $reportController;
     public $treeController;
     public $ticketController;
     public $servicioController;
@@ -26,7 +27,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
         $this->treeController = new TreeController;
-
+        $this->reportController = new ReporteController();
         $this->walletController = new WalletController;
     }
 
@@ -74,7 +75,7 @@ class HomeController extends Controller
             'wallet' => Auth::user()->wallet,
             'comisiones' => $this->walletController->getTotalComision($iduser),
             'tickets' => 0,
-            'ordenes' => 0,
+            'ordenes' => $this->reportController->getOrdenes(10),
             'usuario' => Auth::user()->fullname
         ];
 

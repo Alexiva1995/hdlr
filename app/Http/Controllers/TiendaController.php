@@ -113,7 +113,8 @@ class TiendaController extends Controller
      */
     public function saveOrden($data): int
     {
-        return OrdenPurchases::insertGetId($data);
+        $orden = OrdenPurchases::create($data);
+        return $orden->id;
     }
 
     /**
@@ -159,7 +160,7 @@ class TiendaController extends Controller
             $curl = curl_init();
 
             $dataRaw = collect([
-                'price_amount' => $data['total'],
+                'price_amount' => floatval($data['total']),
                 "price_currency" => "usd",
                 "order_id" => $data['idorden'],
                 'pay_currency' => 'USDTTRC20',

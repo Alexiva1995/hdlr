@@ -27,7 +27,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
      // Inicio de usuarios
     Route::get('/home-user', 'HomeController@indexUser')->name('home.user');
     // Ruta para obtener la informacion de la graficas del dashboard
-    Route::get('getdatagraphicdashboard', 'HomeController@getDataGraphic')->name('home.data.graphic');
+    Route::get('getdatagraphicdashboard', 'ReporteController@graphisDashboard')->name('home.data.graphic');
 
     // Red de usuario
     Route::prefix('genealogy')->group(function ()
