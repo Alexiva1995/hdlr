@@ -15,7 +15,7 @@
                                     Reinversion de Comissiones
                                 </strong>
                                 <h4>
-                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter"><b>REINVERTIR</b></a href="javascript:;">
+                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_1"><b>REINVERTIR</b></a href="javascript:;">
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                                     Reinversion del Capital
                                 </strong>
                                 <h4>
-                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter"><b>REINVERTIR</b></a href="javascript:;">
+                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>REINVERTIR</b></a href="javascript:;">
 
                         </div>
                     </div>
@@ -40,25 +40,43 @@
 
 
           <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="reinvestment_1" tabindex="-1" role="dialog" aria-labelledby="reinvestment_1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          Planes
+            ¿ Seguro que quiere reinvertir ingresos por Bono ?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary">Aceptar</button>
+          <button type="button" class="btn btn-primary">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="modal fade" id="reinvestment_2" tabindex="-1" role="dialog" aria-labelledby="reinvestment_2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            ¿ Reinvertir Ahorro ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Aceptar</button>
+          <button type="button" class="btn btn-primary">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -93,7 +111,7 @@
 
 
      
-    <div class="col-12">
+    <div class="col-12 mb-3 mt-3">
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
@@ -103,21 +121,32 @@
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Inicio</th>
+                                    <th>Paquete</th>
+                                    <th>Inversion</th>
                                     <th>Vence</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
 
+                                @foreach ($packages as $item)
                                 <tr class="text-center">
-
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>1</td>
-
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->getPackageOrden->name }}</td>
+                                    <td>{{ $item->total }}</td>
+                                    <td>{{ $item->getPackageOrden->expired }}</td>
+                                    @if($item->status == 0)
+                                    <td>En espera</td>
+                                    @elseif($item->status == 1)
+                                    <td>Completada</td>
+                                    @elseif($item->status == 2)
+                                    <td>Rechazada</td>
+                                    @elseif($item->status == 3)
+                                    <td>Cancelada</td>
+                                    @endif
                                 </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>

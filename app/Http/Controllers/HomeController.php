@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wallet;
+use App\Models\OrdenPurchases;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -40,8 +42,9 @@ class HomeController extends Controller
     {
         try {
             View::share('titleg', '');
+            $rewards = Wallet::where([['iduser', '=', Auth::user()->id], ['status', '=', '1']])->get()->sum('debito');
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.index', compact('data'));
+            return view('dashboard.index', compact('data', 'rewards'));
         } catch (\Throwable $th) {
             Log::error('Home - index -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -50,10 +53,14 @@ class HomeController extends Controller
 
     public function indexUser()
     {
+
         try {
+            
             View::share('titleg', '');
+            $rewards = Wallet::where([['iduser', '=', Auth::user()->id], ['status', '=', '0']])->get()->sum('debito');
+            $packages = OrdenPurchases::where([['iduser', '=', Auth::user()->id], ['status', '=', '0']])->get();
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.indexUser', compact('data'));
+            return view('dashboard.indexUser', compact('data', 'rewards', 'packages'));
         } catch (\Throwable $th) {
             Log::error('Home - indexUser -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
