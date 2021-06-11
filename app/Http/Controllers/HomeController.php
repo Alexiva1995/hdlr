@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\ActivacionController;
 
 class HomeController extends Controller
 {
     public $reportController;
     public $treeController;
-    public $ticketController;
+    public $activacionController;
     public $servicioController;
     public $addsaldoController;
     public $walletController;
@@ -31,6 +32,7 @@ class HomeController extends Controller
         $this->treeController = new TreeController;
         $this->reportController = new ReporteController();
         $this->walletController = new WalletController;
+        $this->activacionController = new ActivacionController();
     }
 
     /**
@@ -42,9 +44,10 @@ class HomeController extends Controller
     {
         try {
             View::share('titleg', '');
-            $rewards = Wallet::where([['iduser', '=', Auth::user()->id], ['status', '=', '1']])->get()->sum('debito');
+            $this->activacionController->activarUser();
+            $this->activacionController->deleteUser();
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.index', compact('data', 'rewards'));
+            return view('dashboard.index', compact('data'));
         } catch (\Throwable $th) {
             Log::error('Home - index -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -55,12 +58,9 @@ class HomeController extends Controller
     {
 
         try {
-            
             View::share('titleg', '');
-            $rewards = Wallet::where([['iduser', '=', Auth::user()->id], ['status', '=', '0']])->get()->sum('debito');
-            $packages = OrdenPurchases::where([['iduser', '=', Auth::user()->id], ['status', '=', '0']])->get();
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.indexUser', compact('data', 'rewards', 'packages'));
+            return view('dashboard.indexUser', compact('data'));
         } catch (\Throwable $th) {
             Log::error('Home - indexUser -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -83,7 +83,9 @@ class HomeController extends Controller
             'comisiones' => $this->walletController->getTotalComision($iduser),
             'tickets' => 0,
             'ordenes' => $this->reportController->getOrdenes(10),
-            'usuario' => Auth::user()->fullname
+            'usuario' => Auth::user()->fullname,
+            'rewards' => Wallet::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()->sum('debito'),
+            'packages' => OrdenPurchases::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()
         ];
 
         return $data;
