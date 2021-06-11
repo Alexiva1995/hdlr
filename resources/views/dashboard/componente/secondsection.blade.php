@@ -129,7 +129,7 @@
                             </thead>
                             <tbody>
 
-                                @foreach ($packages as $item)
+                                @foreach ($data['packages'] as $item)
                                 <tr class="text-center">
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->getPackageOrden->name }}</td>
