@@ -46,6 +46,12 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('/', 'WalletController@index')->name('wallet.index');
     });
 
+    // Ruta para la pagos
+    Route::prefix('payments')->group(function ()
+    {
+        Route::get('/', 'WalletController@payments')->name('payments.index');
+    });
+
     // Ruta para la tienda
     Route::prefix('shop')->group(function ()
     {

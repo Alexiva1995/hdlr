@@ -40,6 +40,18 @@ class WalletController extends Controller
         return view('wallet.index', compact('wallets'));
     }
 
+     /**
+     * Lleva a la vista de pagos
+     *
+     * @return void
+     */
+    public function payments()
+    {
+
+        $payments = Wallet::where([['iduser', '=', Auth::user()->id], ['tipo_transaction', '=', '1']])->get();
+
+        return view('wallet.payments', compact('payments'));
+    }
     /**
      * Permite pagar las comisiones a los usuarios
      *

@@ -43,6 +43,18 @@
                         <p class="m-auto w-75">
                             El estado de tu cuenta esta: Activa <span class="text-success h3">◉</span><br>
                         </p>
+                        @elseif (Auth::user()->status == 2)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: suspendido <span class="text-warning h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->status == 3)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: bloqueado <span class="text-warning h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->status == 4)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: caducado <span class="text-warning h3">◉</span><br>
+                        </p>
                         @endif
                   
                         @if (Auth::user()->dni == NULL)

@@ -124,7 +124,7 @@ class Menu
                     [
                         'name' => 'Pagos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('payments.index'),
                         'complementoruta' => ''
                     ],
                     [
@@ -146,16 +146,6 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin historial de ordenes
-
-            // tickets
-              'Tickets' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-tag',
-                'complementoruta' => '',
-            ],
-            // Fin tickets
         ];
     }
     
