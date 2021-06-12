@@ -205,7 +205,7 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="text-bold-700 mt-1">{{$data['ordenes']}}</h2>
+                            <h2 class="text-bold-700 mt-1">{{$data['ordenes']->count()}}</h2>
                             <p class="mb-0">Todas las ordenes</p>
                         </div>
                     </div>

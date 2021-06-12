@@ -15,6 +15,8 @@ class CreateInversionsTable extends Migration
     {
         Schema::create('inversions', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('iduser')->unsigned();;
+            $table->foreign('iduser')->references('id')->on('users');
             $table->bigInteger('package_id')->unsigned();
             $table->foreign('package_id')->references('id')->on('packages');
             $table->bigInteger('orden_id')->unsigned();
@@ -25,7 +27,7 @@ class CreateInversionsTable extends Migration
             $table->double('capital');
             $table->double('pogreso');
             $table->date('fecha_vencimiento');
-            $table->tinyInteger('status')->default(1)->comment('1 - activo , 2 - completado');
+            $table->tinyInteger('status')->default(1)->comment('1 - activo , 2 - culminada');
             $table->timestamps();
         });
     }

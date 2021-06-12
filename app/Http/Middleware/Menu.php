@@ -100,13 +100,13 @@ class Menu
                     [
                         'name' => 'Activas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('inversiones.index', 1),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Culminadas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('inversiones.index', 2),
                         'complementoruta' => '',
                     ],
                 ],
@@ -220,7 +220,29 @@ class Menu
                 ],
             ],
             // Fin Informenes
-
+            //Inverisones
+            'Inverisones' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-activity',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Activas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.index', 1),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Culminadas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.index', 2),
+                        'complementoruta' => '',
+                    ],
+                ],
+            ],
+            // Fin Inverisones
             // Organización
             'Organización' => [
                 'submenu' => 1,
@@ -288,7 +310,6 @@ class Menu
                 ],
             ],
             // Fin Liquidaciones
-
             // Usuarios
             'Usuarios' => [
                 'submenu' => 0,

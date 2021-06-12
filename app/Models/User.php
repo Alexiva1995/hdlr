@@ -75,4 +75,13 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\OrdenPurchases', 'iduser');
     }
 
+    /**
+     * Permite obtener las Inversiones asociadas a un usuario
+     *
+     * @return void 
+     */
+    public function getUserInversiones()
+    {
+        return $this->hasMany('App\Models\Inversiones', 'iduser');
+    }
 }
