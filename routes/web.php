@@ -59,7 +59,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('/groups/{idgroup}/products', 'TiendaController@products')->name('shop.products');
         Route::post('/procces', 'TiendaController@procesarOrden')->name('shop.procces');
         Route::post('/ipn', 'TiendaController@ipn')->name('shop.ipn');
-        Route::get('/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
+        Route::get('{orden}/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
     });
 
     // Ruta para las funciones por alla que no correspondan a otra seccion
@@ -91,6 +91,11 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 
         Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
+    });
+
+    Route::prefix('inversiones')->group(function ()
+    {
+        Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
     });
 
     /**
