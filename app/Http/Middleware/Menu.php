@@ -197,8 +197,8 @@ class Menu
             ],
             // Fin Ecommerce
 
-            // Informenes
-            'Informenes' => [
+            // Informes
+            'Informes' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -219,7 +219,7 @@ class Menu
                     ],
                 ],
             ],
-            // Fin Informenes
+            // Fin Informes
 
             // Organización
             'Organización' => [
@@ -250,15 +250,7 @@ class Menu
                 ],
             ],
             // Fin organizacion
-            // Cierre Comisiones
-            'Cierre Comisiones' => [
-                'submenu' => 0,
-                'ruta' => route('commission_closing.index'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => '-',
-                'complementoruta' => '',
-            ],
-            // Fin Cierre Comisiones
+ 
             // Liquidaciones
             'Liquidaciones' => [
                 'submenu' => 1,
@@ -268,7 +260,7 @@ class Menu
                 'complementoruta' => '',
                 'submenus' => [
                     [
-                        'name' => 'General Liquidaciones',
+                        'name' => 'Generar liquidaciones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement'),
                         'complementoruta' => ''
@@ -285,6 +277,12 @@ class Menu
                         'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
                     ],
+                    [
+                        'name' => 'Cierre Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('commission_closing.index'),
+                        'complementoruta' => ''
+                    ]
                 ],
             ],
             // Fin Liquidaciones

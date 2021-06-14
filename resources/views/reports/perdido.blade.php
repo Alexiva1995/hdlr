@@ -7,11 +7,11 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped" data-order='[[ 6, "desc" ]]'>
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
-                                    <th>ID</th>
+                                    {{-- <th>ID</th> --}}
                                     <th>Usuario</th>
                                     <th>Grupo</th>
                                     <th>Paquete</th>
@@ -26,7 +26,7 @@
 
                                 @foreach ($ordenes as $orden)
                                 <tr class="text-center">
-                                    <td>{{$orden->id}}</td>
+                                    {{-- <td>{{$orden->id}}</td> --}}
                                     <td>{{$orden->name}}</td>
                                     <td>{{$orden->grupo}}</td>
                                     <td>{{$orden->paquete}}</td>

@@ -20,6 +20,7 @@ class ReporteController extends Controller
     public function indexPedidos()
     {
         $ordenes = $this->getOrdenes(0);
+        
         return view('reports.perdido', compact('ordenes'));
     }
 
@@ -34,7 +35,7 @@ class ReporteController extends Controller
         if ($limite == 0) {
             $ordenes = OrdenPurchases::all();
         }else{
-            $ordenes = OrdenPurchases::orderBy('id', 'desc')->get()->take($limite);
+            $ordenes = OrdenPurchases::orderBy('id', 'asc')->get()->take($limite);
         }
 
         foreach ($ordenes as $orden) {
