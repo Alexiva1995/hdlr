@@ -102,7 +102,7 @@ $(document).ready(function() {
 
                                                 </div>
 
-                                                @if (Auth::user()->dni == NULL && Auth::user()->status == 0)
+                                                @if (Auth::user()->dni == NULL)
 
                                             
 
