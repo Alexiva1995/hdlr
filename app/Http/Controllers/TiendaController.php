@@ -140,6 +140,19 @@ class TiendaController extends Controller
     }
 
     /**
+     * Permite Registrar las ordenes de forma manual
+     *
+     * @return void
+     */
+    public function getOrdenes()
+    {
+        $ordenes = OrdenPurchases::all()->where('status', '1');
+        foreach ($ordenes as $orden) {
+            $this->registeInversion($orden->id);
+        }
+    }
+
+    /**
      * Permite llamar al funcion que registra las inversiones
      *
      * @param integer $idorden

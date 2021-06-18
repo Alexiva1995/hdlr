@@ -54,9 +54,9 @@ class ReporteController extends Controller
      */
     public function indexComision()
     {
-        $wallets = Wallet::where([
+        $wallets = Wallet::where([+
             ['tipo_transaction', '=', 0],
-            ['status', '!=', '3']
+            ['status', '!=', '3']R
         ])->get();
 
         foreach ($wallets as $wallet) {

@@ -59,19 +59,19 @@ class InversionController extends Controller
                 ['package_id', '=', $paquete],
                 ['orden_id', '=', $orden],
             ])->first();
-            if ($check != null) {
+            if ($check == null) {
                 $data = [
                     'iduser' => $iduser,
                     'package_id' => $paquete,
                     'orden_id' => $orden,
                     'invertido' => $invertido,
-                    'ganancia' => 0,
+                    'ganacia' => 0,
                     'retiro' => 0,
                     'capital' => 0,
                     'progreso' => 0,
                     'fecha_vencimiento' => $vencimiento
                 ];
-                Inversion::created($data);
+                Inversion::create($data);
             }
         } catch (\Throwable $th) {
             Log::error('InversionController - saveInversion -> Error: '.$th);

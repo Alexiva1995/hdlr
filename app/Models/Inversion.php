@@ -11,7 +11,7 @@ class Inversion extends Model
 
     protected $fillable = [
         'package_id', 'orden_id', 'invertido',
-        'ganancia', 'retiro', 'capital', 'progreso',
+        'ganacia', 'retiro', 'capital', 'progreso',
         'fecha_vencimiento', 'iduser'
     ];
 

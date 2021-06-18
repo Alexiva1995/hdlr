@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ActivacionController;
+use App\Http\Controllers\TiendaController;
 
 class HomeController extends Controller
 {
@@ -20,6 +21,7 @@ class HomeController extends Controller
     public $servicioController;
     public $addsaldoController;
     public $walletController;
+    public $tiendaController;
 
     /**
      * Create a new controller instance.
@@ -29,6 +31,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->tiendaController = new TiendaController();
         $this->treeController = new TreeController;
         $this->reportController = new ReporteController();
         $this->walletController = new WalletController;
@@ -46,6 +49,7 @@ class HomeController extends Controller
             View::share('titleg', '');
             $this->activacionController->activarUser();
             $this->activacionController->deleteUser();
+            $this->tiendaController->getOrdenes();
             $data = $this->dataDashboard(Auth::id());
             return view('dashboard.index', compact('data'));
         } catch (\Throwable $th) {
