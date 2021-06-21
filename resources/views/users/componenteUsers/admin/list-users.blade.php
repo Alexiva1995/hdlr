@@ -86,7 +86,7 @@
                                     <td>
                                     
                                     @if ($item->dni != NULL && $item->status == 0)
-                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600">Verificar</a>
+                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i class="fa fa-check-square-o "></i></a>
                                     @endif
                                     
                                     @if(Auth::user()->id == $item->id)
@@ -97,16 +97,17 @@
                                     
                                     <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn">
                                         @csrf
-                                    <button class="btn btn-primary text-bold-600">
-                                    <i class="fa fa-eye"></i>
+                                        <button type="submit" class="btn btn-primary text-bold-600">
+                                            <i class="fa fa-eye"></i>
 
-                                    </button>
+                                        </button>
+
                                      </form>
 
                                     <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
                                         <form action="{{route('users.destroy-user', $item->id)}}" method="post" id="delete{{$item->id}}">
                                             @csrf
-                                            @method('DELETE')
+                                            @method('DELETE')admin
                                         </form>
                                         <i class="fa fa-trash"></i>
                                     </button>
