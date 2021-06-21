@@ -11,11 +11,9 @@
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
-                                    {{-- <th>ID</th> --}}
-                                    <th>Usuario</th>
-                                    <th>Grupo</th>
-                                    <th>Paquete</th>
-                                    <th>ID de Transación</th>
+                                    <th>ID</th>
+                                    <th>Correo</th>
+                                    <th>Grupo - Paquete</th>
                                     <th>Monto</th>
                                     <th>Estado</th>
                                     <th>Fecha de Creación</th>
@@ -26,11 +24,9 @@
 
                                 @foreach ($ordenes as $orden)
                                 <tr class="text-center">
-                                    {{-- <td>{{$orden->id}}</td> --}}
-                                    <td>{{$orden->name}}</td>
-                                    <td>{{$orden->grupo}}</td>
-                                    <td>{{$orden->paquete}}</td>
-                                    <td>{{$orden->idtransacion}}</td>
+                                    <td>{{$orden->id}}</td>
+                                    <td>{{$orden->getOrdenUser->email}}</td>
+                                    <td>{{$orden->grupo}} - {{$orden->paquete}}</td>
                                     <td>{{$orden->total}}</td>
 
                                     @if ($orden->status == '0')

@@ -197,7 +197,7 @@ class Menu
             ],
             // Fin Ecommerce
             // Informes
-            'Informenes' => [
+            'Informes' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -218,7 +218,7 @@ class Menu
                     ],
                 ],
             ],
-            // Fin Informenes
+            // Fin Informes
             //Inverisones
             'Inversiones' => [
                 'submenu' => 1,
