@@ -98,10 +98,12 @@ class InversionController extends Controller
                 ['status', '=', 1]
             ])->first();
     
-            $capital = ($inversion->capital + $ganacia);
-            $inversion->ganancia = ($inversion->ganancia + $ganacia);
-            $inversion->capital = $capital;
-            $inversion->save();
+            if ($inversion != null) {
+                $capital = ($inversion->capital + $ganacia);
+                $inversion->ganancia = ($inversion->ganancia + $ganacia);
+                $inversion->capital = $capital;
+                $inversion->save();
+            }
         } catch (\Throwable $th) {
             Log::error('InversionController - updateGanancia -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
