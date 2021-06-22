@@ -100,7 +100,7 @@ class InversionController extends Controller
     
             if ($inversion != null) {
                 $capital = ($inversion->capital + $ganacia);
-                $inversion->ganancia = ($inversion->ganancia + $ganacia);
+                $inversion->ganacia = ($inversion->ganacia + $ganacia);
                 $inversion->capital = $capital;
                 $inversion->save();
             }
