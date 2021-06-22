@@ -25,7 +25,7 @@ class CreateInversionsTable extends Migration
             $table->double('ganacia');
             $table->double('retiro');
             $table->double('capital');
-            $table->double('pogreso');
+            $table->double('progreso');
             $table->date('fecha_vencimiento');
             $table->tinyInteger('status')->default(1)->comment('1 - activo , 2 - culminada');
             $table->timestamps();
