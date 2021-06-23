@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wallet;
+use App\Models\OrdenPurchases;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\ActivacionController;
+use App\Http\Controllers\TiendaController;
 
 class HomeController extends Controller
 {
+    public $reportController;
     public $treeController;
-    public $ticketController;
+    public $activacionController;
     public $servicioController;
     public $addsaldoController;
     public $walletController;
+    public $tiendaController;
 
     /**
      * Create a new controller instance.
@@ -25,9 +31,11 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->tiendaController = new TiendaController();
         $this->treeController = new TreeController;
-
+        $this->reportController = new ReporteController();
         $this->walletController = new WalletController;
+        $this->activacionController = new ActivacionController();
     }
 
     /**
@@ -39,6 +47,9 @@ class HomeController extends Controller
     {
         try {
             View::share('titleg', '');
+            $this->activacionController->activarUser();
+            $this->activacionController->deleteUser();
+            $this->tiendaController->getOrdenes();
             $data = $this->dataDashboard(Auth::id());
             return view('dashboard.index', compact('data'));
         } catch (\Throwable $th) {
@@ -49,6 +60,7 @@ class HomeController extends Controller
 
     public function indexUser()
     {
+
         try {
             View::share('titleg', '');
             $data = $this->dataDashboard(Auth::id());
@@ -74,8 +86,10 @@ class HomeController extends Controller
             'wallet' => Auth::user()->wallet,
             'comisiones' => $this->walletController->getTotalComision($iduser),
             'tickets' => 0,
-            'ordenes' => 0,
-            'usuario' => Auth::user()->fullname
+            'ordenes' => $this->reportController->getOrdenes(10),
+            'usuario' => Auth::user()->fullname,
+            'rewards' => Wallet::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()->sum('debito'),
+            'packages' => OrdenPurchases::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()
         ];
 
         return $data;

@@ -11,16 +11,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TreeController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use App\Http\Controllers\InversionController;
+use App\Models\CierreComision;
 
 class WalletController extends Controller
 {
     //
 
     public $treeController;
+    public $inversionController;
 
     public function __construct()
     {
+        $this->inversionController = new InversionController;
         $this->treeController = new TreeController;
         View::share('titleq', 'Billetera');
     }
@@ -40,6 +43,18 @@ class WalletController extends Controller
         return view('wallet.index', compact('wallets'));
     }
 
+     /**
+     * Lleva a la vista de pagos
+     *
+     * @return void
+     */
+    public function payments()
+    {
+
+        $payments = Wallet::where([['iduser', '=', Auth::user()->id], ['tipo_transaction', '=', '1']])->get();
+
+        return view('wallet.payments', compact('payments'));
+    }
     /**
      * Permite pagar las comisiones a los usuarios
      *
@@ -63,6 +78,9 @@ class WalletController extends Controller
                                 $pocentaje = $this->getPorcentage($sponsor->nivel);
                                 $comision = ($monto * $pocentaje);
                                 $this->preSaveWallet($sponsor->id, $iduser, $idcierre, $comision, $concepto);
+
+                                $cierrre = CierreComision::find($idcierre);
+                                $this->inversionController->updateGanancia($sponsor->id, $cierrre->package_id, $comision);
                             }else{
                                 $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
                             }
@@ -115,23 +133,6 @@ class WalletController extends Controller
         ];
 
         return $nivelPorcentaje[$nivel];
-    }
-
-    /**
-     * Permite Recalcular el monto a pagar por el tipo de medio que recargo
-     *
-     * @param float $monto
-     * @param string $tipo_pago
-     * @return float
-     */
-    public function recalcularMonto(float $monto, string $tipo_pago):float
-    {
-        $arrayMetodo = [
-            'payulatam' => 1.10, 'manual' => 1.00, 'stripe' => 1.10, 'coinbase' => 1.02
-        ];
-        
-        $resultado = ($monto / $arrayMetodo[strtolower($tipo_pago)]);
-        return $resultado;
     }
 
     /**

@@ -1,9 +1,9 @@
 var vm_dashboard = new Vue({
     el: '#dashboard-analytics',
-    created:function (){
+    created: function () {
         this.getDataGraphics()
     },
-    data: function(){
+    data: function () {
         return {
             Colores: {
                 primary: '#188EFF',
@@ -17,18 +17,16 @@ var vm_dashboard = new Vue({
             DataInfoGraphic: []
         }
     },
-    methods:{
+    methods: {
         /**
          * Permite obtener los datos para la grafica e inicializarla
          */
-        getDataGraphics: function(){
+        getDataGraphics: function () {
             let url = route('home.data.graphic')
             axios.get(url).then((response) => {
                 this.DataInfoGraphic = response.data
-                this.graphicSaldo()
-                this.graphicComision()
-                this.graphicOrdenes()
-                this.graphicTickets()
+                this.graphicInversiones()
+                this.graphicPucharse()
             })
         },
 
@@ -36,299 +34,122 @@ var vm_dashboard = new Vue({
          * Permite Actualizar el lado a registrar un usuario
          * @param {string} side 
          */
-        updateBinarySide: function(side){
+        updateBinarySide: function (side) {
             // let url = route('ajax.update.side.binary', side)
             // axios.get(url).then((response) => {
             //     if (response.data == 'bien') {
-                    getlink(side)
-                }
+            getlink(side)
+            // }
             // }).catch(function (error) {
             //     toastr.warning("Ocurrio un error al Actualizar el lado binario", '¡Advertencia!', { "progressBar": true });
             // })
         },
 
         /**
-         * Permite generar la grafica de saldo
+         * Muestra la grafica de comisiones
          */
-        graphicSaldo: function(){
-            var gainedChartoptions = {
+        graphicPucharse: function () {
+            // Column Chart
+            // ----------------------------------
+            var columnChartOptions = {
                 chart: {
-                    height: 100,
-                    type: 'area',
-                    toolbar:{
-                      show: false,
-                    },
-                    sparkline: {
-                        enabled: true
-                    },
-                    grid: {
-                        show: false,
-                        padding: {
-                            left: 0,
-                            right: 0
-                        }
-                    },
+                    height: 350,
+                    type: 'bar',
                 },
                 colors: [this.Colores.primary],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        endingShape: 'rounded',
+                        columnWidth: '55%',
+                    },
+                },
                 dataLabels: {
                     enabled: false
                 },
                 stroke: {
-                    curve: 'smooth',
-                    width: 2.5
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 0.9,
-                        opacityFrom: 0.7,
-                        opacityTo: 0.5,
-                        stops: [0, 80, 100]
-                    }
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
                 },
                 series: [{
-                    name: 'Saldo',
-                    data: this.DataInfoGraphic.saldo
+                    name: 'Total Compras',
+                    data: this.DataInfoGraphic.ordenes.series,
                 }],
-        
+                legend: {
+                    offsetY: -10
+                },
                 xaxis: {
-                  labels: {
-                    show: false,
-                  },
-                  axisBorder: {
-                    show: false,
-                  }
+                    categories: this.DataInfoGraphic.ordenes.categorias,
                 },
-                yaxis: [{
-                    y: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    padding: { left: 0, right: 0 },
-                }],
+                yaxis: {
+                    title: {
+                        text: '$ (total)'
+                    }
+                },
+                fill: {
+                    opacity: 1
+
+                },
                 tooltip: {
-                    x: { show: false }
-                },
+                    y: {
+                        formatter: function (val) {
+                            return "$ " + val + " Total"
+                        }
+                    }
+                }
             }
-        
-            var gainedChart = new ApexCharts(
-                document.querySelector("#line-area-chart-1"),
-                gainedChartoptions
+            var columnChart = new ApexCharts(
+                document.querySelector("#gcomisiones"),
+                columnChartOptions
             );
-        
-            gainedChart.render();
+
+            columnChart.render();
         },
 
         /**
-         * Permite generar la grafica de comisiones
+         * Muestar la grafica de inversiones
          */
-        graphicComision: function(){
-            var revenueChartoptions = {
-                chart: {
-                    height: 100,
-                    type: 'area',
-                    toolbar:{
-                      show: false,
-                    },
-                    sparkline: {
-                        enabled: true
-                    },
-                    grid: {
-                        show: false,
-                        padding: {
-                            left: 0,
-                            right: 0
-                        }
-                    },
-                },
-                colors: [this.Colores.success],
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2.5
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 0.9,
-                        opacityFrom: 0.7,
-                        opacityTo: 0.5,
-                        stops: [0, 80, 100]
-                    }
-                },
-                series: [{
-                    name: 'Comisiones',
-                    data: this.DataInfoGraphic.comisiones
-                }],
-        
-                xaxis: {
-                  labels: {
-                    show: false,
-                  },
-                  axisBorder: {
-                    show: false,
-                  }
-                },
-                yaxis: [{
-                    y: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    padding: { left: 0, right: 0 },
-                }],
-                tooltip: {
-                    x: { show: false }
-                },
+        graphicInversiones: function () {
+            let colores = []
+            for (const element in this.Colores) {
+                if (Object.hasOwnProperty.call(this.Colores, element)) {
+                    colores.push(this.Colores[element]);
+                }
             }
-        
-            var revenueChart = new ApexCharts(
-                document.querySelector("#line-area-chart-2"),
-                revenueChartoptions
-            );
-        
-            revenueChart.render();
-        },
-
-        /**
-         * Permite generar la grafica de los tickets
-         */
-        graphicTickets: function(){
-            var salesChartoptions = {
+            // Pie Chart
+            // -----------------------------
+            var pieChartOptions = {
                 chart: {
-                    height: 100,
-                    type: 'area',
-                    toolbar:{
-                      show: false,
+                    type: 'pie',
+                    height: 350
+                },
+                colors: colores,
+                labels: this.DataInfoGraphic.inversiones.label,
+                series: this.DataInfoGraphic.inversiones.cantidad,
+                legend: {
+                    itemMargin: {
+                        horizontal: 2
                     },
-                    sparkline: {
-                        enabled: true
-                    },
-                    grid: {
-                        show: false,
-                        padding: {
-                            left: 0,
-                            right: 0
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 350
+                        },
+                        legend: {
+                            position: 'bottom'
                         }
-                    },
-                },
-                colors: [this.Colores.danger],
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2.5
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 0.9,
-                        opacityFrom: 0.7,
-                        opacityTo: 0.5,
-                        stops: [0, 80, 100]
                     }
-                },
-                series: [{
-                    name: 'Ordenes',
-                    data: this.DataInfoGraphic.tickets
-                }],
-        
-                xaxis: {
-                  labels: {
-                    show: false,
-                  },
-                  axisBorder: {
-                    show: false,
-                  }
-                },
-                yaxis: [{
-                    y: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    padding: { left: 0, right: 0 },
-                }],
-                tooltip: {
-                    x: { show: false }
-                },
+                }]
             }
-        
-            var salesChart = new ApexCharts(
-                document.querySelector("#line-area-chart-3"),
-                salesChartoptions
+            var pieChart = new ApexCharts(
+                document.querySelector("#ginversiones"),
+                pieChartOptions
             );
-        
-            salesChart.render();
-        },
-
-        /**
-         * Permite generar la grafica de las ordenes
-         */
-        graphicOrdenes: function(){
-            var orderChartoptions = {
-                chart: {
-                    height: 100,
-                    type: 'area',
-                    toolbar:{
-                      show: false,
-                    },
-                    sparkline: {
-                        enabled: true
-                    },
-                    grid: {
-                        show: false,
-                        padding: {
-                            left: 0,
-                            right: 0
-                        }
-                    },
-                },
-                colors: [this.Colores.warning],
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2.5
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shadeIntensity: 0.9,
-                        opacityFrom: 0.7,
-                        opacityTo: 0.5,
-                        stops: [0, 80, 100]
-                    }
-                },
-                series: [{
-                    name: 'Ordenes',
-                    data: this.DataInfoGraphic.ordenes
-                }],
-        
-                xaxis: {
-                  labels: {
-                    show: false,
-                  },
-                  axisBorder: {
-                    show: false,
-                  }
-                },
-                yaxis: [{
-                    y: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    padding: { left: 0, right: 0 },
-                }],
-                tooltip: {
-                    x: { show: false }
-                },
-            }
-        
-            var orderChart = new ApexCharts(
-                document.querySelector("#line-area-chart-4"),
-                orderChartoptions
-            );
-        
-            orderChart.render();
+            pieChart.render();
         }
+
     }
 })

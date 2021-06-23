@@ -61,7 +61,7 @@
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
-                                <h2 class="text-bold-700">100</h2>
+                                <h2 class="text-bold-700">{{ number_format($data['rewards'], '2', ',', '.') }}</h2>
                                 <p class="mb-0">Total de Rewards</p>
                             </div>
                             <div class="avatar bg-rgba-success p-50">

@@ -25,6 +25,7 @@
     <script>
         $('.myTable').DataTable({
             responsive: true
+            
         })
     </script>
 @endpush

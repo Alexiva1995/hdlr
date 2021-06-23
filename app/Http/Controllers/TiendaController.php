@@ -9,15 +9,18 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\InversionController;
 
 
 class TiendaController extends Controller
 {
 
     public $apis_key_nowpayments;
+    public $inversionController;
 
     public function __construct()
     {
+        $this->inversionController = new InversionController();
         $this->apis_key_nowpayments = 'DV2D091-26V48MG-NDRX33X-7F5EJT7';
     }
     
@@ -113,21 +116,53 @@ class TiendaController extends Controller
      */
     public function saveOrden($data): int
     {
-        return OrdenPurchases::insertGetId($data);
+        $orden = OrdenPurchases::create($data);
+        return $orden->id;
     }
 
     /**
      * Notifica el estado de la compra una vez realizada
      *
+     * @param integer $orden
      * @param string $status
      * @return void
      */
-    public function statusProcess($status)
+    public function statusProcess($orden, $status)
     {
         $type = ($status == 'Completada') ? 'success' : 'danger';
         $msj = 'Compra '.$status;
 
+        if ($status == 'Completada') {
+            $this->registeInversion($orden);
+        }
+
         return redirect()->route('shop')->with('msj-'.$type, $msj);
+    }
+
+    /**
+     * Permite Registrar las ordenes de forma manual
+     *
+     * @return void
+     */
+    public function getOrdenes()
+    {
+        $ordenes = OrdenPurchases::all()->where('status', '1');
+        foreach ($ordenes as $orden) {
+            $this->registeInversion($orden->id);
+        }
+    }
+
+    /**
+     * Permite llamar al funcion que registra las inversiones
+     *
+     * @param integer $idorden
+     * @return void
+     */
+    private function registeInversion($idorden)
+    {
+        $orden = OrdenPurchases::find($idorden);
+        $paquete = $orden->getPackageOrden;
+        $this->inversionController->saveInversion($paquete->id, $idorden, $paquete->price, $paquete->expired, $orden->iduser);
     }
 
     /**
@@ -159,14 +194,14 @@ class TiendaController extends Controller
             $curl = curl_init();
 
             $dataRaw = collect([
-                'price_amount' => $data['total'],
+                'price_amount' => floatval($data['total']),
                 "price_currency" => "usd",
                 "order_id" => $data['idorden'],
                 'pay_currency' => 'USDTTRC20',
                 "order_description" => $data['descripcion'],
                 "ipn_callback_url" => route('shop.ipn'),
-                "success_url" => route('shop.proceso.status', 'Completada'),
-                "cancel_url" => route('shop.proceso.status', 'Cancelada')
+                "success_url" => route('shop.proceso.status', [$data['idorden'], 'Completada']),
+                "cancel_url" => route('shop.proceso.status', [$data['idorden'], 'Cancelada']),
             ]);
             
 
@@ -180,7 +215,7 @@ class TiendaController extends Controller
                 CURLOPT_CUSTOMREQUEST => "POST",
                 CURLOPT_POSTFIELDS => $dataRaw->toJson(),
                 CURLOPT_HTTPHEADER => $headers
-            ));+-
+            ));
                 
                 $response = curl_exec($curl);
                 $err = curl_error($curl);

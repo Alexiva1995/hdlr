@@ -28,28 +28,32 @@
                         <p class="m-auto w-75">
                             Verificacion de la cuenta: Sin verificar <span class="text-danger h3">◉</span><br>
                         </p>
-                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 0)
-                        <p class="m-auto w-75">
-                            Verificacion de la cuenta: En revision <span class="text-warning h3">◉</span><br>
-                        </p>
-                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 1)
+                        @elseif (Auth::user()->dni != NULL)
                         <p class="m-auto w-75">
                         Verificacion de la cuenta: Verificada <span class="text-success h3">◉</span><br>
                         </p>
                         @endif
 
                         
-                        @if (Auth::user()->status == 0 && Auth::user()->dni == NULL )
+                        @if (Auth::user()->status == 0)
                         <p class="m-auto w-75">
                             El estado de tu cuenta esta: Inactiva <span class="text-danger h3">◉</span><br>
-                        </p>
-                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 0)
-                        <p class="m-auto w-75">
-                            El estado de tu cuenta esta: Procesando <span class="text-warning h3">◉</span><br>
                         </p>
                         @elseif (Auth::user()->status == 1)
                         <p class="m-auto w-75">
                             El estado de tu cuenta esta: Activa <span class="text-success h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->status == 2)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: suspendido <span class="text-warning h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->status == 3)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: bloqueado <span class="text-warning h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->status == 4)
+                        <p class="m-auto w-75">
+                            El estado de tu cuenta esta: caducado <span class="text-warning h3">◉</span><br>
                         </p>
                         @endif
                   

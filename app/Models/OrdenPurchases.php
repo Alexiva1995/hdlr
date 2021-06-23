@@ -44,4 +44,15 @@ class OrdenPurchases extends Model
     {
         return $this->belongsTo('App\Models\Packages', 'package_id');
     }
+
+    
+    /**
+     * Permite obtener la inversion asociada
+     *
+     * @return void
+     */
+    public function getInversionOrden()
+    {
+        return $this->hasOne('App\Models\Packages', 'orden_id');
+    }
 }

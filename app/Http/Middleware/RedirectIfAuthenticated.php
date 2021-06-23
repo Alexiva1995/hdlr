@@ -22,6 +22,10 @@ class RedirectIfAuthenticated
             if (empty($request->referred_id)) {            
                 return redirect(RouteServiceProvider::HOME);
             }
+            
+            if (Auth::user()->status == '5') {
+                return redirect()->back()->with('Su usuario fue eliminado del sistema. Debe crearse un nuevo usuario para ingresar');
+            }
         }
 
         return $next($request);
