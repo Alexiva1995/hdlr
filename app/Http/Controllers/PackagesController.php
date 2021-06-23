@@ -69,8 +69,7 @@ class PackagesController extends Controller
             'name' => ['required'],
             'group_id' => ['required'],
             'minimum_deposit' => ['required', 'numeric'],
-            'expired' => ['required', 'date'],
-            'price' => ['required', 'numeric'],
+            'expired' => ['required', 'date']
         ]);
 
         try {
@@ -148,8 +147,7 @@ class PackagesController extends Controller
                 'name' => ['required'],
                 'group_id' => ['required'],
                 'minimum_deposit' => ['required', 'numeric'],
-                'expired' => ['required', 'date'],
-                'price' => ['required', 'numeric'],
+                'expired' => ['required', 'date']
              ]);
 
          try {
