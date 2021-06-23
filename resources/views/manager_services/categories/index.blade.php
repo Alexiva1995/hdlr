@@ -35,30 +35,30 @@
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Img</th>
+                                    <th class="d-none d-sm-table-cell">Img</th>
                                     <th>Nombre</th>
-                                    <th>Descripcion</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
+                                    <th class="d-none d-sm-table-cell">Descripcion</th>
+                                    <th class="d-none d-sm-table-cell">Estado</th>
+                                    <th class="d-none d-sm-table-cell">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($categories as $category)
                                 <tr class="text-center">
                                     <td>{{$category->id}}</td>
-                                    <td>
+                                    <td class="d-none d-sm-table-cell">
                                         <img src="{{asset('/storage/'.$category->img)}}" alt="" height="100" width="100">
                                     </td>
                                     <td>{{$category->name}}</td>
-                                    <td>{!!$category->description!!}</td>
-                                    <td>
+                                    <td class="d-none d-sm-table-cell">{!!$category->description!!}</td>
+                                    <td class="d-none d-sm-table-cell">
                                         @if ($category->status == 1)
                                             <span class="badge badge-success text-white">Activo</span>
                                         @else
                                             <span class="badge badge-warning text-white">Desactivado</span>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="d-none d-sm-table-cell">
                                         <button class="btn btn-info" onclick="vm_category.getEditData('{{$category->id}}')">
                                             <i class="fa fa-edit"></i>
                                         </button>
