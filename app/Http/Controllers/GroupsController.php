@@ -6,6 +6,7 @@ use App\Models\Groups;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class GroupsController extends Controller
 {
@@ -52,16 +53,23 @@ class GroupsController extends Controller
             'name' => ['required', 'unique:groups'],
             'img' => ['required', 'mimes:jpeg,png']
         ]);
+
         try {
             if ($validate) {
 
-                $path = $request->file('img')->store(
-                    'groups'
-                );               
+                if ($request->hasFile('img')) {
+                    $file = $request->file('img');
 
+                    $nombre = time().$file->getClientOriginalName();
+                
+                    $ruta = 'groups/'.$nombre;
+             
+                    Storage::disk('public')->put($ruta,  \File::get($file));
+                }
+      
                 $group = Groups::create($request->all());
 
-                $group->img = $path;
+                $group->img = $ruta;
                 $group->save();
                 
                 return redirect()->back()->with('msj-success', 'Nuevo Grupo Creada');
@@ -70,6 +78,7 @@ class GroupsController extends Controller
             Log::error('Grupos - store -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
+        
     }
 
     /**

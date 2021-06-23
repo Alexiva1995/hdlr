@@ -47,7 +47,7 @@
                                 <tr class="text-center">
                                     <td>{{$category->id}}</td>
                                     <td>
-                                        <img src="{{asset('media/'.$category->img)}}" alt="" height="100" width="100">
+                                        <img src="{{asset('/storage/'.$category->img)}}" alt="" height="100" width="100">
                                     </td>
                                     <td>{{$category->name}}</td>
                                     <td>{!!$category->description!!}</td>
