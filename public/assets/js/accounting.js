@@ -3,7 +3,8 @@ var vm_cierreComision = new Vue({
     data: function(){
         return {
             DataCierre: [],
-            SaldoInicial: 0
+            SaldoInicial: 0,
+            id: 0
         }
     },
     computed:{
@@ -16,7 +17,11 @@ var vm_cierreComision = new Vue({
          * Permite Cerrar las ventas de un producto por el momento
          * @param {integer} id 
          */
-        cerrarComisionProducto: function(id){
+        cerrarComisionProducto: function(id, repetir){
+           
+            if(repetir == 'repetir'){
+                $('#modalCierreComisionRealizado').modal('hide') 
+            }
             let url = route('commission_closing.show', id)
             axios.get(url).then((response) => {
                 this.DataCierre = response.data
@@ -25,6 +30,10 @@ var vm_cierreComision = new Vue({
             }).catch(function (error) {
                 toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
             })
+        },
+        abrirModalCierreRealizado: function(id){
+            this.id = id;
+            $('#modalCierreComisionRealizado').modal('show') 
         },
     }
 })

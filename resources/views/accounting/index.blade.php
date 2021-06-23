@@ -24,6 +24,7 @@
                                    <th>Grupo</th>
                                    <th>Paquete</th>
                                    <th>Ingreso</th>
+                                   <th>Fecha del último cierre</th>
                                    <th>Accion</th>
                                 </tr>
 
@@ -42,10 +43,13 @@
                                         {{$orden->ingreso}}
                                     </td>
                                     <td>
+                                         {{$orden->fecha_cierre}}
+                                    </td>
+                                    <td>
                                         @if ($orden->cerrada == 0)
                                         <button class="btn btn-info" onclick="vm_cierreComision.cerrarComisionProducto({{$orden->package_id}})">Cerrar Compras</button>
                                         @else
-                                            Cerrada
+                                        <button class="btn btn-danger" onclick="vm_cierreComision.abrirModalCierreRealizado({{$orden->package_id}})">Cierre realizado</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -60,6 +64,7 @@
     </div>
     {{-- Modal cierre --}}
     @include('accounting.components.modalCierre')
+    @include('accounting.components.modalCierreRealizado')
 </div>
 @endsection
 

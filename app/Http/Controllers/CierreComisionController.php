@@ -48,6 +48,7 @@ class CierreComisionController extends Controller
                     ['group_id', $orden->group_id], ['package_id', $orden->package_id]
                 ])->whereDate('cierre', Carbon::now())->first();
                 $orden->cerrada = ($cierre != null) ? 1 : 0;
+                $orden->fecha_cierre = ($cierre != null) ? $cierre->cierre: '';
             }
 
             return view('accounting.index', compact('ordenes'));
@@ -157,7 +158,6 @@ class CierreComisionController extends Controller
             // $ingreso = $paquete->getOrdenPurchase->where('status', '1')->sum('total');
                                         // ->whereDate('created_at', Carbon::now()->format('Ymd'))
                                         // ->sum('total');
-            $paquete->status = '0';
             $paquete->save();
             
             $data = collect([
