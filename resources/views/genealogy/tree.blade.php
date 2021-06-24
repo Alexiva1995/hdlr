@@ -8,6 +8,20 @@
 
 @section('content')
     <div class="padre">
+        <div class="card d-none" style="width: 33%; position: absolute; right: 50px; z-index: 1;" id="tarjeta">
+            <div class="card-body p-1">
+                <div class="row no-gutters">
+                    <div class="col-4">
+                        <img class="float-left" id="imagen" width="100" height="100">     
+                    </div>
+                    <div class="col-8">
+                        <div class="ml-1"><span class="font-weight-bold">Nombre:</span> <span id="nombre"></span></div> 
+                        <a id="ver_arbol" class="btn btn-primary ml-1 btn-sm" href=>Ver arbol</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <ul>
             <li class="baseli px-0"  style="width:100%;">
                 <a class="base" href="#">
@@ -75,4 +89,14 @@
     </div>
     @endif
 
+    <script type="text/javascript">
+    
+        function tarjeta(data, url){
+            console.log(data);
+            $('#nombre').text(data.fullname);
+            $('#imagen').attr('src', '/storage/'+data.photoDB);
+            $('#tarjeta').removeClass('d-none');
+            $('#ver_arbol').attr('href', url);
+        }
+    </script>
 @endsection

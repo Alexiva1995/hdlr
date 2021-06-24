@@ -82,6 +82,6 @@ class User extends Authenticatable
      */
     public function getUserInversiones()
     {
-        return $this->hasMany('App\Models\Inversiones', 'iduser');
+        return $this->hasMany('App\Models\Inversion', 'iduser');
     }
 }

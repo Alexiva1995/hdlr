@@ -24,6 +24,7 @@ class TreeController extends Controller
             //Titulo
             View::share('titleg', 'Arbol');
             $trees = $this->getDataEstructura(Auth::id(), $type);
+
             $type = ucfirst($type);
             $base = Auth::user();
             $base->logoarbol = asset('assets/img/sistema/favicon.png');
@@ -162,7 +163,8 @@ class TreeController extends Controller
     private function getData($id, $nivel, $typeTree)
     {
         try {
-            $resul = User::where($typeTree, '=', $id)->get();
+            $resul = User::with('getUserInversiones')->where($typeTree, '=', $id)->get();
+
             foreach ($resul as $user) {
                 $user->nivel = $nivel;
                 $user->logoarbol = asset('assets/img/sistema/favicon.png');
