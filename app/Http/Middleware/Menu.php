@@ -257,16 +257,11 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Referidos Directos',
+                        'name' => 'Usuarios',
+                        'ruta' => route('users.list-user'),
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'direct'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Referidos en Red',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'network'),
-                        'complementoruta' => ''
+                        'icon' => 'fa fa-users',
+                        'complementoruta' => '',
                     ],
                 ],
             ],
@@ -305,17 +300,8 @@ class Menu
                         'complementoruta' => ''
                     ]
                 ],
-            ],
+            ]
             // Fin Liquidaciones
-            // Usuarios
-            'Usuarios' => [
-                'submenu' => 0,
-                'ruta' => route('users.list-user'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'fa fa-users',
-                'complementoruta' => '',
-            ],
-            // Fin Usuarios
 
         ];
     }
