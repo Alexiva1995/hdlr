@@ -73,9 +73,10 @@ class TiendaController extends Controller
     public function procesarOrden(Request $request)
     {
         $validate = $request->validate([
-            'idproduct' => 'required'
+            'idproduct' => 'required',
+            'deposito' => 'required|numeric|min:20'
         ]);
-
+    
         try {
             if ($validate) {
                 $paquete = Packages::find($request->idproduct);
@@ -93,6 +94,7 @@ class TiendaController extends Controller
 
                 $data['idorden'] = $this->saveOrden($data);
                 $data['descripcion'] = $paquete->description;
+                //$data['Amount'] = $request->deposito;
                 $url = $this->generalUrlOrden($data);
                 if (!empty($url)) {
                     return redirect($url);
@@ -202,6 +204,7 @@ class TiendaController extends Controller
                 "ipn_callback_url" => route('shop.ipn'),
                 "success_url" => route('shop.proceso.status', [$data['idorden'], 'Completada']),
                 "cancel_url" => route('shop.proceso.status', [$data['idorden'], 'Cancelada']),
+                //"Amount" => $data['Amount']
             ]);
             
 
