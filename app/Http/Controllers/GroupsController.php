@@ -133,6 +133,16 @@ class GroupsController extends Controller
                 'img' => ['required', 'mimes:jpeg,png'],
             ]);
         }
+
+        if ($request->hasFile('img')) {
+            $file = $request->file('img');
+
+            $nombre = time().$file->getClientOriginalName();
+        
+            $ruta = 'groups/'.$nombre;
+     
+            Storage::disk('public')->put($ruta,  \File::get($file));
+        }
         
         try {
             if ($validate) {
@@ -142,10 +152,8 @@ class GroupsController extends Controller
                 $category->status = $request->status;
                 $category->description = $request->description;
                 if ($request->file('img')) {
-                    $path = $request->file('img')->store(
-                        'groups'
-                    );
-                    $category->img = $path;
+                
+                    $category->img = $ruta;
                 }
                 $category->save();                
                 
