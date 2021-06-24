@@ -165,13 +165,15 @@ class UserController extends Controller
         $user->update($request->all());
   
         if ($request->hasFile('photoDB')) {
-
             $file = $request->file('photoDB');
-            $name = $user->id.'_'.$file->getClientOriginalName();
-            $file->move(public_path('storage') . '/photo', $name);
-            $user->photoDB = $name;
-    
-         }
+
+            $nombre = time().$file->getClientOriginalName();
+
+            $ruta = 'photo/'. $user->id .'/'.$nombre;
+
+            Storage::disk('public')->put($ruta,  \File::get($file));
+            $user->photoDB = $ruta;
+        }
 
         $user->fullname = $fullname;
         // $user->utc = $request->utc;
@@ -245,14 +247,16 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-     if ($request->hasFile('photoDB')) {
+        if ($request->hasFile('photoDB')) {
+            $file = $request->file('photoDB');
 
-        $file = $request->file('photoDB');
-        $name = $user->id.'_'.$file->getClientOriginalName();
-        $file->move(public_path('storage') . '/photo', $name);
-        $user->photoDB = $name;
+            $nombre = time().$file->getClientOriginalName();
 
-     }
+            $ruta = 'photo/'. $user->id .'/'.$nombre;
+
+            Storage::disk('public')->put($ruta,  \File::get($file));
+            $user->photoDB = $ruta;
+        }
 
         $user->fullname = $fullname;
         $user->whatsapp = $request->whatsapp;
