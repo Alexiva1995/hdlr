@@ -81,14 +81,14 @@ class TiendaController extends Controller
             if ($validate) {
                 $paquete = Packages::find($request->idproduct);
 
-                $porcentaje = ($paquete->price * 0.03);
-                $total = ($paquete->price + $porcentaje);
+                $porcentaje = ($request->deposito * 0.03);
+                $total = ($request->deposito + $porcentaje);
                 
                 $data = [
                     'iduser' => Auth::id(),
                     'group_id' => $paquete->getGroup->id,
                     'package_id' => $paquete->id,
-                    'cantidad' => 1,
+                    'cantidad' => $request->deposito,
                     'total' => $total
                 ];
 
