@@ -7,10 +7,9 @@
 @endpush
 
 @section('content')
-<div class="col-12 text-center">
     <div class="padre">
         <ul>
-            <li class="baseli">
+            <li class="baseli px-0"  style="width:100%;">
                 <a class="base" href="#">
                     <img src="{{$base->logoarbol}}" alt="{{$base->name}}" title="{{$base->name}}" height="82" class="pt-1">
                 </a>
@@ -75,5 +74,5 @@
         <a class="btn btn-info" href="{{route('genealogy_type', strtolower($type))}}">Regresar a mi arbol</a>
     </div>
     @endif
-</div>
+
 @endsection
