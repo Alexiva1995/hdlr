@@ -300,31 +300,8 @@ class Menu
                         'complementoruta' => ''
                     ]
                 ],
-            ],
+            ]
             // Fin Liquidaciones
-            // Referidos
-            'Referidos' => [
-                'submenu' => 1,
-                'ruta' => 'javascript:;',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-users',
-                'complementoruta' => '',
-                'submenus' => [
-                    [
-                        'name' => 'Directos',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'direct'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'En Red',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'network'),
-                        'complementoruta' => ''
-                    ]
-                ],
-            ],
-            // Fin Referidos
 
         ];
     }
