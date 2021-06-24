@@ -7,13 +7,13 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped" data-order='[[ 6, "desc" ]]'>
+                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
                                     <th>ID</th>
                                     <th>Correo</th>
-                                    <th>Grupo - Paquete</th>
+                                    <th>Paquete</th>
                                     <th>Monto</th>
                                     <th>Estado</th>
                                     <th>Fecha de Creación</th>
