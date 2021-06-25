@@ -150,13 +150,13 @@ class CierreComisionController extends Controller
     {
         try {
             $paquete = Packages::find($id);
-            $ultimoSaldo = CierreComision::where('package_id', $id)->select('s_final', 'cierre')->orderBy('id', 'desc')->first();
+            $ultimoSaldo = CierreComision::where('package_id', $id)->select('s_final', 'cierre', 'created_at')->orderBy('id', 'desc')->first();
 
             if(isset($ultimoSaldo) && $ultimoSaldo->cierre != null){
                 $ingreso = OrdenPurchases::where([
                     ['status', '=', '1'],
                     ['package_id', '=', $id]
-                ])->whereDate('created_at', '>', $ultimoSaldo->cierre)->get()->sum('cantidad');
+                ])->where('created_at', '>=', $ultimoSaldo->created_at)->get()->sum('cantidad');
             }else{
                 $ingreso = OrdenPurchases::where([
                     ['status', '=', '1'],
