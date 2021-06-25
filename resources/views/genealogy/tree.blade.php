@@ -8,15 +8,20 @@
 
 @section('content')
     <div class="padre">
-        <div class="card d-none" style="width: 33%; position: absolute; right: 50px; z-index: 1;" id="tarjeta">
+        <div class="card d-none shadow-lg" style="margin-bottom: 0px;" id="tarjeta">
             <div class="card-body p-1">
                 <div class="row no-gutters">
                     <div class="col-4">
-                        <img class="float-left" id="imagen" width="100" height="100">     
+                        <img class="float-left rounded-circle shadow-lg" id="imagen" width="96" height="96">     
                     </div>
                     <div class="col-8">
                         <div class="ml-1"><span class="font-weight-bold">Nombre:</span> <span id="nombre"></span></div> 
-                        <a id="ver_arbol" class="btn btn-primary ml-1 btn-sm" href=>Ver arbol</a> 
+            
+                        <div class="ml-1"><span class="font-weight-bold">Inversion:</span> <span id="inversion"></span></div>
+
+                        <div class="ml-1 mb-1"><span class="font-weight-bold">Estado:</span> <span id="estado"></span></div>
+
+                        <div class="ml-1"><a id="ver_arbol" class="btn btn-primary btn-sm btn-block" href=>Ver arbol</a></div>
                     </div>
                 </div>
             </div>
@@ -95,8 +100,17 @@
             console.log(data);
             $('#nombre').text(data.fullname);
             $('#imagen').attr('src', '/storage/'+data.photoDB);
-            $('#tarjeta').removeClass('d-none');
             $('#ver_arbol').attr('href', url);
+            $('#inversion').text(data.inversion);
+            if(data.status == 0){
+                $('#estado').html('<span class="badge badge-warning">Inactivo</span>');
+            }else if(data.status == 1){
+                $('#estado').html('<span class="badge badge-success">Activo</span>');
+            }else if(data.status == 2){
+                $('#estado').html('<span class="badge badge-danger">Eliminado</span>');
+            }
+            
+            $('#tarjeta').removeClass('d-none');
         }
     </script>
 @endsection

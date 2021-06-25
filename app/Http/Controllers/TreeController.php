@@ -168,6 +168,8 @@ class TreeController extends Controller
             foreach ($resul as $user) {
                 $user->nivel = $nivel;
                 $user->logoarbol = asset('assets/img/sistema/favicon.png');
+                $user->inversion = $user->montoInvertido();
+            
             }
             return $resul;
         } catch (\Throwable $th) {
