@@ -37,7 +37,7 @@ class CierreComisionController extends Controller
             View::share('titleg', 'Cierre de Comisiones');
 
             $ordenes = OrdenPurchases::where('status', '=', '1')
-                                    ->selectRaw('SUM(total) as ingreso, group_id, package_id')
+                                    ->selectRaw('SUM(cantidad) as ingreso, group_id, package_id')
                                     // ->whereDate('created_at', Carbon::now()->format('Ymd'))
                                     ->groupBy('package_id', 'group_id')
                                     ->get();
@@ -154,7 +154,7 @@ class CierreComisionController extends Controller
             $ingreso = OrdenPurchases::where([
                 ['status', '=', '1'],
                 ['package_id', '=', $id]
-            ])->get()->sum('total');
+            ])->get()->sum('cantidad');
             // $ingreso = $paquete->getOrdenPurchase->where('status', '1')->sum('total');
                                         // ->whereDate('created_at', Carbon::now()->format('Ymd'))
                                         // ->sum('total');
