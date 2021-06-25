@@ -150,11 +150,19 @@ class CierreComisionController extends Controller
     {
         try {
             $paquete = Packages::find($id);
-            $ultimoSaldo = CierreComision::where('package_id', $id)->select('s_final')->orderBy('id', 'desc')->first();
-            $ingreso = OrdenPurchases::where([
-                ['status', '=', '1'],
-                ['package_id', '=', $id]
-            ])->get()->sum('cantidad');
+            $ultimoSaldo = CierreComision::where('package_id', $id)->select('s_final', 'cierre')->orderBy('id', 'desc')->first();
+
+            if($ultimoSaldo->cierre != null){
+                $ingreso = OrdenPurchases::where([
+                    ['status', '=', '1'],
+                    ['package_id', '=', $id]
+                ])->whereDate('created_at', '>', $ultimoSaldo->cierre)->get()->sum('cantidad');
+            }else{
+                $ingreso = OrdenPurchases::where([
+                    ['status', '=', '1'],
+                    ['package_id', '=', $id]
+                ])->get()->sum('cantidad');
+            }    
             // $ingreso = $paquete->getOrdenPurchase->where('status', '1')->sum('total');
                                         // ->whereDate('created_at', Carbon::now()->format('Ymd'))
                                         // ->sum('total');
