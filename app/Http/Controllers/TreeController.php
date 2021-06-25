@@ -45,7 +45,7 @@ class TreeController extends Controller
     {
         try {
             $allNetwork = ($network == 'direct') ? 1 : 0;
-            $users = $this->getChidrens2(Auth::id(), [], 1, 'referred_id', $allNetwork);
+            $users = $this->getChidrenHasta5(Auth::id(), [], 1, 'referred_id', $allNetwork);
             $title = ($network == 'direct') ? 'Directo' : ' En Red';
             //Titulo
             View::share('titleg', 'Referidos '.$title);
@@ -224,6 +224,37 @@ class TreeController extends Controller
                     foreach($data as $user){
                         $array_tree_user [] = $user;
                         $array_tree_user = $this->getChidrens2($user->id, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                    }
+                }
+            }
+            return $array_tree_user;
+        } catch (\Throwable $th) {
+            Log::error('Tree - getChildrens2 -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    public function getChidrenHasta5($parent, $array_tree_user, $nivel, $typeTree, $allNetwork)
+    {   
+        try {
+            if (!is_array($array_tree_user))
+            $array_tree_user = [];
+        
+            $data = $this->getData($parent, $nivel, $typeTree);
+            
+            if (count($data) > 0) {
+                if ($allNetwork == 1) {
+                    foreach($data as $user){
+                        if ($user->nivel == 1) {
+                            $array_tree_user [] = $user;
+                        }
+                    }
+                }else{
+                    foreach($data as $user){
+                        if ($user->nivel < 5) {
+                            $array_tree_user [] = $user;
+                            $array_tree_user = $this->getChidrenHasta5($user->id, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                        }
                     }
                 }
             }
