@@ -27,7 +27,7 @@
                                     <div class="card-content d-flex">
                                         <div class="card-body">
                                             <h4 class="card-title">{{$product->name}}</h4>
-                                            <p class="card-text">{{$product->description}}</p>
+                                            <p class="card-text">{!! $product->description !!}</p>
                                             <p class="card-text">Fecha Vencimiento: <br> {{date('d-m-Y', strtotime($product->expired))}}</p>
                                             <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#modalCompra{{$product->id}}">Comprar</button>
                                             
