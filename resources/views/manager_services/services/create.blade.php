@@ -57,7 +57,6 @@
                                     <th>Nombre</th>
                                     <th>Deposito Minimo</th>
                                     <th>Fecha Vencimiento</th>
-                                    <th>Precio</th>
                                     <th>Description</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
@@ -70,7 +69,6 @@
                                     <td>{{$service->name}}</td>
                                     <td>{{$service->minimum_deposit}}</td>
                                     <td>{{date('d-m-Y', strtotime($service->expired))}}</td>
-                                    <td>{{$service->price}}</td>
                                     <td>
                                         <button class="btn btn-info" onclick="vm_adminService.getDescription('{{$service->id}}')">
                                             <i class="fa fa-eye"></i>
