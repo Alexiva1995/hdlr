@@ -32,7 +32,7 @@
                     <div class="table-responsive">
                         <h1>Lista de Usuarios</h1>
                         <p>Para ver mas información dar click -> <img src="{{asset('assets/img/sistema/btn-plus.png')}}" alt=""></p>
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
                             
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">

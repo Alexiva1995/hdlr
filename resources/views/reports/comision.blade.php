@@ -7,7 +7,7 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
@@ -41,7 +41,7 @@
                                     <td> <a class=" btn btn-danger text-white text-bold-600">Reservada</a></td>
                                     @endif
 
-                                    <td>{{date('Y-m-d', strtotime($wallet->created_at))}}</td>
+                                    <td>{{date('Y-M-d', strtotime($wallet->created_at))}}</td>
                                 </tr>
                                 @endforeach
                                

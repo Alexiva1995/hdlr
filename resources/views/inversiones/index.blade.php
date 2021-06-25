@@ -7,7 +7,7 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
@@ -28,7 +28,7 @@
                                     <td>{{number_format($inversion->invertido, 2, ',', '.')}}</td>
                                     <td>{{number_format($inversion->ganancia, 2, ',', '.')}}</td>
                                     <td>{{number_format($inversion->capital, 2, ',', '.')}}</td>
-                                    <td>{{date('Y-m-d', strtotime($inversion->fecha_vencimiento))}}</td>
+                                    <td>{{date('Y-M-d', strtotime($inversion->fecha_vencimiento))}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
