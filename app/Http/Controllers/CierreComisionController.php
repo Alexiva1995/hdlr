@@ -79,7 +79,7 @@ class CierreComisionController extends Controller
         $validate = $request->validate([
             's_inicial' => ['required', 'numeric'],
             's_ingreso' => ['required', 'numeric'],
-            's_final' => ['required', 'numeric'],
+            's_final' => ['required', 'numeric', 'min:1'],
             'package_id' => ['required', 'numeric']
         ]);
         try {
