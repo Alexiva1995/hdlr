@@ -7,6 +7,7 @@
 @endpush
 
 @section('content')
+
     <div class="padre">
         <div class="card d-none shadow-lg" style="margin-bottom: 0px;" id="tarjeta">
             <div class="card-body p-1">
@@ -97,9 +98,14 @@
     <script type="text/javascript">
     
         function tarjeta(data, url){
-            console.log(data);
+            //console.log('assets/img/sistema/favicon.png');
             $('#nombre').text(data.fullname);
-            $('#imagen').attr('src', '/storage/'+data.photoDB);
+            if(data.photoDB == null){
+                $('#imagen').attr('src', "{{ asset('/assets/img/sistema/favicon.png') }}" );   
+            }else{
+                $('#imagen').attr('src', '/storage/'+data.photoDB);    
+            }
+            
             $('#ver_arbol').attr('href', url);
             $('#inversion').text(data.inversion);
             if(data.status == 0){
