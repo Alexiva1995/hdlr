@@ -173,9 +173,11 @@ class GroupsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    { 
         try {
-            Groups::find($id)->delete();
+            $grupo = Groups::findOrFail($id);
+            $grupo->status = 0;
+            $grupo->save();
 
             return redirect()->back()->with('msj-success', 'Grupo '.$id.' Eliminada');
         } catch (\Throwable $th) {
