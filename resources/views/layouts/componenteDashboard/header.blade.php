@@ -40,7 +40,7 @@
 
                             @if (Auth::user()->photoDB != NULL)
                             <span>
-                                <img class="round" src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
+                                <img class="round" src="{{asset('storage/'.Auth::user()->photoDB)}}"
                                     alt="{{ Auth::user()->fullname }}" height="50" width="50">
                             </span>
                             @else

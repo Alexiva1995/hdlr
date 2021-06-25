@@ -82,6 +82,18 @@ class User extends Authenticatable
      */
     public function getUserInversiones()
     {
-        return $this->hasMany('App\Models\Inversiones', 'iduser');
+        return $this->hasMany('App\Models\Inversion', 'iduser');
+    }
+
+    public function montoInvertido()
+    {
+        $monto = 0;
+        foreach($this->getUserInversiones as $inversion){
+            if($inversion->status == 1){
+                $monto+= $inversion->invertido;
+            }
+        }
+
+        return number_format($monto,2);
     }
 }
