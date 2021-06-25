@@ -133,19 +133,16 @@ class Menu
                         'ruta' => route('wallet.index'),
                         'complementoruta' => '',
                     ],
+                    [
+                        'name' => 'Historial de Ordenes',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('shop.orden.history'),
+                        'complementoruta' => '',
+                    ],
                 ],
             ],
             // Fin Financiero
 
-            // Historial de Ordenes
-            'Historial de Ordenes' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-clipboard',
-                'complementoruta' => '',
-            ],
-            // Fin historial de ordenes
         ];
     }
     
@@ -275,6 +272,13 @@ class Menu
                 'icon' => 'fa fa-list-alt',
                 'complementoruta' => '',
                 'submenus' => [
+
+                    [
+                        'name' => 'Cierre Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('commission_closing.index'),
+                        'complementoruta' => ''
+                    ],
                     [
                         'name' => 'Generar Liquidaciones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -291,12 +295,6 @@ class Menu
                         'name' => 'Liquidaciones Pagadas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.history.status', 'Pagadas'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Cierre Comisiones',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('commission_closing.index'),
                         'complementoruta' => ''
                     ]
                 ],

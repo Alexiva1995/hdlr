@@ -24,7 +24,9 @@
 @push('custom_js')
     <script>
         $('.myTable').DataTable({
-            responsive: true,
+            // responsive: true,
+         scrollX: true,
+
             order: [0, 'desc']
             
         })

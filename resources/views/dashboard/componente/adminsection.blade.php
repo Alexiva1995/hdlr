@@ -29,21 +29,45 @@
             </div>
         </div>
     </div>
+
     <div class="col-lg-6 col-md-12 col-12 mt-1">
         <div class="card text-white bg-gradient-danger bg-red-alt h-100">
-            <div class="card-content d-flex justify-contents-start align-items-center">
+            <div class="card-content align-items-center">
                 <div class="card-body pb-0 pt-1">
-                    <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250" height="250"
-                        class="float-right px-1">
-                    <p class="card-text mt-3">Invita a tus amigos <br> y gana una comision</p>
-                    <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
-                    <p class="card-text">
-                        <button class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light" onclick="getlink()">Copiar link de referido <i class="fa fa-copy"></i></button>
-                    </p>
+
+                    <div class="row">
+
+                        <div class="col-12">
+                    <div class="row">
+
+
+                        <div class="col-md-6 col-12">
+                            <p class="card-text mt-3 ">Invita a tus amigos <br> y gana una comision</p>
+                            <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
+
+                            <button class="btn btn-flat-primary padding-button-short bg-white mt-1 waves-effect waves-light"
+                            onclick="getlink()">Copiar link de referido <i class="fa fa-copy"></i></button>
+                        </div>
+
+                        
+                        <div class="col-md-6 col-12">
+                            <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250"
+                                height="250" class="float-right px-1">
+                                
+                        </div>
+
+
+                      
+                    </div>
+                </div>
+
+                </div>
+         
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 {{-- Segundo Cuadros -> Graficas de Comisiones e inversiones --}}
@@ -61,7 +85,7 @@
         <div class="card h-100">
             <div class="card-content">
                 <div class="card-body">
-                    <div id="ginversiones"  class="mx-auto"></div>
+                    <div id="ginversiones" class="mx-auto"></div>
                 </div>
             </div>
         </div>
@@ -74,10 +98,11 @@
         <div class="card text-white h-100">
             <div class="card-content">
                 <div class="card-body text-center">
-                    <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
-                        <thead class="">
+                    <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped"
+                        data-order='[[ 1, "asc" ]]'>
+                        <thead class="h-100">
 
-                            <tr class="text-center text-white bg-purple-alt2">                                
+                            <tr class="text-center text-white bg-purple-alt2">
                                 <th>ID</th>
                                 <th>Usuario</th>
                                 <th>Grupo</th>
@@ -108,10 +133,11 @@
                                 <td> <a class=" btn btn-danger text-white text-bold-600">Cancelado</a></td>
                                 @endif
 
-                                <td>{{date('Y-m-d', strtotime($orden->created_at))}}</td>
+                                <td>{{date('Y-M-d', strtotime($orden->created_at))}}</td>
+
                             </tr>
                             @endforeach
-                           
+
                         </tbody>
                     </table>
                 </div>
@@ -119,3 +145,5 @@
         </div>
     </div>
 </div>
+
+@include('layouts.componenteDashboard.optionDatatable')

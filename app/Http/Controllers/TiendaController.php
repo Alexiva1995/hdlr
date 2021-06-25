@@ -43,6 +43,26 @@ class TiendaController extends Controller
         }
     }
 
+
+
+    public function ordenHistory()
+    {
+        try {
+            // title
+            // View::sxhare('titleg', 'Tienda - Grupos');
+
+            $ordenes = OrdenPurchases::all()->where('iduser', '=', Auth::user()->id);
+
+            
+            return view('shop.orderhistory', compact('ordenes'));
+        } catch (\Throwable $th) {
+            // Log::error('Tienda - Index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+
+
     /**
      * Lleva a la vista de productos de un paquete en especificio
      *

@@ -60,6 +60,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::post('/procces', 'TiendaController@procesarOrden')->name('shop.procces');
         Route::post('/ipn', 'TiendaController@ipn')->name('shop.ipn');
         Route::get('{orden}/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
+        Route::get('orden-history', 'TiendaController@ordenHistory')->name('shop.orden.history');
     });
 
     // Ruta para las funciones por alla que no correspondan a otra seccion

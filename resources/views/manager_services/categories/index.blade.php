@@ -31,7 +31,7 @@
                         </button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>

@@ -7,12 +7,11 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
                                     <th>ID</th>
-                                    <th>Correo</th>
                                     <th>Paquete</th>
                                     <th>Monto</th>
                                     <th>Estado</th>
@@ -25,8 +24,7 @@
                                 @foreach ($ordenes as $orden)
                                 <tr class="text-center">
                                     <td>{{$orden->id}}</td>
-                                    <td>{{$orden->getOrdenUser->email}}</td>
-                                    <td>{{$orden->grupo}} - {{$orden->paquete}}</td>
+                                    <td>{{$orden->getGroupOrden->name}} - {{$orden->getPackageOrden->name}}</td>
                                     <td>{{$orden->total}}</td>
 
                                     @if ($orden->status == '0')
