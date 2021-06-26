@@ -109,7 +109,7 @@ class CierreComisionController extends Controller
                 }
 
                 $comisiones = $this->generateComision($ganacia, $cierre->package_id, $cierre->group_id, $cierre->s_final);
-            
+                //dd($comisiones);
                 foreach ($comisiones as $comision) {
                    
                     $this->inversionController->updateGanancia($comision['iduser'], $paquete->id, $comision['comision'], $comision['ordenId']);
@@ -142,21 +142,19 @@ class CierreComisionController extends Controller
                 ['group_id', '=', $grupo]
             ])
             ->select(
-                'iduser',
                 DB::raw('SUM(cantidad) as total')
             )
             //->selectRaw('SUM(cantidad) as total, iduser')
             // ->whereDate('created_at', Carbon::now()->format('Ymd'))
-            ->groupBy('iduser')
-            ->first();
-
+            ->get();
+    
             $ordenes = OrdenPurchases::where([
                 ['status', '=', '1'],
                 ['package_id', '=', $paquete],
                 ['group_id', '=', $grupo]
             ])
             ->select(
-                'iduser', 'id',
+                'iduser', 'id','cantidad'
             )
             //->selectRaw('SUM(cantidad) as total, iduser')
             // ->whereDate('created_at', Carbon::now()->format('Ymd'))
@@ -165,7 +163,7 @@ class CierreComisionController extends Controller
             $data = collect();
 
             foreach ($ordenes as $orden) {
-                $porcentaje = (($total->total / $saldo_cierre));
+                $porcentaje = (($total[0]->total / $orden->cantidad));
                 $data->push([
                     'iduser' => $orden->iduser,
                     'comision' => round(($porcentaje * $ganancia), 2),
