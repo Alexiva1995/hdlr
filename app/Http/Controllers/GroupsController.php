@@ -57,17 +57,17 @@ class GroupsController extends Controller
         try {
             if ($validate) {
 
+                $group = Groups::create($request->all());
+
                 if ($request->hasFile('img')) {
                     $file = $request->file('img');
 
                     $nombre = time().$file->getClientOriginalName();
                 
-                    $ruta = 'groups/'.$nombre;
+                    $ruta = 'groups/'.$group->id .'/'.$nombre;
              
                     Storage::disk('public')->put($ruta,  \File::get($file));
                 }
-      
-                $group = Groups::create($request->all());
 
                 $group->img = $ruta;
                 $group->save();
@@ -102,7 +102,7 @@ class GroupsController extends Controller
     {
         try {
             $category = Groups::find($id)->only('name', 'description', 'id', 'status', 'img');
-            $category['img'] = asset('media/'.$category['img']);
+            $category['img'] = asset('storage/'.$category['img']);
             return json_encode($category);
         } catch (\Throwable $th) {
             Log::error('Grupos - edit -> Error: '.$th);
@@ -139,9 +139,10 @@ class GroupsController extends Controller
 
             $nombre = time().$file->getClientOriginalName();
         
-            $ruta = 'groups/'.$nombre;
+            $ruta = 'groups/'.$category->id .'/'.$nombre;
      
             Storage::disk('public')->put($ruta,  \File::get($file));
+            Storage::disk('public')->delete($category->img);
         }
         
         try {
