@@ -21,7 +21,7 @@
 
 $(document).ready(function() {
           @if($user->photoDB != NULL)
-                previewPersistedFile("{{asset('storage/photo/'.$user->photoDB)}}", 'photo_preview');
+                previewPersistedFile("{{asset('storage/'.$user->photoDB)}}", 'photo_preview');
           @endif
         });
    

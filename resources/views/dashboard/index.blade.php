@@ -16,6 +16,17 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/pages/card-analytics.css')}}">
 @endpush
 
+{{-- custom css --}}
+@push('custom_css')
+<style>
+    @media (max-width: 537px) {
+        .d-redirection{
+            flex-direction: row-reverse;
+        }
+    }
+</style>
+@endpush
+
 {{-- page vendor js --}}
 @push('page_vendor_js')
 <script src="{{asset('assets/app-assets/vendors/js/charts/apexcharts.min.js')}}"></script>
