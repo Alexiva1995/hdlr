@@ -257,4 +257,15 @@ class TiendaController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+    public function cambiar_status(Request $request)
+    {
+        $orden = OrdenPurchases::findOrFail($request->id);
+        $orden->status = $request->status;
+        $orden->save();
+
+        $this->registeInversion($request->id);
+
+        return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
+    }
 }

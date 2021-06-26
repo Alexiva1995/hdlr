@@ -61,6 +61,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::post('/ipn', 'TiendaController@ipn')->name('shop.ipn');
         Route::get('{orden}/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
         Route::get('orden-history', 'TiendaController@ordenHistory')->name('shop.orden.history');
+        Route::post('cambiarStatus', 'TiendaController@cambiar_status')->name('cambiarStatus');
     });
 
     // Ruta para las funciones por alla que no correspondan a otra seccion
@@ -134,6 +135,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::prefix('reports')->group(function(){
             Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
             Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
+
         });
 
         
