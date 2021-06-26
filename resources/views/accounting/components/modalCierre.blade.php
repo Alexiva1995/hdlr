@@ -18,7 +18,7 @@
                             <div class="col-12">
                                 <fieldset class="form-group">
                                     <label for="">Saldo Final Anterior</label>
-                                    <input type="number" step="any" class="form-control" disabled :value="DataCierre.saldo_final">
+                                    <input type="number" step="any" class="form-control" readonly="true" :value="DataCierre.saldo_final" name="saldoFinal_anterior">
                                 </fieldset>
                             </div>
                             <div class="col-12">

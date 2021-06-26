@@ -184,7 +184,7 @@ class TiendaController extends Controller
     {
         $orden = OrdenPurchases::find($idorden);
         $paquete = $orden->getPackageOrden;
-        $this->inversionController->saveInversion($paquete->id, $idorden, $paquete->price, $paquete->expired, $orden->iduser);
+        $this->inversionController->saveInversion($paquete->id, $idorden, $orden->cantidad, $paquete->expired, $orden->iduser);
     }
 
     /**

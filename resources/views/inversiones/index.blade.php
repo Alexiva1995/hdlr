@@ -26,7 +26,7 @@
                                     <td>{{$inversion->id}}</td>
                                     <td>{{$inversion->correo}}</td>
                                     <td>{{number_format($inversion->invertido, 2, ',', '.')}}</td>
-                                    <td>{{number_format($inversion->ganancia, 2, ',', '.')}}</td>
+                                    <td>{{number_format($inversion->ganacia, 2, ',', '.')}}</td>
                                     <td>{{number_format($inversion->capital, 2, ',', '.')}}</td>
                                     <td>{{date('Y-M-d', strtotime($inversion->fecha_vencimiento))}}</td>
                                 </tr>

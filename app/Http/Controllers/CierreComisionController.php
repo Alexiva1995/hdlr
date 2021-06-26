@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\WalletController;
+use DB;
 
 class CierreComisionController extends Controller
 {
@@ -19,10 +20,12 @@ class CierreComisionController extends Controller
      * @var WalletController
      */
     public $walletController;
+    public $inversionController;
 
     public function __construct()
     {
         $this->walletController = new WalletController();
+        $this->inversionController = new InversionController;
     }
 
     /**
@@ -80,20 +83,39 @@ class CierreComisionController extends Controller
             's_inicial' => ['required', 'numeric'],
             's_ingreso' => ['required', 'numeric'],
             's_final' => ['required', 'numeric', 'min:1'],
-            'package_id' => ['required', 'numeric']
+            'package_id' => ['required', 'numeric'],
+            'saldoFinal_anterior' => ['required']
         ]);
         try {
             if ($validate) {
                 $paquete = Packages::find($request->package_id);
                 $request['group_id'] = $paquete->group_id;
                 $request['cierre'] = Carbon::now();
+                /*
+                $cierreAnterior = CierreComision::where([['group_id', $request['group_id']], ['package_id', $request->package_id]])->orderBy('id', 'desc')->first();
+
+                if($cierreAnterior){
+                    $s_final = $cierreAnterior->s_final;
+                }else{
+                    $s_final = 0;
+                }
+                */
+
                 $cierre = CierreComision::create($request->all());
-                $ganacia = ($cierre->s_final - $cierre->s_inicial);
-                $comisiones = $this->generateComision($ganacia, $cierre->package_id, $cierre->group_id, $cierre->s_final);
-                foreach ($comisiones as $comision) {
-                    $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $cierre->id);
+                if($request->saldoFinal_anterior > 0){
+                    $ganacia = ($request->saldoFinal_anterior - $cierre->s_inicial);    
+                }else{
+                    $ganacia = $cierre->s_inicial;
                 }
 
+                $comisiones = $this->generateComision($ganacia, $cierre->package_id, $cierre->group_id, $cierre->s_final);
+            
+                foreach ($comisiones as $comision) {
+                   
+                    $this->inversionController->updateGanancia($comision['iduser'], $paquete->id, $comision['comision'], $comision['ordenId']);
+                    //$wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $cierre->id);
+              
+                }
                 return redirect()->back()->with('msj-success', 'Cierre realizado y Comisiones pagadas con exito');
             }
         } catch (\Throwable $th) {
@@ -114,25 +136,44 @@ class CierreComisionController extends Controller
     private function generateComision($ganancia, $paquete, $grupo, $saldo_cierre): object
     {
         try {
+            $total = OrdenPurchases::where([
+                ['status', '=', '1'],
+                ['package_id', '=', $paquete],
+                ['group_id', '=', $grupo]
+            ])
+            ->select(
+                'iduser',
+                DB::raw('SUM(cantidad) as total')
+            )
+            //->selectRaw('SUM(cantidad) as total, iduser')
+            // ->whereDate('created_at', Carbon::now()->format('Ymd'))
+            ->groupBy('iduser')
+            ->first();
+
             $ordenes = OrdenPurchases::where([
                 ['status', '=', '1'],
                 ['package_id', '=', $paquete],
                 ['group_id', '=', $grupo]
-            ])->selectRaw('SUM(total) as total, iduser')
+            ])
+            ->select(
+                'iduser', 'id',
+            )
+            //->selectRaw('SUM(cantidad) as total, iduser')
             // ->whereDate('created_at', Carbon::now()->format('Ymd'))
-            ->groupBy('iduser')
             ->get();
+           
             $data = collect();
-    
+
             foreach ($ordenes as $orden) {
-                $porcentaje = (($orden->total / $saldo_cierre));
+                $porcentaje = (($total->total / $saldo_cierre));
                 $data->push([
                     'iduser' => $orden->iduser,
                     'comision' => round(($porcentaje * $ganancia), 2),
-                    'referido' => $orden->getOrdenUser->fullname
+                    'referido' => $orden->getOrdenUser->fullname,
+                    'ordenId' => $orden->id
                 ]);
             }
-            
+        
             return $data;
         } catch (\Throwable $th) {
             Log::error('CierreComision - generateComision -> Error: '.$th);
