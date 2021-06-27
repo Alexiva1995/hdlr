@@ -25,11 +25,13 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
+                    <form action="{{route('liquidation.store')}}" method="post">
+                    @csrf
                     <div class="table-responsive">
                         <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
-                                    {{-- <th> Seleccionar Todo </th>                              --}}
+                                    <th> Seleccionar</th>
                                     <th>ID Usuario</th>
                                     <th>Usuario</th>
                                     <th>Email</th>
@@ -41,9 +43,9 @@
                             <tbody>
                                 @foreach ($comisiones as $comision)
                                     <tr class="text-center">
-                                        {{-- <td>
-                                            <input type="checkbox" value="item.id" name="listComisiones[]">
-                                        </td> --}}
+                                        <td>
+                                            <input type="checkbox" value="{{$comision->iduser}}" name="listUsers[]" value="{{$comision->iduser}}">
+                                        </td> 
                                         <td>{{$comision->iduser}}</td>
                                         <td>{{$comision->getWalletUser->fullname}}</td>
                                         <td>{{$comision->getWalletUser->email}}</td>
@@ -59,6 +61,11 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary">Generar Liquidacion</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>

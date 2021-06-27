@@ -99,7 +99,8 @@ class LiquidactionController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->tipo = 'detallada') {
+        if ($request->tipo == 'detallada'){
+            
             $validate = $request->validate([
                 'listComisiones' => ['required', 'array'],
                 'iduser' => ['required']
@@ -112,7 +113,7 @@ class LiquidactionController extends Controller
 
         try {
             if ($validate) {
-                if ($request->tipo = 'detallada') {
+                if ($request->tipo == 'detallada'){
                     $this->generarLiquidation($request->iduser, $request->listComisiones);
                 }else{
                     foreach ($request->listUsers as $iduser) {
