@@ -2,6 +2,18 @@
 
 @push('vendor_css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/extensions/sweetalert2.min.css')}}">
+<style type="text/css">
+
+    #table_detalle{
+        overflow-y: hidden; 
+        overflow-x: auto;
+        width: auto;
+        height: 50px;
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+</style>
 @endpush
 
 @push('page_vendor_js')

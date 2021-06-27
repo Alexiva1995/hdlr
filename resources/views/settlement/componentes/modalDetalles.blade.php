@@ -13,46 +13,48 @@
                 <form action="{{route('liquidation.store')}}" method="post">
                     @csrf
                     <input type="hidden" name="iduser" :value="ComisionesDetalles.iduser">
-                    <table class="table w-100 nowrap scroll-horizontal-vertical table-striped myTable" style="width: 100%">
-                        <thead>
-                            <tr class="text-center">
-                                @if ($all)
-                                <th> 
-                                    <button type="button" class="btn" :class="(seleAllComision) ? 'btn-danger' : 'btn-info'" v-on:click="seleAllComision = !seleAllComision">
-                                        <i class="fa" :class="(seleAllComision) ? 'fa-square-o' : 'fa-check-square'"></i>
-                                    </button>
-                                </th>
-                                @endif
-                                <th>ID Comision</th>
-                                <th>Fecha</th>
-                                <th>Concepto</th>
-                                <th>ID Referido</th>
-                                <th>Referido</th>
-                                <th>Monto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in ComisionesDetalles.comisiones" class="text-center">
-                                @if ($all)
-                                <td>
-                                    <input type="checkbox" :value="item.id" :checked="(seleAllComision) ? true : false" name="listComisiones[]">
-                                </td>
-                                @endif
-                                <td v-text="item.id"></td>
-                                <td v-text="item.fecha"></td>
-                                <td v-text="item.descripcion"></td>
-                                <td v-text="item.referred_id"></td>
-                                <td v-text="item.referido.fullname"></td>
-                                <td v-text="item.debito +' $'"></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th colspan="4" class="text-right">Total Comision</th>
-                                <th colspan="2" v-text="ComisionesDetalles.total+' $'" class="text-right"></th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical table-striped " style="width: 100%;" id="table_detalle">
+                            <thead>
+                                <tr class="text-center">
+                                    @if ($all)
+                                    <th> 
+                                        <button style="position: relative; z-index: 1;" type="button" class="btn" :class="(seleAllComision) ? 'btn-danger' : 'btn-info'" v-on:click="seleAllComision = !seleAllComision">
+                                            <i class="fa" :class="(seleAllComision) ? 'fa-square-o' : 'fa-check-square'"></i>
+                                        </button>
+                                    </th>
+                                    @endif
+                                    <th>ID Comision</th>
+                                    <th>Fecha</th>
+                                    <th>Concepto</th>
+                                    <th>ID Referido</th>
+                                    <th>Referido</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in ComisionesDetalles.comisiones" class="text-center">
+                                    @if ($all)
+                                    <td>
+                                        <input type="checkbox" :value="item.id" :checked="(seleAllComision) ? true : false" name="listComisiones[]">
+                                    </td>
+                                    @endif
+                                    <td v-text="item.id"></td>
+                                    <td v-text="item.fecha"></td>
+                                    <td v-text="item.descripcion"></td>
+                                    <td v-text="item.referred_id"></td>
+                                    <td v-text="item.referido.fullname"></td>
+                                    <td v-text="item.debito +' $'"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" class="text-right">Total Comision</th>
+                                    <th colspan="2" v-text="ComisionesDetalles.total+' $'" class="text-right"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     @if ($all)
                     <div class="form-group text-center">
                         <button class="btn btn-primary">Generar Liquidacion</button>
