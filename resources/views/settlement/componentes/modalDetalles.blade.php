@@ -13,7 +13,7 @@
                 <form action="{{route('liquidation.store')}}" method="post">
                     @csrf
                     <input type="hidden" name="iduser" :value="ComisionesDetalles.iduser">
-                    <table class="table w-100 nowrap scroll-horizontal-vertical table-striped" style="width: 100%">
+                    <table class="table w-100 nowrap scroll-horizontal-vertical table-striped myTable" style="width: 100%">
                         <thead>
                             <tr class="text-center">
                                 @if ($all)
