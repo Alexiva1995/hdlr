@@ -92,12 +92,20 @@ class InversionController extends Controller
     public function updateGanancia(int $iduser, int $paquete, float $ganacia, int $ordenId=0)
     {
         try {
-            $inversion = Inversion::where([
-                ['iduser', '=', $iduser],
-                ['package_id', '=', $paquete],
-                ['status', '=', 1],
-                ['orden_id', '=',$ordenId]
-            ])->orderBy('id', 'desc')->first();
+            if($ordenId != 0){
+                $inversion = Inversion::where([
+                    ['iduser', '=', $iduser],
+                    ['package_id', '=', $paquete],
+                    ['status', '=', 1],
+                    ['orden_id', '=',$ordenId]
+                ])->orderBy('id', 'desc')->first();
+            }else{
+                $inversion = Inversion::where([
+                    ['iduser', '=', $iduser],
+                    ['package_id', '=', $paquete],
+                    ['status', '=', 1]
+                ])->orderBy('id', 'desc')->first();
+            }
         
             if ($inversion != null) {
                 $capital = ($inversion->capital + $ganacia);
