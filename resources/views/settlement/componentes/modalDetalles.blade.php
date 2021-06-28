@@ -44,7 +44,7 @@
                                     <td v-text="item.descripcion"></td>
                                     <td v-text="item.referred_id"></td>
                                     <td v-text="item.referido.fullname"></td>
-                                    <td v-text="item.debito +' $'"></td>
+                                    <td v-text="item.monto +' $'"></td>
                                 </tr>
                             </tbody>
                             <tfoot>

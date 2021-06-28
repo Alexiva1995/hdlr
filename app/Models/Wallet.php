@@ -10,8 +10,8 @@ class Wallet extends Model
     protected $table = 'wallets';
 
     protected $fillable = [
-        'iduser', 'referred_id', 'cierre_comision_id', 'liquidation_id', 'debito',
-        'credito', 'balance', 'descripcion', 'status', 'tipo_transaction',
+        'iduser', 'referred_id', 'cierre_comision_id', 'liquidation_id', 'monto',
+        'descripcion', 'status', 'tipo_transaction',
         'liquidado'
     ];
 

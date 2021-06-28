@@ -40,7 +40,19 @@ class WalletController extends Controller
         }else{
             $wallets = Auth::user()->getWallet;
         }
-        return view('wallet.index', compact('wallets'));
+
+        //$saldoDisponible = $wallets->where('status', 0)->sum('monto');
+        $saldoDisponible = 0;
+
+        foreach($wallets->where('status', 0) as $monto){
+            if($monto->tipo_transaction == 1){
+
+                $monto->monto = $monto->monto * (-1);
+        
+            }
+            $saldoDisponible+= $monto->monto;
+        }
+        return view('wallet.index', compact('wallets', 'saldoDisponible'));
     }
 
      /**
@@ -174,9 +186,9 @@ class WalletController extends Controller
             if ($data['iduser'] != 1) {
                 if ($data['tipo_transaction'] == 1) {
                     $wallet = Wallet::create($data);
-                    $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['credito']);
+                    //$saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                    $wallet->update(['balance' => $saldoAcumulado]);
+                    //$wallet->update(['balance' => $saldoAcumulado]);
                 }else{
                     if ($data['cierre_comision_id'] != null) {
                         if ($data['iduser'] == 2) {
@@ -193,9 +205,9 @@ class WalletController extends Controller
                     }else{
                         $wallet = Wallet::create($data);
                     }
-                    $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['debito']);
+                    $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['monto']);
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                    $wallet->update(['balance' => $saldoAcumulado]);
+                    //$wallet->update(['balance' => $saldoAcumulado]);
                 }
             }
         } catch (\Throwable $th) {
@@ -213,9 +225,9 @@ class WalletController extends Controller
     public function getTotalComision($iduser): float
     {
         try {
-            $wallet = Wallet::where([['iduser', '=', $iduser], ['status', '=', 0]])->get()->sum('debito');
+            $wallet = Wallet::where([['iduser', '=', $iduser], ['status', '=', 0]])->get()->sum('monto');
             if ($iduser == 1) {
-                $wallet = Wallet::where([['status', '=', 0]])->get()->sum('debito');
+                $wallet = Wallet::where([['status', '=', 0]])->get()->sum('monto');
             }
             return $wallet;
         } catch (\Throwable $th) {
@@ -235,7 +247,7 @@ class WalletController extends Controller
         try {
             $totalComision = [];
             if (Auth::user()->admin == 1) {
-                $Comisiones = Wallet::select(DB::raw('SUM(debito) as Comision'))
+                $Comisiones = Wallet::select(DB::raw('SUM(monto) as Comision'))
                                 ->where([
                                     ['status', '<=', 1]
                                 ])
@@ -245,7 +257,7 @@ class WalletController extends Controller
                                 ->take(6)
                                 ->get();
             }else{
-                $Comisiones = Wallet::select(DB::raw('SUM(debito) as Comision'))
+                $Comisiones = Wallet::select(DB::raw('SUM(monto) as Comision'))
                                 ->where([
                                     ['iduser', '=',  $iduser],
                                     ['status', '<=', 1]

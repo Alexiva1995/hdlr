@@ -12,11 +12,16 @@
         @foreach ($wallets as $wallet)
         <tr class="text-center">
             <td>{{$wallet->id}}</td>
-            <td>{{$wallet->descripcion}}</td>
+            <td>{{$wallet->getWalletReferred->fullname}}</td>
             <td>{{date('d-m-Y', strtotime($wallet->created_at))}}</td>
-            <td>$ {{$wallet->debito}}</td>
-            <td>$ {{$wallet->credito}}</td>
-            <td>$ {{$wallet->balance}}</td>
+            {{--
+            @php
+                $monto = $wallet->monto;
+                if($wallet->tipo_transaction == 1){
+                    $monto = $monto * (-1);
+                }
+            @endphp--}}
+            <td>$ {{number_format($wallet->monto,2)}}</td>
             <td>
                 @if ($wallet->status == 1)
                     Pagado

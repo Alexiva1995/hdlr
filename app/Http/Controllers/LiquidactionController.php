@@ -155,7 +155,7 @@ class LiquidactionController extends Controller
                 'iduser' => $id,
                 'fullname' => $user->fullname,
                 'comisiones' => $comiciones,
-                'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
+                'total' => number_format($comiciones->sum('monto'), 2, ',', '.')
             ];
     
             return json_encode($detalles);  
@@ -190,7 +190,7 @@ class LiquidactionController extends Controller
                 'iduser' => $user->id,
                 'fullname' => $user->fullname,
                 'comisiones' => $comiciones,
-                'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
+                'total' => number_format($comiciones->sum('monto'), 2, ',', '.')
             ];
 
             return json_encode($detalles);
@@ -241,7 +241,7 @@ class LiquidactionController extends Controller
                     ['tipo_transaction', '=', 0],
                     ['iduser', '=', $iduser]
                 ])->select(
-                    DB::raw('sum(debito) as total'), 'iduser'
+                    DB::raw('sum(monto) as total'), 'iduser'
                 )->groupBy('iduser')->get();
             }else{
                 $comisionestmp = Wallet::where([
@@ -249,7 +249,7 @@ class LiquidactionController extends Controller
                     ['liquidation_id', '=', null],
                     ['tipo_transaction', '=', 0],
                 ])->select(
-                    DB::raw('sum(debito) as total'), 'iduser'
+                    DB::raw('sum(monto) as total'), 'iduser'
                 )->groupBy('iduser')->get();
             }
 
@@ -311,7 +311,7 @@ class LiquidactionController extends Controller
                 $comisiones = Wallet::whereIn('id', $listComision)->get();
             }
 
-            $bruto = $comisiones->sum('debito');
+            $bruto = $comisiones->sum('monto');
             $feed = ($bruto * 0.025);
             $total = ($bruto - $feed);
 

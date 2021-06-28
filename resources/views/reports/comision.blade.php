@@ -29,7 +29,7 @@
                                     <td>{{$wallet->name}}</td>
                                     <td>{{$wallet->referido}}</td>
                                     <td>{{$wallet->descripcion}}</td>
-                                    <td>{{$wallet->debito}}</td>
+                                    <td>{{$wallet->monto}}</td>
 
                                     @if ($wallet->status == '0')
                                     <td> <a class=" btn btn-info text-white text-bold-600">Pendiente</a></td>

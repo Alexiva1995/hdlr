@@ -88,7 +88,7 @@ class HomeController extends Controller
             'tickets' => 0,
             'ordenes' => $this->reportController->getOrdenes(10),
             'usuario' => Auth::user()->fullname,
-            'rewards' => Wallet::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()->sum('debito'),
+            'rewards' => Wallet::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()->sum('monto'),
             'packages' => OrdenPurchases::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()
         ];
 
