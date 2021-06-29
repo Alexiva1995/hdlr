@@ -43,7 +43,7 @@ class Inversion extends Model
      */
     public function getOrdenInversion()
     {
-        return $this->belongsTo('App\Models\OrdenPurchase', 'orden_id', 'id');
+        return $this->belongsTo('App\Models\OrdenPurchases', 'orden_id', 'id');
     }
 
 }

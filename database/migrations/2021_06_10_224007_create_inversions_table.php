@@ -27,6 +27,7 @@ class CreateInversionsTable extends Migration
             $table->double('capital');
             $table->double('progreso');
             $table->date('fecha_vencimiento');
+            $table->decimal('porcentaje_fondo')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1 - activo , 2 - culminada');
             $table->timestamps();
         });

@@ -16,6 +16,7 @@
                                     <th>Invertido</th>
                                     <th>Ganancia</th>
                                     <th>Capital</th>
+                                    <th>Porcentaje fondo</th>
                                     <th>Fecha Vencimiento</th>
                                 </tr>
 
@@ -28,6 +29,7 @@
                                     <td>{{number_format($inversion->invertido, 2, ',', '.')}}</td>
                                     <td>{{number_format($inversion->ganacia, 2, ',', '.')}}</td>
                                     <td>{{number_format($inversion->capital, 2, ',', '.')}}</td>
+                                    <td>{{$inversion->porcentaje_fondo}} %</td>
                                     <td>{{date('Y-M-d', strtotime($inversion->fecha_vencimiento))}}</td>
                                 </tr>
                                 @endforeach
