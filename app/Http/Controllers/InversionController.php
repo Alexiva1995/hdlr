@@ -69,7 +69,7 @@ class InversionController extends Controller
                     'retiro' => 0,
                     'capital' => $invertido,
                     'progreso' => 0,
-                    'fecha_vencimiento' => $vencimiento
+                    'fecha_vencimiento' => $vencimiento,
                 ];
                 Inversion::create($data);
             }
@@ -89,20 +89,61 @@ class InversionController extends Controller
         Inversion::whereDate('fecha_vencimiento', '<', Carbon::now())->update(['status' => 2]);
     }
 
-    public function updateGanancia(int $iduser, int $paquete, float $ganacia, int $ordenId=0)
+    public function updateGanancia(int $iduser, int $paquete, float $ganacia, int $ordenId=0, $porcentaje=null)
     {
         try {
-            $inversion = Inversion::where([
-                ['iduser', '=', $iduser],
-                ['package_id', '=', $paquete],
-                ['status', '=', 1],
-                ['orden_id', '=',$ordenId]
-            ])->orderBy('id', 'desc')->first();
+            if($ordenId != 0){
+                $inversion = Inversion::where([
+                    ['iduser', '=', $iduser],
+                    ['package_id', '=', $paquete],
+                    ['status', '=', 1],
+                    ['orden_id', '=',$ordenId]
+                ])->first();
+            }else{
+                $inversion = Inversion::where([
+                    ['iduser', '=', $iduser],
+                    ['package_id', '=', $paquete],
+                    ['status', '=', 1]
+                ])->first();
+            }
         
             if ($inversion != null) {
+             
                 $capital = ($inversion->capital + $ganacia);
                 $inversion->ganacia = ($inversion->ganacia + $ganacia);
-                $inversion->capital = $capital;
+                $inversion->capital = $capital;      
+                $inversion->porcentaje_fondo = $porcentaje;
+          
+                $inversion->save();
+            }
+        } catch (\Throwable $th) {
+            Log::error('InversionController - updateGanancia -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+     public function updatePorcentaje(int $iduser, int $paquete, float $ganacia, int $ordenId=0, $porcentaje=null)
+    {
+        try {
+            if($ordenId != 0){
+                $inversion = Inversion::where([
+                    ['iduser', '=', $iduser],
+                    ['package_id', '=', $paquete],
+                    ['status', '=', 1],
+                    ['orden_id', '=',$ordenId]
+                ])->first();
+            }else{
+                $inversion = Inversion::where([
+                    ['iduser', '=', $iduser],
+                    ['package_id', '=', $paquete],
+                    ['status', '=', 1]
+                ])->first();
+            }
+        
+            if ($inversion != null) {
+                
+                $inversion->porcentaje_fondo = $porcentaje;
+          
                 $inversion->save();
             }
         } catch (\Throwable $th) {
