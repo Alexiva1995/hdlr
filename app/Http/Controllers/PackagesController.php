@@ -96,7 +96,9 @@ class PackagesController extends Controller
         try {
             $service = Packages::find($id);
             $category = $service->group_id;
-            $service->delete();
+            $service->status = 0;
+            $service->save();
+            //$service->delete();
             $route = route('package.index').'?category='.$category;
             return redirect($route)->with('msj-success', 'Servicio '.$id.' Eliminado');
         } catch (\Throwable $th) {
@@ -145,7 +147,7 @@ class PackagesController extends Controller
 
              $validate = $request->validate([
                 'name' => ['required'],
-                'group_id' => ['required'],
+                //'group_id' => ['required'],
                 'minimum_deposit' => ['required', 'numeric'],
                 'expired' => ['required', 'date']
              ]);
@@ -154,7 +156,7 @@ class PackagesController extends Controller
              if ($validate) {
                  $service = Packages::find($id);
                  $service->name = $request->name;
-                 $service->group_id = $request->group_id;
+                 //$service->group_id = $request->group_id;
                  $service->minimum_deposit = $request->minimum_deposit;
                  $service->expired = $request->expired;
                  $service->price = $request->price;

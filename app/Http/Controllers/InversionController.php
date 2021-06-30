@@ -19,14 +19,15 @@ class InversionController extends Controller
     public function index($tipo)
     {
        try {
-           $this->checkStatus();
+           //$this->checkStatus();
+
             if ($tipo == '') {
                 $inversiones = Inversion::all();
             } else {
                 if (Auth::id() == 1) {
                     $inversiones = Inversion::where('status', '=', $tipo)->get();
                 }else{
-                    $inversiones = Inversion::where([['status', '=', $tipo], ['iduser', '='. Auth::id()]])->get();
+                    $inversiones = Inversion::where([['status', '=', $tipo], ['iduser', '=', Auth::id()]])->get();
                 }
             }
 
