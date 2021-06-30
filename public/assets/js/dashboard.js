@@ -6,7 +6,7 @@ var vm_dashboard = new Vue({
     data: function () {
         return {
             Colores: {
-                primary: '#188EFF',
+                primary: '#13192E',
                 success: '#28C76F',
                 danger: '#EA5455',
                 warning: '#FF9F43',

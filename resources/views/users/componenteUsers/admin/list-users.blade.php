@@ -104,13 +104,13 @@
 
                                      </form>
 
-                                    <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
+                                    {{-- <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
                                         <form action="{{route('users.destroy-user', $item->id)}}" method="post" id="delete{{$item->id}}">
                                             @csrf
                                             @method('DELETE')admin
                                         </form>
                                         <i class="fa fa-trash"></i>
-                                    </button>
+                                    </button> --}}
                                     @endif
                                     </td>
                                 </tr>

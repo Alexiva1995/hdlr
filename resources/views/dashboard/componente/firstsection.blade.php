@@ -28,7 +28,11 @@
                         <p class="m-auto w-75">
                             Verificacion de la cuenta: Sin verificar <span class="text-danger h3">◉</span><br>
                         </p>
-                        @elseif (Auth::user()->dni != NULL)
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 0)
+                        <p class="m-auto w-75">
+                        Verificacion de la cuenta: En Revision <span class="text-warning h3">◉</span><br>
+                        </p>
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 1)
                         <p class="m-auto w-75">
                         Verificacion de la cuenta: Verificada <span class="text-success h3">◉</span><br>
                         </p>
