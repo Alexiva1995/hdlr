@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\InversionController;
 use App\Models\CierreComision;
+use App\Models\Inversion;
 
 class WalletController extends Controller
 {
@@ -76,10 +77,11 @@ class WalletController extends Controller
      * @param integer $idcierre
      * @return void
      */
-    public function payComision($monto, $iduser, $name_referred, $idcierre)
+    public function payComision($monto, $iduser, $name_referred, $inversion_id=null, $orden_id=null, $package_id=null)
     {
-        try {
+        //try {
             $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
+    
             // dd($sponsors);
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
@@ -89,23 +91,45 @@ class WalletController extends Controller
                             if ($sponsor->nivel <= 4) {
                                 $pocentaje = $this->getPorcentage($sponsor->nivel);
                                 $comision = ($monto * $pocentaje);
-                                $this->preSaveWallet($sponsor->id, $iduser, $idcierre, $comision, $concepto);
+                               
+                                //dump($sponsor);
+                                $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
 
-                                $cierrre = CierreComision::find($idcierre);
-                                $this->inversionController->updateGanancia($sponsor->id, $cierrre->package_id, $comision);
+                                //actualizamos la ganancia
+                                /*
+                                dump($sponsor->id);
+                                dump($package_id);
+                                dump($orden_id);*/
+                                $inversion = Inversion::where([
+                                    //['iduser', '=', $sponsor->id],
+                                    ['package_id', '=', $package_id],
+                                    ['status', '=', 1],
+                                    ['orden_id', '=',$orden_id]
+                                ])->first();
+                                //dump('inversion');
+                                //dump($inversion);
+                             
+                                $inversion->ganancia_acumulada = $inversion->ganacia - $comision;
+                                $inversion->ganacia = 0;
+                                $inversion->status_por_pagar = 0; 
+                                $inversion->status = 0;   
+                                $inversion->save();
+                                
+                                //$cierrre = CierreComision::find($idcierre);
+                                //$this->inversionController->updateGanancia($sponsor->id, $package_id, $comision, $orden_id);
                             }else{
-                                $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
+                                $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
                             }
                         } else {
-                            $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
+                            $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
                         }   
                     }
                 }
             }
-        } catch (\Throwable $th) {
+        /*} catch (\Throwable $th) {
             Log::error('Wallet - payComision -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
-        }
+        }*/
     }
 
     /**
@@ -118,18 +142,23 @@ class WalletController extends Controller
      * @param string $concepto
      * @return void
      */
-    private function preSaveWallet(int $iduser, int $idreferido, int $idorden,  float $monto, string $concepto)
+    private function preSaveWallet(int $iduser, int $idreferido, int $cierre_id=null,  float $monto, string $concepto, $nivel, $name, $porcentaje=null)
     {
         $data = [
             'iduser' => $iduser,
             'referred_id' => $idreferido,
-            'cierre_comision_id' => $idorden,
-            'debito' => $monto,
+            'cierre_comision_id' => $cierre_id,
+            'monto' => $monto,
             'descripcion' => $concepto,
             'status' => 0,
             'tipo_transaction' => 0,
+            //'nivel' => $nivel,
+            //'name' => $name,
+            //'porcentaje' => $porcentaje
         ];
+        dump($data);
         $this->saveWallet($data);
+      
     }
 
     /**

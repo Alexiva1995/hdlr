@@ -215,6 +215,44 @@ class CierreComisionController extends Controller
         }
     }
 
+    public function pagarUtilidadFinDeMes(Request $request)
+    {
+        $inversiones = Inversion::where('status_por_pagar', '1')->get();
+
+        $comisiones = collect();
+            
+        foreach ($inversiones as $inversion) {
+
+            //if($inversion->porcentaje_fondo != null && $inversion->porcentaje_fondo > 0.00){
+        
+                $comisiones->push([
+                    'porcentaje' => $inversion->porcentaje_fondo,
+                    'iduser' => $inversion->iduser,
+                    'comision' => $inversion->ganacia,
+                    'referido' => $inversion->getInversionesUser->fullname,
+                    'ordenId' => $inversion->getOrdenInversion->id,
+                    'inversion_id' => $inversion->id,
+                    'orden_id' => $inversion->orden_id,
+                    'package_id' => $inversion->package_id 
+                ]);
+            //}
+        }
+        dump($comisiones);
+        foreach($comisiones as $comision){
+            //dump($comision);
+            dump('referido');
+            dump( $comision['referido']);
+            dump('monto');
+            dump($comision['comision']);
+            $wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $comision['inversion_id'], $comision['orden_id'], $comision['package_id']);
+            //dump($wallet);
+        }
+        dd("listo");
+        //dd($inversiones);
+        dd("funconando");
+        //$wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $cierre->id);
+    }
+
     /**
      * Display the specified resource.
      *
