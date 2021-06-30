@@ -19,6 +19,21 @@
                     <div class="m-2">
                         <a href="{{route('shop')}}" class="btn btn-primary"> Volver a los Grupos</a>
                     </div>
+
+                    <div>
+                        <fieldset class="form-group">
+                            <label for="group_id">Elige un paquete:</label>
+                            <select name="group_id" id="" class="form-control" required v-model="Service.group_id">
+                                <option value="" disabled selected>Elige una opcion</option>
+                                @foreach ($services->chunk(3) as $items)
+                                    @foreach ($items as $product)
+                                        <option value="{{$product->id}}">{{$product->name}}</option>
+                                    @endforeach
+                                @endforeach
+                            </select>
+                        </fieldset>
+                    </div>
+
                     @foreach ($services->chunk(3) as $items)
                         <div class="row">
                             @foreach ($items as $product)
@@ -54,15 +69,29 @@
                                             <input type="hidden" name="idproduct" value="{{$product->id}}">
                                            
                                             <div class="row">
+                                                <div class="col-12 mb-1">
+                                                   
+                                                        <label for="">Nombre</label>
+                                                        <br>
+                                                        <span> {{$product->name}} </span>
+                                                  
+                                                </div>
+                                                <div class="col-12">
+                                                    
+                                                        <label for="">Descrípcion</label>
+                                                        <br>
+                                                        <span>{!!$product->description!!}</span>
+                                                   
+                                                </div>
                                                 <div class="col-12">
                                                     <fieldset class="form-group">
-                                                        <label for="">Deposito minimo</label>
+                                                        <label for="">Monto minimo</label>
                                                         <input type="number" name="minimum_deposit" class="form-control" value="{{$product->minimum_deposit}}" disabled>
                                                     </fieldset>
                                                 </div>
                                                 <div class="col-12">
                                                     <fieldset class="form-group">
-                                                        <label for="">Cuanto deseas depositar</label>
+                                                        <label for="">Cuanto desea invertirr</label>
                                                         <input type="number" name="deposito" class="form-control" required min="{{$product->minimum_deposit}}">
                                                     </fieldset>
                                                 </div>
