@@ -4,6 +4,7 @@
             <th>Nombre</th>
             <th>Correo</th>
             <th>Nivel</th>
+            <th>Invertido</th>
             <th>Estado</th>
             <th>Ingreso</th>
         </tr>
@@ -14,6 +15,7 @@
             <td>{{$item->name}}</td>
             <td>{{$item->email}}</td>
             <td>{{$item->nivel}}</td>
+            <td>{{$item->montoInvertido()}}</td>
             @if ($item->status == '0')
             <td> <a class=" btn btn-info text-white text-bold-600">Inactivo</a></td>
             @elseif($item->status == '1')
