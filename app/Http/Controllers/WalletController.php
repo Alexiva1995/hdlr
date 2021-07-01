@@ -100,20 +100,6 @@ class WalletController extends Controller
                                 dump($sponsor->id);
                                 dump($package_id);
                                 dump($orden_id);*/
-                                $inversion = Inversion::where([
-                                    //['iduser', '=', $sponsor->id],
-                                    ['package_id', '=', $package_id],
-                                    ['status', '=', 1],
-                                    ['orden_id', '=',$orden_id]
-                                ])->first();
-                                //dump('inversion');
-                                //dump($inversion);
-                             
-                                $inversion->ganancia_acumulada = $inversion->ganacia - $comision;
-                                $inversion->ganacia = 0;
-                                $inversion->status_por_pagar = 0; 
-                                $inversion->status = 0;   
-                                $inversion->save();
                                 
                                 //$cierrre = CierreComision::find($idcierre);
                                 //$this->inversionController->updateGanancia($sponsor->id, $package_id, $comision, $orden_id);
@@ -125,6 +111,21 @@ class WalletController extends Controller
                         }   
                     }
                 }
+
+                $inversion = Inversion::where([
+                    //['iduser', '=', $sponsor->id],
+                    ['package_id', '=', $package_id],
+                    ['status', '=', 1],
+                    ['orden_id', '=',$orden_id]
+                ])->first();
+                //dump('inversion');
+                //dump($inversion);
+             
+                $inversion->ganancia_acumulada = $inversion->ganacia - $comision;
+                $inversion->ganacia = 0;
+                $inversion->status_por_pagar = 0; 
+                $inversion->status = 2;   
+                $inversion->save();
             }
         /*} catch (\Throwable $th) {
             Log::error('Wallet - payComision -> Error: '.$th);

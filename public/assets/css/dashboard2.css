@@ -1,28 +1,28 @@
 .headerBalance{
-    background: #46B0FE;
+    background: #13192E;
     color: #ffffff;
     padding: 4px;
     border-radius: 6px;
 }
 
 .bg-purple-alt{
-    background: #188EFF !important;
+    background: #13192E !important;
 }
 
 .bg-purple-alt2{
-    background: #188EFF !important;
+    background: #13192E !important;
 }
 
 .bg-red-alt{
-    background: #46B0FE !important;
+    background: #13192E !important;
 }
 
 .pagination .page-item.active .page-link{
-    background: #46B0FE !important;
+    background: #13192E !important;
 }
 
 .text-red-alt{
-    color: #46B0FE !important;
+    color: #13192E !important;
 }
 
 .padding-button-short{
@@ -36,5 +36,5 @@
 }
 
 .main-menu.bg-purple-alt.menu-light .navigation > li.open > a{
-    background: #188EFF !important;
+    background: #13192E !important;
 }
