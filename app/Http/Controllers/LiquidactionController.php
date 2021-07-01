@@ -310,7 +310,7 @@ class LiquidactionController extends Controller
             }else {
                 $comisiones = Wallet::whereIn('id', $listComision)->get();
             }
-
+            
             $bruto = $comisiones->sum('monto');
             $feed = ($bruto * 0.025);
             $total = ($bruto - $feed);
@@ -324,20 +324,21 @@ class LiquidactionController extends Controller
                 'wallet_used',
                 'status' => 0,
             ];
+
             $idLiquidation = $this->saveLiquidation($arrayLiquidation);
 
             $concepto = 'Liquidacion del usuario '.$user->fullname.' por un monto de '.$bruto;
             $arrayWallet =[
                 'iduser' => $user->id,
                 'referred_id' => $user->id,
-                'credito' => $bruto,
+                'monto' => $bruto,
                 'descripcion' => $concepto,
                 'status' => 0,
                 'tipo_transaction' => 1,
             ];
 
             $this->walletController->saveWallet($arrayWallet);
-            
+           
             if (!empty($idLiquidation)) {
                 $listComi = $comisiones->pluck('id');
                 Wallet::whereIn('id', $listComi)->update([
@@ -345,7 +346,7 @@ class LiquidactionController extends Controller
                     'liquidation_id' => $idLiquidation
                 ]);
             }
-        } catch (\Throwable $th) {
+        }catch (\Throwable $th) {
             Log::error('Liquidaction - generarLiquidation -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
