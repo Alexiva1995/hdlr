@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CierreComision;
 use App\Models\OrdenPurchases;
 use App\Models\Packages;
+use App\Models\Groups;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -41,16 +42,16 @@ class CierreComisionController extends Controller
             View::share('titleg', 'Cierre de Comisiones');
 
             $ordenes = OrdenPurchases::where('status', '=', '1')
-                                    ->selectRaw('SUM(cantidad) as ingreso, group_id, package_id')
+                                    ->selectRaw('SUM(cantidad) as ingreso, group_id')
                                     // ->whereDate('created_at', Carbon::now()->format('Ymd'))
-                                    ->groupBy('package_id', 'group_id')
+                                    ->groupBy('group_id')
                                     ->get();
             foreach ($ordenes as $orden) {
                 $orden->grupo = $orden->getGroupOrden->name;
-                $orden->paquete = $orden->getPackageOrden->name;
+                //$orden->paquete = $orden->getPackageOrden->name;
                 $cierre = CierreComision::where([
-                    ['group_id', $orden->group_id], ['package_id', $orden->package_id]
-                ])->whereDate('cierre', Carbon::now())->first();
+                    ['group_id', $orden->group_id]
+                ])->whereDate('cierre', Carbon::now())->orderBy('id', 'desc')->first();
                 $orden->cerrada = ($cierre != null) ? 1 : 0;
                 $orden->fecha_cierre = ($cierre != null) ? $cierre->cierre: '';
             }
@@ -84,21 +85,19 @@ class CierreComisionController extends Controller
             's_inicial' => ['required', 'numeric'],
             's_ingreso' => ['required', 'numeric'],
             's_final' => ['required', 'numeric', 'min:1'],
-            'package_id' => ['required', 'numeric'],
+            'group_id' => ['required', 'numeric'],
             'saldoFinal_anterior' => ['required']
         ]);
-        try {
+
+        //try {
             if ($validate) {
-                $paquete = Packages::find($request->package_id);
-                $request['group_id'] = $paquete->group_id;
+                $paquete = Groups::find($request->group_id);
                 $request['cierre'] = Carbon::now();
-          
+
                 $cierre = CierreComision::create($request->all());
-                if($request->saldoFinal_anterior > 0){
-                    $ganacia = ($cierre->s_inicial - $request->saldoFinal_anterior);    
-                }else{
-                    $ganacia = 0;
-                }
+          
+                $ganacia = ($cierre->s_inicial - $request->saldoFinal_anterior);    
+                
                 //dump($ganacia);
                 //dump($cierre->s_final);
                 if($cierre->s_inicial < 1){
@@ -113,8 +112,8 @@ class CierreComisionController extends Controller
                 }else{
                     //REPARTICION DE GANANCIA
                     //$ganancia = ($cierre->s_inicial - $request->saldoFinal_anterior);
-                
-                    $this->repartirGanancia($cierre->package_id, $ganacia);
+                     
+                    $this->repartirGanancia($cierre->group_id, $ganacia);
 
                      $comisiones = $this->generateComision($ganacia, $cierre->package_id, $cierre->group_id, $cierre->s_final);
 
@@ -127,11 +126,11 @@ class CierreComisionController extends Controller
                 }
 
                 return redirect()->back()->with('msj-success', 'Cierre realizado y Comisiones pagadas con exito');
-            }
+            }/*
         } catch (\Throwable $th) {
             Log::error('CierreComision - store -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
-        }
+        }*/
     }
 
     /**
@@ -148,9 +147,9 @@ class CierreComisionController extends Controller
         try {
            
             
-            $ordenes = Inversion::where([   
-                ['package_id', '=', $paquete],
-            ])
+            $ordenes = Inversion::whereHas('getPackageOrden', function($package)use ($grupo){
+                $package->where('group_id', $grupo);
+            })
             ->select(
                 'iduser', 'id','capital', 'orden_id'
             )
@@ -178,14 +177,13 @@ class CierreComisionController extends Controller
         }
     }
 
-    public function repartirGanancia($package_id, $ganancia)
+    public function repartirGanancia($grupo, $ganancia)
     {
         try {
-            $inversiones = Inversion::where([   
-                            ['package_id', '=', $package_id],
-                        ])
-            ->get();
-            
+            $inversiones = Inversion::whereHas('getPackageOrden', function($paquete)use ($grupo){
+                $paquete->where('group_id', $grupo);
+            })->get();
+           
             //return $ordenes;
             $comisiones = collect();
             
@@ -205,7 +203,7 @@ class CierreComisionController extends Controller
 
             foreach ($comisiones as $comision) {
                            
-                $this->inversionController->updateGanancia($comision['iduser'], $package_id, $comision['comision'], $comision['ordenId'], $comision['porcentaje']);
+                $this->inversionController->updateGanancia($comision['iduser'], null, $comision['comision'], $comision['ordenId'], $comision['porcentaje']);
           
             }
             return $comisiones;

@@ -89,24 +89,22 @@ class InversionController extends Controller
         Inversion::whereDate('fecha_vencimiento', '<', Carbon::now())->update(['status' => 2]);
     }
 
-    public function updateGanancia(int $iduser, int $paquete, float $ganacia, int $ordenId=0, $porcentaje=null)
+    public function updateGanancia(int $iduser, $paquete, float $ganacia, int $ordenId=0, $porcentaje=null)
     {
         try {
             if($ordenId != 0){
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
-                    ['package_id', '=', $paquete],
                     ['status', '=', 1],
                     ['orden_id', '=',$ordenId]
                 ])->first();
             }else{
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
-                    ['package_id', '=', $paquete],
                     ['status', '=', 1]
                 ])->first();
             }
-        
+          
             if ($inversion != null) {
              
                 $capital = ($inversion->capital + $ganacia);

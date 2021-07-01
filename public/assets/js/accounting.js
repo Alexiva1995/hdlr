@@ -25,7 +25,7 @@ var vm_cierreComision = new Vue({
             let url = route('commission_closing.show', id)
             axios.get(url).then((response) => {
                 this.DataCierre = response.data
-                this.DataCierre.package_id = id
+                this.DataCierre.group_id = id
                 $('#modalCierreComision').modal('show')
             }).catch(function (error) {
                 toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
@@ -35,5 +35,17 @@ var vm_cierreComision = new Vue({
             this.id = id;
             $('#modalCierreComisionRealizado').modal('show') 
         },
+        abrirModalCierreConfirmacion: function(){
+            $('#saldo_final_anterior').text($('#formulario_saldo_final_anterior').val());
+            $('#saldo_inicial').text($('#formulario_saldo_inicial').val());
+            $('#ingreso').text($('#formulario_ingreso').val());
+            $('#saldo_final').text($('#formulario_saldo_final').val());        
+
+            $('#modalCierreComision').modal('hide') 
+            $('#modalCierreConfirmacion').modal('show') 
+        },
+        submitFormulario: function(){
+            $('#form_cierre').submit();
+        }
     }
 })

@@ -5,10 +5,12 @@
 @push('page_js')
 <script src="{{asset('assets/js/librerias/vue.js')}}"></script>
 <script src="{{asset('assets/js/librerias/axios.min.js')}}"></script>
+
 @endpush
 
 @push('custom_js')
 <script src="{{asset('assets/js/accounting.js')}}"></script>
+
 @endpush
 
 <div id="cierre_comision">
@@ -22,7 +24,6 @@
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
                                    <th>Grupo</th>
-                                   <th>Paquete</th>
                                    <th>Ingreso</th>
                                    <th>Fecha del último cierre</th>
                                    <th>Accion</th>
@@ -37,9 +38,6 @@
                                         {{$orden->grupo}}
                                     </td>
                                     <td>
-                                        {{$orden->paquete}}
-                                    </td>
-                                    <td>
                                         {{$orden->ingreso}}
                                     </td>
                                     <td>
@@ -47,9 +45,9 @@
                                     </td>
                                     <td>
                                         @if ($orden->cerrada == 0)
-                                        <button class="btn btn-info" onclick="vm_cierreComision.cerrarComisionProducto({{$orden->package_id}})">Cerrar Compras</button>
+                                        <button class="btn btn-info" onclick="vm_cierreComision.cerrarComisionProducto({{$orden->group_id}})">Cerrar Compras</button>
                                         @else
-                                        <button class="btn btn-danger" onclick="vm_cierreComision.abrirModalCierreRealizado({{$orden->package_id}})">Cierre realizado</button>
+                                        <button class="btn btn-danger" onclick="vm_cierreComision.abrirModalCierreRealizado({{$orden->group_id}})">Cierre realizado</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -65,6 +63,7 @@
     {{-- Modal cierre --}}
     @include('accounting.components.modalCierre')
     @include('accounting.components.modalCierreRealizado')
+    @include('accounting.components.modalConfirmacion')
 </div>
 @endsection
 
