@@ -26,7 +26,7 @@ class InversionController extends Controller
                 if (Auth::id() == 1) {
                     $inversiones = Inversion::where('status', '=', $tipo)->get();
                 }else{
-                    $inversiones = Inversion::where([['status', '=', $tipo], ['iduser', '='. Auth::id()]])->get();
+                    $inversiones = Inversion::where([['status', '=', $tipo], ['iduser', '=',Auth::id()]])->get();
                 }
             }
 
