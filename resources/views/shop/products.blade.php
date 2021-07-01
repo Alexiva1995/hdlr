@@ -11,8 +11,7 @@
 <script type="text/javascript">
     $('#group_id').on('change', function(e){
         let descricion = $("#group_id option:selected" ).attr('description');
-        console.log(descricion);
-        console.log("Hello <b>world</b>!");
+
         $('#product_id').text($("#group_id option:selected" ).val());
         $('#name').text($("#group_id option:selected" ).attr('name'));
         //$('#descripcion').html(descricion);
@@ -20,7 +19,8 @@
         $('#minimum_deposit').val($("#group_id option:selected" ).attr('minimum_deposit'));
         $('#invertir').attr( 'min',$("#group_id option:selected" ).attr('minimum_deposit'))
 
-        $('#modalCompra').modal('show')
+        $('#btn_comprar').attr('disabled', false);
+        //$('#modalCompra').modal('show')
     });
 </script>
 @endpush
@@ -55,7 +55,7 @@
                         <div class="col-3">
                             <fieldset class="form-group">
                                 <label for="group_id">Acción:</label><br>
-                                <button type="button" class="btn btn-success waves-effect waves-light btn-block" data-toggle="modal" data-target="#modalCompra">Comprar</button>
+                                <button id="btn_comprar" type="button" class="btn btn-success waves-effect waves-light btn-block" data-toggle="modal" data-target="#modalCompra" disabled>Comprar</button>
                             </fieldset>
 
                         </div>
