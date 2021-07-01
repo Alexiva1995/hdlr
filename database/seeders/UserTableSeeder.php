@@ -20,7 +20,7 @@ class UserTableSeeder extends Seeder
                 'fullname' => 'Admin HDLR',
                 'email' => 'admin@hdlr.com',
                 'admin' => '1',
-                'password' => Hash::make('12345678'),
+                'password' => Hash::make('123456789'),
                 'whatsapp' => '23423423423432',
                 'referred_id' => 0,
             ]);
