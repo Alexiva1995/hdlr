@@ -37,8 +37,7 @@
                                     <td> <a class=" btn btn-danger text-white text-bold-600">Cancelado</a></td>
                                     @endif
 
-                                    {{--<td>{{date('Y-M-d', strtotime($orden->created_at))}}</td>--}}
-                                    <td>{{$orden->created_at}}</td>
+                                    <td>{{date('Y-M-d', strtotime($orden->created_at))}}</td>
                                 </tr>
 
                                 <!-- Modal -->

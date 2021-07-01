@@ -20,10 +20,9 @@
                                     <label for="">Package Name</label>
                                     <input type="text" name="name" class="form-control" required v-model="Service.name">
                                 </fieldset>
-                            </div> {{--
+                            </div>
                             <div class="col-12">
                                 <fieldset class="form-group">
-                                   
                                     <label for="">Elige una Categoria</label>
                                     <select name="group_id" id="" class="form-control" required v-model="Service.group_id">
                                         <option value="" disabled selected>Elige una opcion</option>
@@ -31,9 +30,8 @@
                                             <option value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
                                     </select>
-                                    
                                 </fieldset>
-                            </div>--}}
+                            </div>
                             <div class="col-12 col-md-6">
                                 <fieldset class="form-group">
                                     <label for="">Deposito Minimo</label>

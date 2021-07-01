@@ -41,8 +41,7 @@
                                     <td> <a class=" btn btn-danger text-white text-bold-600">Reservada</a></td>
                                     @endif
 
-                                    {{--<td>{{date('Y-M-d', strtotime($wallet->created_at))}}</td>--}}
-                                    <td>{{$wallet->created_at}}</td>
+                                    <td>{{date('Y-M-d', strtotime($wallet->created_at))}}</td>
                                 </tr>
                                 @endforeach
                                
