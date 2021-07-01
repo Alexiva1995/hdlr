@@ -82,6 +82,7 @@ class WalletController extends Controller
     {
         //try {
             $ultimoNivel = 0;
+            $comisionAcumulada = 0;
             $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
             // dd($sponsors);
             if (!empty($sponsors)) {
@@ -93,7 +94,7 @@ class WalletController extends Controller
                             if ($sponsor->nivel <= 4) {
                                 $pocentaje = $this->getPorcentage($sponsor->nivel);
                                 $comision = ($monto * $pocentaje);
-                               
+                                $comisionAcumulada += $comision;
                                 //dump($sponsor);
                                 $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
 
@@ -117,30 +118,33 @@ class WalletController extends Controller
                         $ultimoNivel++;
                         $pocentaje = $this->getPorcentage($ultimoNivel);
                         $comision = ($monto * $pocentaje);
+                        $comisionAcumulada += $comision;
                         $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $ultimoNivel, $sponsor->fullname, $pocentaje);
                     }
                 }
                 //PAGAMOS 10% al admin
                 $pocentaje = $this->getPorcentage(6);
                 $comision = ($monto * $pocentaje);
+                $comisionAcumulada += $comision;
                 $user = User::findOrFail(1);
                 $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, 6, $user->fullname, $pocentaje);
                 
+                dump('comision acumulada');
+                dump($comisionAcumulada);
                 //actualizamos la ganancia
-                
+                dump($orden_id);
                 $inversion = Inversion::where([
                     //['iduser', '=', $sponsor->id],
-                    ['package_id', '=', $package_id],
-                    ['status', '=', 1],
+                    //['package_id', '=', $package_id],
                     ['orden_id', '=',$orden_id]
                 ])->first();
-             
-                $inversion->ganancia_acumulada = $inversion->ganacia - $comision;
+            
+                $inversion->ganancia_acumulada += $inversion->ganacia - $comisionAcumulada;
                 $inversion->ganacia = 0;
                 $inversion->status_por_pagar = 0; 
                 $inversion->status = 2;   
                 $inversion->save();
-                
+            
             }
         /*} catch (\Throwable $th) {
             Log::error('Wallet - payComision -> Error: '.$th);
