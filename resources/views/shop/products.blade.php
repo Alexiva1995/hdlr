@@ -12,7 +12,7 @@
     $('#group_id').on('change', function(e){
         let descricion = $("#group_id option:selected" ).attr('description');
 
-        $('#product_id').text($("#group_id option:selected" ).val());
+        $('#product_id').val($("#group_id option:selected" ).val());
         $('#name').text($("#group_id option:selected" ).attr('name'));
         //$('#descripcion').html(descricion);
         document.getElementById("descripcion").innerHTML = descricion;
