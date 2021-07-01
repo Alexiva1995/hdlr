@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\InversionController;
 use App\Models\CierreComision;
 use App\Models\Inversion;
+use App\Models\User;
 
 class WalletController extends Controller
 {
@@ -80,14 +81,15 @@ class WalletController extends Controller
     public function payComision($monto, $iduser, $name_referred, $inversion_id=null, $orden_id=null, $package_id=null)
     {
         //try {
+            $ultimoNivel = 0;
             $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
-    
             // dd($sponsors);
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $iduser) {
                         $concepto = 'Comision del usuario '.$name_referred.' por un monto de '.$monto;
                         if ($sponsor->status == 1) {
+                            $ultimoNivel = $sponsor->nivel;
                             if ($sponsor->nivel <= 4) {
                                 $pocentaje = $this->getPorcentage($sponsor->nivel);
                                 $comision = ($monto * $pocentaje);
@@ -95,37 +97,50 @@ class WalletController extends Controller
                                 //dump($sponsor);
                                 $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
 
-                                //actualizamos la ganancia
-                                /*
-                                dump($sponsor->id);
-                                dump($package_id);
-                                dump($orden_id);*/
-                                
-                                //$cierrre = CierreComision::find($idcierre);
-                                //$this->inversionController->updateGanancia($sponsor->id, $package_id, $comision, $orden_id);
                             }else{
-                                $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
+                                //$this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
                             }
                         } else {
-                            $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
+                            //$this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
                         }   
                     }
                 }
-
+                dump('ultimo nivel');
+                dump($ultimoNivel);
+                $recorrer = 4 - $ultimoNivel;
+                dump('recorrer');
+                dump($recorrer);
+                $user = User::findOrFail(1);
+                //PAGAMOS LAS COMISIONES RESTANTES AL ADMIN
+                if($recorrer > 0){
+                    for ($i=0; $i < $recorrer; $i++) { 
+                        $ultimoNivel++;
+                        $pocentaje = $this->getPorcentage($ultimoNivel);
+                        $comision = ($monto * $pocentaje);
+                        $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $ultimoNivel, $sponsor->fullname, $pocentaje);
+                    }
+                }
+                //PAGAMOS 10% al admin
+                $pocentaje = $this->getPorcentage(6);
+                $comision = ($monto * $pocentaje);
+                $user = User::findOrFail(1);
+                $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, 6, $user->fullname, $pocentaje);
+                
+                //actualizamos la ganancia
+                
                 $inversion = Inversion::where([
                     //['iduser', '=', $sponsor->id],
                     ['package_id', '=', $package_id],
                     ['status', '=', 1],
                     ['orden_id', '=',$orden_id]
                 ])->first();
-                //dump('inversion');
-                //dump($inversion);
              
                 $inversion->ganancia_acumulada = $inversion->ganacia - $comision;
                 $inversion->ganacia = 0;
                 $inversion->status_por_pagar = 0; 
                 $inversion->status = 2;   
                 $inversion->save();
+                
             }
         /*} catch (\Throwable $th) {
             Log::error('Wallet - payComision -> Error: '.$th);
@@ -153,9 +168,9 @@ class WalletController extends Controller
             'descripcion' => $concepto,
             'status' => 0,
             'tipo_transaction' => 0,
-            //'nivel' => $nivel,
-            //'name' => $name,
-            //'porcentaje' => $porcentaje
+            'nivel' => $nivel,
+            'name' => $name,
+            'porcentaje' => $porcentaje
         ];
         dump($data);
         $this->saveWallet($data);
@@ -171,7 +186,7 @@ class WalletController extends Controller
     public function getPorcentage(int $nivel): float
     {
         $nivelPorcentaje = [
-            1 => 0.20, 2 => 0.05, 3 => 0.02, 4 => 0.01, 5 => 0.02
+            1 => 0.20, 2 => 0.05, 3 => 0.02, 4 => 0.01, 5 => 0.02, 6 => 0.10
         ];
 
         return $nivelPorcentaje[$nivel];
