@@ -319,8 +319,18 @@ class Menu
                         'complementoruta' => ''
                     ]
                 ]
-            ]
+            ],
             // Fin Liquidaciones
+
+            //Billetera
+            'Billetera' => [
+                'submenu' => 0,
+                'ruta' => route('wallet.index'),
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-credit-card',
+                'complementoruta' => '',
+            ]
+            //Fin Billetera
 
         ];
     }
