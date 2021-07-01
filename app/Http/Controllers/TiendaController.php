@@ -76,7 +76,7 @@ class TiendaController extends Controller
             View::share('titleg', 'Tienda - Productos');
             $category = Groups::find($idgroup);
             $services = $category->getPackage->where('status', 1);
-
+            
             return view('shop.products', compact('services'));
         } catch (\Throwable $th) {
             Log::error('Tienda - products -> Error: '.$th);
