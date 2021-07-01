@@ -7,6 +7,22 @@
 @push('page_vendor_js')
 <script src="{{asset('assets/app-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('assets/app-assets/vendors/js/extensions/polyfill.min.js')}}"></script>
+
+<script type="text/javascript">
+    $('#group_id').on('change', function(e){
+        let descricion = $("#group_id option:selected" ).attr('description');
+        console.log(descricion);
+        console.log("Hello <b>world</b>!");
+        $('#product_id').text($("#group_id option:selected" ).val());
+        $('#name').text($("#group_id option:selected" ).attr('name'));
+        //$('#descripcion').html(descricion);
+        document.getElementById("descripcion").innerHTML = descricion;
+        $('#minimum_deposit').val($("#group_id option:selected" ).attr('minimum_deposit'));
+        $('#invertir').attr( 'min',$("#group_id option:selected" ).attr('minimum_deposit'))
+
+        $('#modalCompra').modal('show')
+    });
+</script>
 @endpush
 
 
@@ -20,20 +36,84 @@
                         <a href="{{route('shop')}}" class="btn btn-primary"> Volver a los Grupos</a>
                     </div>
 
-                    <div>
-                        <fieldset class="form-group">
-                            <label for="group_id">Elige un paquete:</label>
-                            <select name="group_id" id="" class="form-control" required v-model="Service.group_id">
-                                <option value="" disabled selected>Elige una opcion</option>
-                                @foreach ($services->chunk(3) as $items)
-                                    @foreach ($items as $product)
-                                        <option value="{{$product->id}}">{{$product->name}}</option>
+                    <div class="row">
+                        <div class="col-9">
+                            <fieldset class="form-group">
+                                <label for="group_id">Elige un paquete:</label>
+                                <select name="group_id" id="group_id" class="form-control" required v-model="Service.group_id">
+                                    <option value="" disabled selected>Elige una opcion</option>
+                                    @foreach ($services->chunk(3) as $items)
+                                        @foreach ($items as $product)
+                                            <option minimum_deposit="{{$product->minimum_deposit}}" description="{{$product->description}}" name="{{$product->name}}" value="{{$product->id}}">{{$product->name}}</option>
+
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            </select>
-                        </fieldset>
+                                </select>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-3">
+                            <fieldset class="form-group">
+                                <label for="group_id">Acción:</label><br>
+                                <button type="button" class="btn btn-success waves-effect waves-light btn-block" data-toggle="modal" data-target="#modalCompra">Comprar</button>
+                            </fieldset>
+
+                        </div>
                     </div>
 
+                    <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel{{$product->id}}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalCompraLabel{{$product->id}}">Compra</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <form action="{{route('shop.procces')}}" method="post" target="_blank">
+                                <div class="modal-body">
+                                    @csrf
+                                    <input type="hidden" name="idproduct" id="product_id">
+                                   
+                                    <div class="row">
+                                        <div class="col-12 mb-1">
+                                           
+                                                <label for="">Nombre</label>
+                                                <br>
+                                                <span id="name"> </span>
+                                          
+                                        </div>
+                                        <div class="col-12">
+                                            
+                                                <label for="">Descrípcion</label>
+                                                <br>
+                                                <div id="descripcion"></div>
+                                           
+                                        </div>
+                                        <div class="col-12">
+                                            <fieldset class="form-group">
+                                                <label for="">Monto minimo</label>
+                                                <input id="minimum_deposit" type="number" name="minimum_deposit" class="form-control" disabled>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-12">
+                                            <fieldset class="form-group">
+                                                <label for="">Cuanto desea invertir</label>
+                                                <input id="invertir" type="number" name="deposito" class="form-control" required >
+                                            </fieldset>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger waves-effect waves-light">Comprar</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    {{--
                     @foreach ($services->chunk(3) as $items)
                         <div class="row">
                             @foreach ($items as $product)
@@ -53,7 +133,7 @@
                                 </div>
                             </div>
 
-                            <!-- Modal -->
+                            
                             <div class="modal fade" id="modalCompra{{$product->id}}" tabindex="-1" aria-labelledby="modalCompraLabel{{$product->id}}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -109,9 +189,11 @@
                             @endforeach                            
                         </div>
                     @endforeach
+                    --}}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @endsection
