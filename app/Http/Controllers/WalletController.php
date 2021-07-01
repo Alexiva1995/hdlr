@@ -83,27 +83,29 @@ class WalletController extends Controller
         //try {
             $ultimoNivel = 0;
             $comisionAcumulada = 0;
+            $user = User::findOrFail(1);
+
             $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
             // dd($sponsors);
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $iduser) {
                         $concepto = 'Comision del usuario '.$name_referred.' por un monto de '.$monto;
-                        if ($sponsor->status == 1) {
+                        $pocentaje = $this->getPorcentage($sponsor->nivel);
+                        $comision = ($monto * $pocentaje);
+                        $comisionAcumulada += $comision;
+                        if ($sponsor->nivel <= 4) {
                             $ultimoNivel = $sponsor->nivel;
-                            if ($sponsor->nivel <= 4) {
-                                $pocentaje = $this->getPorcentage($sponsor->nivel);
-                                $comision = ($monto * $pocentaje);
-                                $comisionAcumulada += $comision;
-                                //dump($sponsor);
+                            if ($sponsor->status == 1) {
+                                
                                 $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
-
-                            }else{
-                                //$this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
-                            }
-                        } else {
+                            } else {
+                                $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $user->fullname, $pocentaje);
+                            }   
+            
+                        }else{
                             //$this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
-                        }   
+                        }
                     }
                 }
                 dump('ultimo nivel');
@@ -111,7 +113,7 @@ class WalletController extends Controller
                 $recorrer = 4 - $ultimoNivel;
                 dump('recorrer');
                 dump($recorrer);
-                $user = User::findOrFail(1);
+                
                 //PAGAMOS LAS COMISIONES RESTANTES AL ADMIN
                 if($recorrer > 0){
                     for ($i=0; $i < $recorrer; $i++) { 
@@ -132,7 +134,7 @@ class WalletController extends Controller
                 dump('comision acumulada');
                 dump($comisionAcumulada);
                 //actualizamos la ganancia
-                dump($orden_id);
+                
                 $inversion = Inversion::where([
                     //['iduser', '=', $sponsor->id],
                     //['package_id', '=', $package_id],
@@ -141,8 +143,8 @@ class WalletController extends Controller
             
                 $inversion->ganancia_acumulada += $inversion->ganacia - $comisionAcumulada;
                 $inversion->ganacia = 0;
-                $inversion->status_por_pagar = 0; 
-                $inversion->status = 2;   
+                $inversion->status_por_pagar = 0;
+                $inversion->capital-= $comisionAcumulada;
                 $inversion->save();
             
             }

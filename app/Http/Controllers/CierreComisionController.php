@@ -244,7 +244,9 @@ class CierreComisionController extends Controller
             dump( $comision['referido']);
             dump('monto');
             dump($comision['comision']);
-            $wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $comision['inversion_id'], $comision['orden_id'], $comision['package_id']);
+            if($comision['comision'] > 0){
+                $wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $comision['inversion_id'], $comision['orden_id'], $comision['package_id']);
+            }
             //dump($wallet);
         }
         dd("listo");
