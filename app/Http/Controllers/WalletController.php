@@ -90,7 +90,7 @@ class WalletController extends Controller
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $iduser) {
-                        $concepto = 'Comision del usuario '.$name_referred.' por un monto de '.$monto;
+                        $concepto = 'Pago de '.$sponsor->email.' Nivel 2 = '.$sponsor->nivel;
                         $pocentaje = $this->getPorcentage($sponsor->nivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
