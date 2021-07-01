@@ -16,24 +16,26 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
+                    <div class="row">
                     @foreach ($categories->chunk(3) as $items)
-                        <div class="row">
+                        
                             @foreach ($items as $grupo)
                             <div class="col-12 col-md-4">
                                 <a href="{{route('shop.products', $grupo->id)}}">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <img class="card-img-top img-fluid" src="{{asset('storage/'.$grupo->img)}}" alt="{{$grupo->name}}">
-                                            <div class="card-body">
-                                                <h4 class="card-title">{{$grupo->name}}</h4>
+                                    <div class="card text-white">
+                                        <img class="card-img" src="{{asset('storage/'.$grupo->img)}}" alt="{{$grupo->name}}">
+                                        <div class=" ">
+                                            <div style="position: relative; top:100%; width: 100%;">
+                                            <h4 class="card-title text-white text-center bg-primary d-block" style="font-size: 2em;">{{$grupo->name}}</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                             @endforeach                            
-                        </div>
+                        
                     @endforeach
+                    </div>
                 </div>
             </div>
         </div>
