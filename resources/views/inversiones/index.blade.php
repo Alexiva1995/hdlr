@@ -36,11 +36,11 @@
                                     <td>{{$inversion->id}}</td>
                                     <td>{{$inversion->correo}}</td>
                                     <td>{{$inversion->getPackageOrden->getGroup->name }} - {{$inversion->getPackageOrden->name}}</td>
-                                    <td>{{number_format($inversion->invertido, 2, ',', '.')}}</td>
-                                    <td>{{number_format($inversion->ganacia, 2, ',', '.')}}</td>
-                                    <td>{{number_format($inversion->capital, 2, ',', '.')}}</td>
+                                    <td>$ {{number_format($inversion->invertido, 2, ',', '.')}}</td>
+                                    <td>$ {{number_format($inversion->ganacia, 2, ',', '.')}}</td>
+                                    <td>$ {{number_format($inversion->capital, 2, ',', '.')}}</td>
                                     <td>{{number_format($porcentaje,2, ',', '.')}} %</td>
-                                    <td></td>
+                                    <td>$ {{number_format($inversion->ganancia_acumulada,2, ',', '.')}}</td>
                                     <td>{{number_format($inversion->porcentaje_fondo,2, ',', '.')}} %</td>
                                     <td>{{date('Y-M-d', strtotime($inversion->fecha_vencimiento))}}</td>
                                 </tr>
