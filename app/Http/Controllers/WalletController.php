@@ -94,7 +94,7 @@ class WalletController extends Controller
                         $pocentaje = $this->getPorcentage($sponsor->nivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
-                        if ($sponsor->nivel <= 4) {
+                        if ($sponsor->nivel <= 5) {
                             $ultimoNivel = $sponsor->nivel;
                             if ($sponsor->status == 1) {
                                 
@@ -110,7 +110,7 @@ class WalletController extends Controller
                 }
                 dump('ultimo nivel');
                 dump($ultimoNivel);
-                $recorrer = 4 - $ultimoNivel;
+                $recorrer = 5 - $ultimoNivel;
                 dump('recorrer');
                 dump($recorrer);
                 
@@ -143,7 +143,9 @@ class WalletController extends Controller
             
                 $inversion->ganancia_acumulada += $inversion->ganacia - $comisionAcumulada;
                 $inversion->ganacia = 0;
-                $inversion->status_por_pagar = 0;
+                if($inversion->fecha_vencimiento != null){
+                    $inversion->status_por_pagar = 0;
+                }
                 $inversion->capital-= $comisionAcumulada;
                 $inversion->save();
             
@@ -234,7 +236,7 @@ class WalletController extends Controller
     public function saveWallet($data)
     {
         try {
-            if ($data['iduser'] != 1) {
+            //if ($data['iduser'] != 1) {
                 if ($data['tipo_transaction'] == 1) {
                     $wallet = Wallet::create($data);
                     //$saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
@@ -260,7 +262,7 @@ class WalletController extends Controller
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
                     //$wallet->update(['balance' => $saldoAcumulado]);
                 }
-            }
+            //}
         } catch (\Throwable $th) {
             Log::error('Wallet - saveWallet -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
