@@ -44,7 +44,7 @@
                                     <option value="" disabled selected>Elige una opcion</option>
                                     @foreach ($services->chunk(3) as $items)
                                         @foreach ($items as $product)
-                                            <option minimum_deposit="{{$product->minimum_deposit}}" description="{{$product->description}}" name="{{$product->name}}" value="{{$product->id}}">{{$product->name}}</option>
+                                            <option minimum_deposit="{{$product->minimum_deposit}}" description="{{$product->description}}" name="{{$product->name}}" value="{{$product->id}}">{{$product->name}} - {{$product->expired}}</option>
 
                                         @endforeach
                                     @endforeach
