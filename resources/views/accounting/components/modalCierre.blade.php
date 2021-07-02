@@ -18,8 +18,11 @@
                             <div class="col-12">
                                 <fieldset class="form-group">
                                     <label for="">Saldo Final Anterior</label>
-                                    <input type="number" step="any" class="form-control" readonly="true" :value="DataCierre.saldo_final" name="saldoFinal_anterior" id="formulario_saldo_final_anterior">
+                                    <input type="number" step="any" class="form-control"  :readonly="saldoAnterior" :value="DataCierre.saldo_final" name="saldoFinal_anterior" id="formulario_saldo_final_anterior">
                                 </fieldset>
+                                @if(Auth::user()->admin == 1)
+                                    <button type="button" class="btn btn-danger" id="modificar_saldo_final_anterior" onclick="vm_cierreComision.modificarSaldoAnterior()">Modificar</button>
+                                @endif
                             </div>
                             <div class="col-12">
                                 <fieldset class="form-group">
@@ -42,7 +45,7 @@
                             <div class="col-12">
                                 <fieldset class="form-group text-center">
                                     {{--<button type="submit" class="btn btn-primary">Guardar Cierre</button>--}}
-                                    <button type="button" class="btn btn-danger" onclick="vm_cierreComision.abrirModalCierreConfirmacion()">Guardar Cierre</button>
+                                    <button type="button" class="btn btn-primary" onclick="vm_cierreComision.abrirModalCierreConfirmacion()">Guardar Cierre</button>
                                 </fieldset>
                             </div>
                         </div>

@@ -4,7 +4,8 @@ var vm_cierreComision = new Vue({
         return {
             DataCierre: [],
             SaldoInicial: 0,
-            id: 0
+            id: 0,
+            saldoAnterior: true
         }
     },
     computed:{
@@ -46,6 +47,9 @@ var vm_cierreComision = new Vue({
         },
         submitFormulario: function(){
             $('#form_cierre').submit();
+        },
+        modificarSaldoAnterior: function(){
+            this.saldoAnterior = !this.saldoAnterior;
         }
     }
 })
