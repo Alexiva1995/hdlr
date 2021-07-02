@@ -9,6 +9,13 @@
 @push('custom_js')
 <script>
     function getlink(side) {
+        let dni = "{{Auth::user()->dni}}"
+        console.log(dni);
+        if(dni == null || dni == ""){
+            toastr.error("Necesita verficarse con KYC", '¡Error!', { "progressBar": true });
+            return 0;
+        }
+        
         var aux = document.createElement("input");
         aux.setAttribute("value", "{{route('register')}}?referred_id={{Auth::id()}}");
         document.body.appendChild(aux);

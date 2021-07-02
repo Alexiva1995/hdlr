@@ -18,6 +18,10 @@ class TreeController extends Controller
      * @param string $type
      * @return void
      */
+    public function __construct()
+    {
+        $this->middleware('kyc')->only('index', 'indexNewtwork');
+    }
     public function index($type)
     {
         try {

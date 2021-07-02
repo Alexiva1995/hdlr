@@ -16,6 +16,11 @@ class InversionController extends Controller
      * @param [type] $tipo
      * @return void
      */
+    public function __construct()
+    {
+        $this->middleware('kyc')->only('index');
+    }
+
     public function index($tipo)
     {
        try {
