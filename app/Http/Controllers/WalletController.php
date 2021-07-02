@@ -143,9 +143,11 @@ class WalletController extends Controller
             
                 $inversion->ganancia_acumulada += $inversion->ganacia - $comisionAcumulada;
                 $inversion->ganacia = 0;
+                /*
                 if($inversion->fecha_vencimiento != null){
                     $inversion->status_por_pagar = 0;
                 }
+                */
                 $inversion->capital-= $comisionAcumulada;
                 $inversion->save();
             

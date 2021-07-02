@@ -247,6 +247,17 @@ class CierreComisionController extends Controller
             }
             //dump($wallet);
         }
+
+        //Recalculamos los porcentajes
+        $capitalTotal = Inversion::where('status_por_pagar', '1')->sum('capital');
+
+        $inversiones = Inversion::where('status_por_pagar', '1')->get();
+
+        foreach ($inversiones as $inversion) {
+            $inversion->porcentaje_fondo = $inversion->capital / $capitalTotal;
+            $inversion->save();
+        }
+
         dd("listo");
         //dd($inversiones);
         dd("funconando");
