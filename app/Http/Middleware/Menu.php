@@ -213,6 +213,12 @@ class Menu
                         'ruta' => route('reports.comision'),
                         'complementoruta' => ''
                     ],
+                    [
+                        'name' => 'Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.index'),
+                        'complementoruta' => ''
+                    ],
                 ],
             ],
             // Fin Informes
@@ -321,17 +327,6 @@ class Menu
                 ]
             ],
             // Fin Liquidaciones
-
-            //Billetera
-            'Billetera' => [
-                'submenu' => 0,
-                'ruta' => route('wallet.index'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-credit-card',
-                'complementoruta' => '',
-            ]
-            //Fin Billetera
-
         ];
     }
 }
