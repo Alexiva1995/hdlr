@@ -12,28 +12,28 @@
             <div class="modal-body">
                 <h3 class="text-center">¿Esta seguro de realizar el cierre?</h3>
                 <div class="row">
-                    <div class="col-12">
-                        <fieldset class="form-group">
-                            <label for="">Saldo Final Anterior</label>
-                            <p id="saldo_final_anterior"></p>
+                    <div class="col-12 mb-1">
+                        <fieldset class="form-group text-center mb-0" style="font-size: 1.5em;">
+                            <label for="" class="font-weight-bold">Saldo Final Anterior</label>
+                            <div id="saldo_final_anterior" class="text-center"></div>
                         </fieldset>
                     </div>
-                    <div class="col-12">
-                        <fieldset class="form-group">
-                            <label for="">Saldo Inicial</label>
-                            <p id="saldo_inicial"></p>
+                    <div class="col-12 mb-1">
+                        <fieldset class="form-group text-center mb-0" style="font-size: 1.5em;">
+                            <label for="" class="font-weight-bold">Saldo Inicial</label>
+                            <div id="saldo_inicial" class="text-center"></div>
                         </fieldset>
                     </div>
-                    <div class="col-12">
-                        <fieldset class="form-group">
-                            <label for="">Ingreso</label>
-                            <p id="ingreso"></p>
+                    <div class="col-12 mb-1">
+                        <fieldset class="form-group text-center mb-0" style="font-size: 1.5em;">
+                            <label for="" class="font-weight-bold">Ingreso</label>
+                            <div id="ingreso" class="text-center"></div>
                         </fieldset>
                     </div>
-                    <div class="col-12">
-                        <fieldset class="form-group">
-                            <label for="">Saldo Final</label>
-                            <p id="saldo_final"></p>
+                    <div class="col-12 mb-1">
+                        <fieldset class="form-group text-center mb-0" style="font-size: 1.5em;">
+                            <label for="" class="font-weight-bold">Saldo Final</label>
+                            <div id="saldo_final" class="text-center"></div>
                         </fieldset>
                     </div>
                 </div>

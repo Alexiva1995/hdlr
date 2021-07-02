@@ -25,6 +25,7 @@
                                 <tr class="text-center text-white bg-purple-alt2">                                
                                    <th>Grupo</th>
                                    <th>Ingreso</th>
+                                   <th>Descripción</th>
                                    <th>Fecha del último cierre</th>
                                    <th>Accion</th>
                                 </tr>
@@ -39,6 +40,9 @@
                                     </td>
                                     <td>
                                         {{$orden->ingreso}}
+                                    </td>
+                                    <td>
+                                         {!! $orden->description !!}
                                     </td>
                                     <td>
                                          {{$orden->fecha_cierre}}

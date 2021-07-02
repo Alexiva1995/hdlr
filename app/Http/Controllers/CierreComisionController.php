@@ -48,6 +48,7 @@ class CierreComisionController extends Controller
                                     ->get();
             foreach ($ordenes as $orden) {
                 $orden->grupo = $orden->getGroupOrden->name;
+                $orden->description = $orden->getGroupOrden->description;
                 //$orden->paquete = $orden->getPackageOrden->name;
                 $cierre = CierreComision::where([
                     ['group_id', $orden->group_id]
