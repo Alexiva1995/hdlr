@@ -448,12 +448,12 @@ class LiquidactionController extends Controller
             'iduser' => $liquidacion->iduser,
             'cierre_comision_id' => null,
             'referred_id' => $liquidacion->iduser,
-            'debito' => $liquidacion->monto_bruto,
+            'monto' => $liquidacion->monto_bruto,
             'descripcion' => $concepto,
             'status' => 3,
             'tipo_transaction' => 0,
         ];
-
+        
         $this->walletController->saveWallet($arrayWallet);
 
         $liquidacion->status = 2;
