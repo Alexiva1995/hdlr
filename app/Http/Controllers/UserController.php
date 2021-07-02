@@ -298,5 +298,19 @@ class UserController extends Controller
       return redirect()->route('users.list-user')->with('msj-success', 'Usuario '.$id.' Eliminado');
     }
 
+    public function updateEstadoReinvertir(Request $request)
+    {
+        $user = Auth::user();
+
+        if($request->reinvertir == "capital"){
+            $user->reinvertir_capital = !$user->reinvertir_capital;
+        }else if($request->reinvertir == "comision"){
+            $user->reinvertir_comision = !$user->reinvertir_comision;
+        }
+
+        $user->save();
+       
+        return back()->with('msj-success', 'estado de reinversion actualizado exitosamente');
+    }
 }
 

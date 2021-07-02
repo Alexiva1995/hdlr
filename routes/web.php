@@ -88,6 +88,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::patch('profile-update', 'UserController@updateProfile')->name('profile.update');
         Route::patch('profile-update-kyc', 'UserController@updateProfileKYC')->name('profile.update.kyc');
 
+        Route::post('updateEstadoReinvertir', 'UserController@updateEstadoReinvertir')->name('updateEstadoReinvertir');
+
         Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
         Route::get('change-password', 'ChangePasswordController@change-password')->name('profile.change-password');
 

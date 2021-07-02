@@ -15,7 +15,11 @@
                                     Reinversion de Comissiones
                                 </strong>
                                 <h4>
-                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_1"><b>REINVERTIR</b></a href="javascript:;">
+                                    @if(Auth::user()->reinvertir_comision == false)
+                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_1"><b>REINVERTIR</b></a href="javascript:;">
+                                    @else
+                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_1"><b>Desactivar</b></a href="javascript:;">
+                                    @endif
                         </div>
                     </div>
                 </div>
@@ -29,8 +33,11 @@
                                     Reinversion del Capital
                                 </strong>
                                 <h4>
-                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>REINVERTIR</b></a href="javascript:;">
-
+                                     @if(Auth::user()->reinvertir_capital == false)
+                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>REINVERTIR</b></a href="javascript:;">
+                                    @else
+                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>Desactivar</b></a href="javascript:;">
+                                    @endif
                         </div>
                     </div>
                 </div>
@@ -48,13 +55,18 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
         <div class="modal-body">
             ¿ Seguro que quiere reinvertir ingresos por Bono ?
+            
+            @csrf
+            <input type="hidden" name="reinvertir" value="comision">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Aceptar</button>
-          <button type="button" class="btn btn-primary">Cancelar</button>
+          <button type="submit" class="btn btn-success">Aceptar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -67,13 +79,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
         <div class="modal-body">
             ¿ Reinvertir Ahorro ?
+            @csrf
+            <input type="hidden" name="reinvertir" value="capital">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Aceptar</button>
-          <button type="button" class="btn btn-primary">Cancelar</button>
+          <button type="submit" class="btn btn-success">Aceptar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
