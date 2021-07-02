@@ -30,11 +30,11 @@
                                 @if (Auth()->user()->admin == '1')
                                 <span class="user-name text-bold-600">{{Auth::user()->fullname}} <span class="text-primary">ADMIN</span></span>
                                 {{-- <span class="user-name text-bold-600 text-primary p">Administrador</span> --}}
-                                <span class="user-name headerBalance">Saldo Disponible: {{Auth::user()->wallet}} $</span>
+                                <span class="user-name headerBalance">Saldo Disponible: {{Auth::user()->getWallet->where('status', 0)->sum('monto')}} $</span>
 
                                 @else
                                 <span class="user-name text-bold-600">{{Auth::user()->fullname}}</span>
-                                <span class="user-name headerBalance">Saldo Disponible: {{Auth::user()->wallet}} $</span>
+                                <span class="user-name headerBalance">Saldo Disponible: {{Auth::user()->getWallet->where('status', 0)->sum('monto')}} $</span>
                                 @endif
                             </div>
 

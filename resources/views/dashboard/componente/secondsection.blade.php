@@ -9,7 +9,7 @@
                 <div class="card-content col-6">
                     <div class="card-body">
                         <div class="card-body text-center">
-                        <img src="{{asset('assets/img/sistema/24-7-support.png')}}" alt="card-img-left">
+                        <img src="{{asset('assets/img/sistema/finance-computer-icons.png')}}" alt="card-img-left" style="width: 100%;">
                             <h4 class="card-title mt-2">
                                 <strong>
                                     Reinversion de Comissiones
@@ -23,7 +23,7 @@
                 <div class="card-content col-6">
                     <div class="card-body">
                         <div class="card-body text-center">
-                        <img src="{{asset('assets/img/sistema/24-7-support.png')}}" alt="card-img-left">
+                        <img src="{{asset('assets/img/sistema/finance-computer-icons.png')}}" alt="card-img-left" style="width: 100%;">
                             <h4 class="card-title mt-2">
                                 <strong>
                                     Reinversion del Capital
@@ -196,6 +196,7 @@
                     </div>
                 </div>
             </div>
+            {{--
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0">
@@ -232,6 +233,7 @@
                     </div>
                 </div>
             </div>
+            --}}
         </div>
     </div>
 </div>
