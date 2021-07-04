@@ -260,9 +260,6 @@ class CierreComisionController extends Controller
         }
 
         dd("listo");
-        //dd($inversiones);
-        dd("funconando");
-        //$wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $cierre->id);
     }
 
     /**
@@ -274,34 +271,34 @@ class CierreComisionController extends Controller
     public function show($id)
     {
         try {
-            $paquete = Packages::find($id);
-            $ultimoSaldo = CierreComision::where('package_id', $id)->select('s_final', 'cierre', 'created_at')->orderBy('id', 'desc')->first();
+            $group = Groups::find($id);
+            $ultimoSaldo = CierreComision::where('group_id', $id)->select('s_final', 'cierre', 'created_at')->orderBy('id', 'desc')->first();
 
             if(isset($ultimoSaldo) && $ultimoSaldo->cierre != null){
                 $ingreso = OrdenPurchases::where([
                     ['status', '=', '1'],
-                    ['package_id', '=', $id]
+                    ['group_id', '=', $id]
                 ])->where('created_at', '>=', $ultimoSaldo->created_at)->get()->sum('cantidad');
             }else{
                 $ingreso = OrdenPurchases::where([
                     ['status', '=', '1'],
-                    ['package_id', '=', $id]
+                    ['group_id', '=', $id]
                 ])->get()->sum('cantidad');
             }    
             // $ingreso = $paquete->getOrdenPurchase->where('status', '1')->sum('total');
                                         // ->whereDate('created_at', Carbon::now()->format('Ymd'))
                                         // ->sum('total');
-            $paquete->save();
+            $group->save();
             
             $data = collect([
-                'paquete' => $paquete->getGroup->name.' - '.$paquete->name,
+                'group' => $group->name,
                 'saldo_final' => ($ultimoSaldo != null)? $ultimoSaldo->s_final : 0,
                 'ingreso' => $ingreso
             ]);
 
             return $data->toJson();
 
-        } catch (\Throwable $th) {
+        }catch (\Throwable $th) {
             Log::error('CierreComision - show -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }

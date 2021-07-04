@@ -84,14 +84,14 @@ class WalletController extends Controller
         //try {
             $ultimoNivel = 0;
             $comisionAcumulada = 0;
-            $user = User::findOrFail(1);
+            $user = User::findOrFail(1);//ADMIN
 
             $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
             // dd($sponsors);
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $iduser) {
-                        $concepto = 'Pago de '.$sponsor->email.' Nivel 2 = '.$sponsor->nivel;
+                        $concepto = 'Pago de '.$sponsor->email.' Nivel = '.$sponsor->nivel;
                         $pocentaje = $this->getPorcentage($sponsor->nivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
@@ -99,7 +99,7 @@ class WalletController extends Controller
                             $ultimoNivel = $sponsor->nivel;
                             if ($sponsor->status == 1) {
                                 
-                                $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
+                                $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje, $sponsor->reinvertir_comision);
                             } else {
                                 $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $user->fullname, $pocentaje);
                             }   
@@ -119,10 +119,11 @@ class WalletController extends Controller
                 if($recorrer > 0){
                     for ($i=0; $i < $recorrer; $i++) { 
                         $ultimoNivel++;
+                        $concepto = 'Pago de '.$sponsor->email.' Nivel = '.$ultimoNivel;
                         $pocentaje = $this->getPorcentage($ultimoNivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
-                        $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $ultimoNivel, $sponsor->fullname, $pocentaje);
+                        $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, $ultimoNivel, $user->fullname, $pocentaje);
                     }
                 }
                 //PAGAMOS 10% al admin
@@ -144,11 +145,6 @@ class WalletController extends Controller
             
                 $inversion->ganancia_acumulada += $inversion->ganacia - $comisionAcumulada;
                 $inversion->ganacia = 0;
-                /*
-                if($inversion->fecha_vencimiento != null){
-                    $inversion->status_por_pagar = 0;
-                }
-                */
                 $inversion->capital-= $comisionAcumulada;
                 $inversion->save();
             
@@ -169,7 +165,7 @@ class WalletController extends Controller
      * @param string $concepto
      * @return void
      */
-    private function preSaveWallet(int $iduser, int $idreferido, int $cierre_id=null,  float $monto, string $concepto, $nivel, $name, $porcentaje=null)
+    private function preSaveWallet(int $iduser, int $idreferido, int $cierre_id=null,  float $monto, string $concepto, $nivel, $name, $porcentaje=null, $reinvertir_comision=null)
     {
         $data = [
             'iduser' => $iduser,
@@ -181,8 +177,22 @@ class WalletController extends Controller
             'tipo_transaction' => 0,
             'nivel' => $nivel,
             'name' => $name,
-            'porcentaje' => $porcentaje
+            'porcentaje' => $porcentaje,
+            'reinvertir_comision' => $reinvertir_comision
         ];
+
+        //SI TIENE ACTIVADO LA OPCION REINVERTIR COMISION
+        if($reinvertir_comision){
+            $inversion = Inversion::where('iduser', $iduser)->where('status', 1)->whereDate('fecha_vencimiento', '>=', Carbon::now())->orderBy('fecha_vencimiento', 'asc')->first();
+            if(isset($inversion)){
+                $inversion->invertido+= $monto;
+                $inversion->capital+= $monto;
+                $inversion->save();
+                dump("inversion");
+                dump($inversion);
+            }
+        }
+
         dump($data);
         $this->saveWallet($data);
       
