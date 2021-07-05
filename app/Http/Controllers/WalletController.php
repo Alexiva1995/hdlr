@@ -119,7 +119,7 @@ class WalletController extends Controller
                 if($recorrer > 0){
                     for ($i=0; $i < $recorrer; $i++) { 
                         $ultimoNivel++;
-                        $concepto = 'Pago de '.$name_referred.' Nivel = '.$sponsor->nivel;
+                        $concepto = 'Pago de '.$name_referred.' Nivel = '.$ultimoNivel;
                         $pocentaje = $this->getPorcentage($ultimoNivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
