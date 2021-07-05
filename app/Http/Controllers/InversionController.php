@@ -131,7 +131,6 @@ class InversionController extends Controller
             if($ordenId != 0){
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
-                    ['package_id', '=', $paquete],
                     ['status', '=', 1],
                     ['orden_id', '=',$ordenId]
                 ])->first();

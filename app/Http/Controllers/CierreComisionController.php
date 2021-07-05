@@ -117,7 +117,7 @@ class CierreComisionController extends Controller
                     $this->repartirGanancia($cierre->group_id, $ganacia);
 
                      $comisiones = $this->generateComision($ganacia, $cierre->package_id, $cierre->group_id, $cierre->s_final);
-
+             
                      foreach ($comisiones as $comision) {
                        
                         $this->inversionController->updatePorcentaje($comision['iduser'], $paquete->id, $comision['comision'], $comision['ordenId'], $comision['porcentaje']);
@@ -154,9 +154,8 @@ class CierreComisionController extends Controller
             ->select(
                 'iduser', 'id','capital', 'orden_id'
             )
-            //->selectRaw('SUM(cantidad) as total, iduser')
-            // ->whereDate('created_at', Carbon::now()->format('Ymd'))
             ->get();
+
             //return $ordenes;
             $data = collect();
             
