@@ -227,7 +227,7 @@ class CierreComisionController extends Controller
                     'porcentaje' => $inversion->porcentaje_fondo,
                     'iduser' => $inversion->iduser,
                     'comision' => $inversion->ganacia,
-                    'referido' => $inversion->getInversionesUser->fullname,
+                    'referido' => $inversion->getInversionesUser->email,
                     'ordenId' => $inversion->getOrdenInversion->id,
                     'inversion_id' => $inversion->id,
                     'orden_id' => $inversion->orden_id,

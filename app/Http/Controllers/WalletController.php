@@ -91,7 +91,7 @@ class WalletController extends Controller
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $iduser) {
-                        $concepto = 'Pago de '.$sponsor->email.' Nivel = '.$sponsor->nivel;
+                        $concepto = 'Pago de '.$name_referred.' Nivel = '.$sponsor->nivel;
                         $pocentaje = $this->getPorcentage($sponsor->nivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
@@ -119,7 +119,7 @@ class WalletController extends Controller
                 if($recorrer > 0){
                     for ($i=0; $i < $recorrer; $i++) { 
                         $ultimoNivel++;
-                        $concepto = 'Pago de '.$sponsor->email.' Nivel = '.$ultimoNivel;
+                        $concepto = 'Pago de '.$name_referred.' Nivel = '.$sponsor->nivel;
                         $pocentaje = $this->getPorcentage($ultimoNivel);
                         $comision = ($monto * $pocentaje);
                         $comisionAcumulada += $comision;
@@ -128,6 +128,7 @@ class WalletController extends Controller
                 }
                 //PAGAMOS 10% al admin
                 $pocentaje = $this->getPorcentage(6);
+                $concepto = "Ganancia de HDLR por ususario ".$name_referred;
                 $comision = ($monto * $pocentaje);
                 $comisionAcumulada += $comision;
                 $user = User::findOrFail(1);
