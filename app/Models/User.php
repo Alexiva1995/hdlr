@@ -96,4 +96,14 @@ class User extends Authenticatable
 
         return number_format($monto,2);
     }
+
+    public function packageReinvertir()
+    {
+        return $this->belongsTo('App\Models\Packages', 'reinvertir_capital_package_id');
+    }
+
+    public function inversionReinvertir()
+    {
+        return $this->belongsTo('App\Models\Inversion', 'reinvertir_capital_inversion_id');
+    }
 }

@@ -323,8 +323,15 @@ class Menu
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('inversiones.checkStatus'),
                         'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Reinvertir capital',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.reinvertirCapital'),
+                        'complementoruta' => ''
                     ]
-                ]
+                ],
+
             ],
             // Fin Liquidaciones
         ];

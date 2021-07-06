@@ -101,6 +101,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     {
         Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
         Route::get('/cambiarStatus', 'InversionController@checkStatus')->name('inversiones.checkStatus');
+        Route::get('/reinvertirCapital', 'InversionController@reinvertirCapital')->name('inversiones.reinvertirCapital');
     });
 
     /**
