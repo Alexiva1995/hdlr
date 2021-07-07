@@ -115,16 +115,50 @@
                                     Contacta con nosotros, estaremos <br>
                                     encantado de ayudarte
                                 </p>
-                                <a href=""
-                                    class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light">CONTACTANOS</a
-                                    href="javascript:;">
+                                <button type="button" class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModal">
+                                    CONTACTANOS
+                                    </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
+    {{--MODAL FORMULARIO DE CONTACTO--}}
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Contactanos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <form method="post">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="asunto">Asunto</label>
+                    <input type="text" class="form-control" id="asunto" placeholder="Asunto" name="asunto">
+                </div>
+                <div class="form-group">
+                    <label for="texto">Mensaje</label>
+                    <textarea class="form-control" id="texto" rows="3" name="texto"></textarea>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
 
      
     <div class="col-12 mb-3 mt-3">
