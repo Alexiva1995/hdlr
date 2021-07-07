@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\WalletController;
 use DB;
 use App\Models\Inversion;
+use App\Models\Wallet;
+use App\Models\Liquidaction;
 
 class CierreComisionController extends Controller
 {
@@ -231,7 +233,9 @@ class CierreComisionController extends Controller
                     'ordenId' => $inversion->getOrdenInversion->id,
                     'inversion_id' => $inversion->id,
                     'orden_id' => $inversion->orden_id,
-                    'package_id' => $inversion->package_id 
+                    'package_id' => $inversion->package_id,
+                    'package_name' =>  $inversion->getPackageOrden->name,
+                    'wallet_address' => $inversion->getInversionesUser->wallet_address
                 ]);
             //}
         }
@@ -244,6 +248,37 @@ class CierreComisionController extends Controller
             dump($comision['comision']);
             if($comision['comision'] > 0){
                 $wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $comision['inversion_id'], $comision['orden_id'], $comision['package_id']);
+
+                //Generamos nueva liquidacion
+                $wallet = Wallet::where([
+                    ['status', '=', 1],
+                    ['tipo_transaction', '=', 0],
+                    ['liquidation_id', '=', null],
+                ])->get();
+
+                $bruto = $wallet->sum('monto');
+                $feed = ($bruto * 0.025);
+                $total = ($bruto - $feed);
+
+                $arrayLiquidation = [
+                    'iduser' => $comision['iduser'],
+                    'total' => $total,
+                    'monto_bruto' => $bruto,
+                    'feed' => $feed,
+                    'hash' => 'reinvertido en '. $comision['package_name'],
+                    'wallet_used' => $comision['wallet_address'],
+                    'status' => 0,
+                ];
+
+                $liquidacion = Liquidaction::create($arrayLiquidation);
+
+                Wallet::where([
+                    ['status', '=', 1],
+                    ['tipo_transaction', '=', 0],
+                    ['liquidation_id', '=', null],
+                ])->update([
+                    'liquidation_id' => $liquidacion->id
+                ]);
             }
             //dump($wallet);
         }
@@ -258,6 +293,9 @@ class CierreComisionController extends Controller
             $inversion->save();
         }
 
+        
+
+        
         dd("listo");
     }
 

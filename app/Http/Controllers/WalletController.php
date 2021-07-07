@@ -189,6 +189,7 @@ class WalletController extends Controller
                 $inversion->invertido+= $monto;
                 $inversion->capital+= $monto;
                 $inversion->save();
+                $data['status'] = 1;
                 dump("inversion");
                 dump($inversion);
             }
