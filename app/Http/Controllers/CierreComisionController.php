@@ -15,6 +15,7 @@ use DB;
 use App\Models\Inversion;
 use App\Models\Wallet;
 use App\Models\Liquidaction;
+use App\Models\User;
 
 class CierreComisionController extends Controller
 {
@@ -249,36 +250,6 @@ class CierreComisionController extends Controller
             if($comision['comision'] > 0){
                 $wallet = $this->walletController->payComision($comision['comision'], $comision['iduser'], $comision['referido'], $comision['inversion_id'], $comision['orden_id'], $comision['package_id']);
 
-                //Generamos nueva liquidacion
-                $wallet = Wallet::where([
-                    ['status', '=', 1],
-                    ['tipo_transaction', '=', 0],
-                    ['liquidation_id', '=', null],
-                ])->get();
-
-                $bruto = $wallet->sum('monto');
-                $feed = ($bruto * 0.025);
-                $total = ($bruto - $feed);
-
-                $arrayLiquidation = [
-                    'iduser' => $comision['iduser'],
-                    'total' => $total,
-                    'monto_bruto' => $bruto,
-                    'feed' => $feed,
-                    'hash' => 'reinvertido en '. $comision['package_name'],
-                    'wallet_used' => $comision['wallet_address'],
-                    'status' => 0,
-                ];
-
-                $liquidacion = Liquidaction::create($arrayLiquidation);
-
-                Wallet::where([
-                    ['status', '=', 1],
-                    ['tipo_transaction', '=', 0],
-                    ['liquidation_id', '=', null],
-                ])->update([
-                    'liquidation_id' => $liquidacion->id
-                ]);
             }
             //dump($wallet);
         }
@@ -293,8 +264,43 @@ class CierreComisionController extends Controller
             $inversion->save();
         }
 
+        //Generamos nueva liquidacion
+        $wallets = Wallet::where([
+            ['status', '=', 1],
+            ['tipo_transaction', '=', 0],
+            ['liquidation_id', '=', null],
+        ])->select(
+            'iduser', 
+            \DB::raw('sum(monto) as bruto')
+        )->groupBy('iduser')->get();
         
+        foreach($wallets as $wallet){
+            $bruto = $wallet->bruto;
+            $feed = ($bruto * 0.025);
+            $total = ($bruto - $feed);
 
+            $user = User::findOrFail($comision['iduser']);
+
+            $arrayLiquidation = [
+                'iduser' => $comision['iduser'],
+                'total' => $total,
+                'monto_bruto' => $bruto,
+                'feed' => $feed,
+                'hash' => 'reinvertido',
+                'wallet_used' => $user['wallet_address'],
+                'status' => 0,
+            ];
+
+            $liquidacion = Liquidaction::create($arrayLiquidation);
+        }
+
+        Wallet::where([
+            ['status', '=', 1],
+            ['tipo_transaction', '=', 0],
+            ['liquidation_id', '=', null],
+        ])->update([
+            'liquidation_id' => $liquidacion->id
+        ]);
         
         dd("listo");
     }
