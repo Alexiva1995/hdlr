@@ -34,7 +34,6 @@
                                     <th>Total </th>
                                     <th>Monto Bruto</th>
                                     <th>Feed</th>
-                                    <th>Hash</th>
                                     <th>Billetera</th>
                                     <th>Status</th>
                                     <th>Fecha</th>
@@ -49,7 +48,6 @@
                                     <td>{{$liqui->total}}</td>
                                     <td>{{$liqui->monto_bruto}}</td>
                                     <td>{{$liqui->feed}}</td>
-                                    <td>{{$liqui->hash}}</td>
                                     <td>{{$liqui->wallet_used}}</td>
                                     <td>{{$liqui->status}}</td>
                                     <td>{{date('Y-M-d', strtotime($liqui->created_at))}}</td>
