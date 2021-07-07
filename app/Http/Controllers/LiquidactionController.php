@@ -321,10 +321,10 @@ class LiquidactionController extends Controller
                 'monto_bruto' => $bruto,
                 'feed' => $feed,
                 'hash',
-                'wallet_used',
+                'wallet_used' => $user->wallet_address,
                 'status' => 0,
             ];
-
+          
             $idLiquidation = $this->saveLiquidation($arrayLiquidation);
 
             $concepto = 'Liquidacion del usuario '.$user->fullname.' por un monto de '.$bruto;
