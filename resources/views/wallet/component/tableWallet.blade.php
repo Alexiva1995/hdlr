@@ -5,7 +5,11 @@
             @if (Auth::user()->admin == 0)
             <th>Referido</th>
             @endif
+<<<<<<< HEAD
             <th>Descripción</th>
+=======
+            <th>Descripcion</th>
+>>>>>>> 12f08c3a0aa99434a2f38f33450b394c3443b638
             <th>Fecha</th>
             <th>Monto</th>
             <th>Estado</th>
