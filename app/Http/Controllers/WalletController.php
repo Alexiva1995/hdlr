@@ -15,6 +15,7 @@ use App\Http\Controllers\InversionController;
 use App\Models\CierreComision;
 use App\Models\Inversion;
 use App\Models\User;
+use App\Models\Liquidaction;
 
 class WalletController extends Controller
 {
@@ -66,7 +67,7 @@ class WalletController extends Controller
     public function payments()
     {
 
-        $payments = Wallet::where([['iduser', '=', Auth::user()->id], ['tipo_transaction', '=', '1']])->get();
+        $payments = Liquidaction::where([['iduser', '=', Auth::user()->id], ['status', '=', '1']])->get();
 
         return view('wallet.payments', compact('payments'));
     }

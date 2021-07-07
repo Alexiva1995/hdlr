@@ -273,7 +273,8 @@ class CierreComisionController extends Controller
             'iduser', 
             \DB::raw('sum(monto) as bruto')
         )->groupBy('iduser')->get();
-        
+        dump('primero');
+        dump($wallets);
         foreach($wallets as $wallet){
             $bruto = $wallet->bruto;
             $feed = ($bruto * 0.025);
@@ -285,22 +286,31 @@ class CierreComisionController extends Controller
                 'iduser' => $comision['iduser'],
                 'total' => $total,
                 'monto_bruto' => $bruto,
-                'feed' => $feed,
+                //'feed' => $feed,
                 'hash' => 'reinvertido',
                 'wallet_used' => $user['wallet_address'],
-                'status' => 0,
+                'status' => 1,
             ];
 
             $liquidacion = Liquidaction::create($arrayLiquidation);
-        }
 
-        Wallet::where([
-            ['status', '=', 1],
-            ['tipo_transaction', '=', 0],
-            ['liquidation_id', '=', null],
-        ])->update([
-            'liquidation_id' => $liquidacion->id
-        ]);
+            dump('wallet');
+            dump(Wallet::where([
+                ['status', '=', 1],
+                ['tipo_transaction', '=', 0],
+                ['liquidation_id', '=', null],
+                //['iduser' => $comision['iduser']]
+            ])->get());
+            Wallet::where([
+                ['status', '=', 1],
+                ['tipo_transaction', '=', 0],
+                ['liquidation_id', '=', null],
+                //['iduser' => $comision['iduser']]
+            ])->update([
+                'liquidation_id' => $liquidacion->id
+            ]);
+            
+        }
         
         dd("listo");
     }

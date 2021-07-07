@@ -27,9 +27,9 @@
                                 <tr class="text-center">
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->created_at}}</td>
-                                    <td>{{$item->getWalletUser->wallet_address}}</td>
-                                    <td>@isset($item->getLiquidation->hash){{$item->getLiquidation->hash}} @endisset</td>
-                                    <td>{{$item->monto}}</td>
+                                    <td>{{$item->wallet_used}}</td>
+                                    <td>{{$item->hash}}</td>
+                                    <td>{{$item->monto_bruto}}</td>
                                     @if ($item->status == '0')
                                     <td>En espera</td>
                                     @elseif($item->status == '1')
