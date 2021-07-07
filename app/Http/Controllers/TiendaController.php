@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\InversionController;
 
 
 class TiendaController extends Controller
 {
 
     public $apis_key_nowpayments;
+    public $inversionController;
 
     public function __construct()
     {
-        $this->apis_key_nowpayments = 'DV2D091-26V48MG-NDRX33X-7F5EJT7';
+        $this->inversionController = new InversionController();
+        $this->apis_key_nowpayments = 'J9KX1AC-8BE4VYV-MQ51VMT-QVWVZTW';
+        $this->middleware('kyc')->only('index', 'ordenHistory');
     }
     
     /**
@@ -31,6 +35,7 @@ class TiendaController extends Controller
         try {
             // title
             View::share('titleg', 'Tienda - Grupos');
+
             $categories = Groups::all()->where('status', 1);
 
             return view('shop.index', compact('categories'));
@@ -39,6 +44,26 @@ class TiendaController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+
+
+    public function ordenHistory()
+    {
+        try {
+            // title
+            // View::sxhare('titleg', 'Tienda - Grupos');
+
+            $ordenes = OrdenPurchases::all()->where('iduser', '=', Auth::user()->id);
+
+            
+            return view('shop.orderhistory', compact('ordenes'));
+        } catch (\Throwable $th) {
+            // Log::error('Tienda - Index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+
 
     /**
      * Lleva a la vista de productos de un paquete en especificio
@@ -53,7 +78,7 @@ class TiendaController extends Controller
             View::share('titleg', 'Tienda - Productos');
             $category = Groups::find($idgroup);
             $services = $category->getPackage->where('status', 1);
-
+            
             return view('shop.products', compact('services'));
         } catch (\Throwable $th) {
             Log::error('Tienda - products -> Error: '.$th);
@@ -70,26 +95,28 @@ class TiendaController extends Controller
     public function procesarOrden(Request $request)
     {
         $validate = $request->validate([
-            'idproduct' => 'required'
+            'idproduct' => 'required',
+            'deposito' => 'required|numeric|min:20'
         ]);
-
+    
         try {
             if ($validate) {
                 $paquete = Packages::find($request->idproduct);
 
-                $porcentaje = ($paquete->price * 0.03);
-                $total = ($paquete->price + $porcentaje);
+                $porcentaje = ($request->deposito * 0.03);
+                $total = ($request->deposito + $porcentaje);
                 
                 $data = [
                     'iduser' => Auth::id(),
                     'group_id' => $paquete->getGroup->id,
                     'package_id' => $paquete->id,
-                    'cantidad' => 1,
+                    'cantidad' => $request->deposito,
                     'total' => $total
                 ];
 
                 $data['idorden'] = $this->saveOrden($data);
                 $data['descripcion'] = $paquete->description;
+                //$data['Amount'] = $request->deposito;
                 $url = $this->generalUrlOrden($data);
                 if (!empty($url)) {
                     return redirect($url);
@@ -113,21 +140,53 @@ class TiendaController extends Controller
      */
     public function saveOrden($data): int
     {
-        return OrdenPurchases::insertGetId($data);
+        $orden = OrdenPurchases::create($data);
+        return $orden->id;
     }
 
     /**
      * Notifica el estado de la compra una vez realizada
      *
+     * @param integer $orden
      * @param string $status
      * @return void
      */
-    public function statusProcess($status)
+    public function statusProcess($orden, $status)
     {
         $type = ($status == 'Completada') ? 'success' : 'danger';
         $msj = 'Compra '.$status;
 
+        if ($status == 'Completada') {
+            $this->registeInversion($orden);
+        }
+
         return redirect()->route('shop')->with('msj-'.$type, $msj);
+    }
+
+    /**
+     * Permite Registrar las ordenes de forma manual
+     *
+     * @return void
+     */
+    public function getOrdenes()
+    {
+        $ordenes = OrdenPurchases::all()->where('status', '1');
+        foreach ($ordenes as $orden) {
+            $this->registeInversion($orden->id);
+        }
+    }
+
+    /**
+     * Permite llamar al funcion que registra las inversiones
+     *
+     * @param integer $idorden
+     * @return void
+     */
+    private function registeInversion($idorden)
+    {
+        $orden = OrdenPurchases::find($idorden);
+        $paquete = $orden->getPackageOrden;
+        $this->inversionController->saveInversion($paquete->id, $idorden, $orden->cantidad, $paquete->expired, $orden->iduser);
     }
 
     /**
@@ -159,14 +218,15 @@ class TiendaController extends Controller
             $curl = curl_init();
 
             $dataRaw = collect([
-                'price_amount' => $data['total'],
+                'price_amount' => floatval($data['total']),
                 "price_currency" => "usd",
                 "order_id" => $data['idorden'],
                 'pay_currency' => 'USDTTRC20',
                 "order_description" => $data['descripcion'],
                 "ipn_callback_url" => route('shop.ipn'),
-                "success_url" => route('shop.proceso.status', 'Completada'),
-                "cancel_url" => route('shop.proceso.status', 'Cancelada')
+                "success_url" => route('shop.proceso.status', [$data['idorden'], 'Completada']),
+                "cancel_url" => route('shop.proceso.status', [$data['idorden'], 'Cancelada']),
+                //"Amount" => $data['Amount']
             ]);
             
 
@@ -180,7 +240,7 @@ class TiendaController extends Controller
                 CURLOPT_CUSTOMREQUEST => "POST",
                 CURLOPT_POSTFIELDS => $dataRaw->toJson(),
                 CURLOPT_HTTPHEADER => $headers
-            ));+-
+            ));
                 
                 $response = curl_exec($curl);
                 $err = curl_error($curl);
@@ -198,5 +258,16 @@ class TiendaController extends Controller
             Log::error('Tienda - generalUrlOrden -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
+    }
+
+    public function cambiar_status(Request $request)
+    {
+        $orden = OrdenPurchases::findOrFail($request->id);
+        $orden->status = $request->status;
+        $orden->save();
+
+        $this->registeInversion($request->id);
+
+        return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
     }
 }

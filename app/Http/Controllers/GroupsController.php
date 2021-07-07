@@ -6,6 +6,7 @@ use App\Models\Groups;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class GroupsController extends Controller
 {
@@ -52,16 +53,23 @@ class GroupsController extends Controller
             'name' => ['required', 'unique:groups'],
             'img' => ['required', 'mimes:jpeg,png']
         ]);
+
         try {
             if ($validate) {
 
-                $path = $request->file('img')->store(
-                    'groups'
-                );               
-
                 $group = Groups::create($request->all());
 
-                $group->img = $path;
+                if ($request->hasFile('img')) {
+                    $file = $request->file('img');
+
+                    $nombre = time().$file->getClientOriginalName();
+                
+                    $ruta = 'groups/'.$group->id .'/'.$nombre;
+             
+                    Storage::disk('public')->put($ruta,  \File::get($file));
+                }
+
+                $group->img = $ruta;
                 $group->save();
                 
                 return redirect()->back()->with('msj-success', 'Nuevo Grupo Creada');
@@ -70,6 +78,7 @@ class GroupsController extends Controller
             Log::error('Grupos - store -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
+        
     }
 
     /**
@@ -93,7 +102,7 @@ class GroupsController extends Controller
     {
         try {
             $category = Groups::find($id)->only('name', 'description', 'id', 'status', 'img');
-            $category['img'] = asset('media/'.$category['img']);
+            $category['img'] = asset('storage/'.$category['img']);
             return json_encode($category);
         } catch (\Throwable $th) {
             Log::error('Grupos - edit -> Error: '.$th);
@@ -124,6 +133,17 @@ class GroupsController extends Controller
                 'img' => ['required', 'mimes:jpeg,png'],
             ]);
         }
+
+        if ($request->hasFile('img')) {
+            $file = $request->file('img');
+
+            $nombre = time().$file->getClientOriginalName();
+        
+            $ruta = 'groups/'.$category->id .'/'.$nombre;
+     
+            Storage::disk('public')->put($ruta,  \File::get($file));
+            Storage::disk('public')->delete($category->img);
+        }
         
         try {
             if ($validate) {
@@ -133,10 +153,8 @@ class GroupsController extends Controller
                 $category->status = $request->status;
                 $category->description = $request->description;
                 if ($request->file('img')) {
-                    $path = $request->file('img')->store(
-                        'groups'
-                    );
-                    $category->img = $path;
+                
+                    $category->img = $ruta;
                 }
                 $category->save();                
                 
@@ -155,9 +173,11 @@ class GroupsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    { 
         try {
-            Groups::find($id)->delete();
+            $grupo = Groups::findOrFail($id);
+            $grupo->status = 0;
+            $grupo->save();
 
             return redirect()->back()->with('msj-success', 'Grupo '.$id.' Eliminada');
         } catch (\Throwable $th) {

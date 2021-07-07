@@ -9,13 +9,17 @@
                 <div class="card-content col-6">
                     <div class="card-body">
                         <div class="card-body text-center">
-                        <img src="{{asset('assets/img/sistema/24-7-support.png')}}" alt="card-img-left">
+                        <img src="{{asset('assets/img/sistema/finance-computer-icons.png')}}" alt="card-img-left" style="width: 100%;">
                             <h4 class="card-title mt-2">
                                 <strong>
                                     Reinversion de Comissiones
                                 </strong>
                                 <h4>
-                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter"><b>REINVERTIR</b></a href="javascript:;">
+                                    @if(Auth::user()->reinvertir_comision == false)
+                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_1"><b>REINVERTIR</b></a href="javascript:;">
+                                    @else
+                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_1"><b>Desactivar</b></a href="javascript:;">
+                                    @endif
                         </div>
                     </div>
                 </div>
@@ -23,14 +27,17 @@
                 <div class="card-content col-6">
                     <div class="card-body">
                         <div class="card-body text-center">
-                        <img src="{{asset('assets/img/sistema/24-7-support.png')}}" alt="card-img-left">
+                        <img src="{{asset('assets/img/sistema/finance-computer-icons.png')}}" alt="card-img-left" style="width: 100%;">
                             <h4 class="card-title mt-2">
                                 <strong>
                                     Reinversion del Capital
                                 </strong>
                                 <h4>
-                                    <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModalCenter"><b>REINVERTIR</b></a href="javascript:;">
-
+                                     @if(Auth::user()->reinvertir_capital == false)
+                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>REINVERTIR</b></a href="javascript:;">
+                                    @else
+                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>Desactivar</b></a href="javascript:;">
+                                    @endif
                         </div>
                     </div>
                 </div>
@@ -40,25 +47,52 @@
 
 
           <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="reinvestment_1" tabindex="-1" role="dialog" aria-labelledby="reinvestment_1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
         <div class="modal-body">
-          Planes
+            ¿ Seguro que quiere reinvertir ingresos por Bono ?
+            
+            @csrf
+            <input type="hidden" name="reinvertir" value="comision">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-success">Aceptar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
 
+  <div class="modal fade" id="reinvestment_2" tabindex="-1" role="dialog" aria-labelledby="reinvestment_2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
+        <div class="modal-body">
+            ¿ Reinvertir Ahorro ?
+            @csrf
+            <input type="hidden" name="reinvertir" value="capital">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Aceptar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -93,31 +127,42 @@
 
 
      
-    <div class="col-12">
+    <div class="col-12 mb-3 mt-3">
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
                 <h1>Inversiones</h1>
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Inicio</th>
+                                    <th>Paquete</th>
+                                    <th>Inversion</th>
                                     <th>Vence</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
 
+                                @foreach ($data['packages'] as $item)
                                 <tr class="text-center">
-
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>1</td>
-
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->getPackageOrden->name }}</td>
+                                    <td>{{ $item->total }}</td>
+                                    <td>{{ $item->getPackageOrden->expired }}</td>
+                                    @if($item->status == 0)
+                                    <td>En espera</td>
+                                    @elseif($item->status == 1)
+                                    <td>Completada</td>
+                                    @elseif($item->status == 2)
+                                    <td>Rechazada</td>
+                                    @elseif($item->status == 3)
+                                    <td>Cancelada</td>
+                                    @endif
                                 </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -167,6 +212,7 @@
                     </div>
                 </div>
             </div>
+            {{--
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0">
@@ -176,7 +222,7 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="text-bold-700 mt-1">{{$data['ordenes']}}</h2>
+                            <h2 class="text-bold-700 mt-1">{{$data['ordenes']->count()}}</h2>
                             <p class="mb-0">Todas las ordenes</p>
                         </div>
                     </div>
@@ -203,6 +249,7 @@
                     </div>
                 </div>
             </div>
+            --}}
         </div>
     </div>
 </div>

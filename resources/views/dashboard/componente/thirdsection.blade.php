@@ -3,7 +3,7 @@
         {{-- <h2 class="divide-dashboard-title">Red de referidos</h2> --}}
         <div class="col-12">
             <div class="row">
-                <div class="col-lg-3 col-sm-6 col-12">
+                <div class="col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
@@ -21,7 +21,7 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-12">
+                <div class="col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
@@ -39,6 +39,7 @@
                         </div> --}}
                     </div>
                 </div>
+                {{--
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
@@ -52,16 +53,13 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="card-content">
-                            <div id="line-area-chart-7"></div>
-                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-start pb-2">
                             <div>
-                                <h2 class="text-bold-700">100</h2>
+                                <h2 class="text-bold-700">{{ number_format($data['rewards'], '2', ',', '.') }}</h2>
                                 <p class="mb-0">Total de Rewards</p>
                             </div>
                             <div class="avatar bg-rgba-success p-50">
@@ -70,12 +68,9 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="card-content">
-                            <div id="line-area-chart-7"></div>
-                        </div> --}}
                     </div>
                 </div>
-
+                --}}
 
 
             </div>

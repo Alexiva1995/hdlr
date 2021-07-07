@@ -100,13 +100,13 @@ class Menu
                     [
                         'name' => 'Activas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('inversiones.index', 1),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Culminadas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('inversiones.index', 2),
                         'complementoruta' => '',
                     ],
                 ],
@@ -124,7 +124,7 @@ class Menu
                     [
                         'name' => 'Pagos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('payments.index'),
                         'complementoruta' => ''
                     ],
                     [
@@ -133,29 +133,16 @@ class Menu
                         'ruta' => route('wallet.index'),
                         'complementoruta' => '',
                     ],
+                    [
+                        'name' => 'Historial de Ordenes',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('shop.orden.history'),
+                        'complementoruta' => '',
+                    ],
                 ],
             ],
             // Fin Financiero
 
-            // Historial de Ordenes
-            'Historial de Ordenes' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-clipboard',
-                'complementoruta' => '',
-            ],
-            // Fin historial de ordenes
-
-            // tickets
-              'Tickets' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-tag',
-                'complementoruta' => '',
-            ],
-            // Fin tickets
         ];
     }
     
@@ -206,9 +193,8 @@ class Menu
                 ],
             ],
             // Fin Ecommerce
-
-            // Informenes
-            'Informenes' => [
+            // Informes
+            'Informes' => [
                 'submenu' => 1,
                 'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -227,10 +213,38 @@ class Menu
                         'ruta' => route('reports.comision'),
                         'complementoruta' => ''
                     ],
+                    [
+                        'name' => 'Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.index'),
+                        'complementoruta' => ''
+                    ],
                 ],
             ],
-            // Fin Informenes
-
+            // Fin Informes
+            //Inverisones
+            'Inversiones' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-activity',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Activas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.index', 1),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Culminadas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.index', 2),
+                        'complementoruta' => '',
+                    ],
+                ],
+            ],
+            // Fin Inverisones
             // Organización
             'Organización' => [
                 'submenu' => 1,
@@ -246,29 +260,16 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Referidos Directos',
+                        'name' => 'Usuarios',
+                        'ruta' => route('users.list-user'),
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'direct'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Referidos en Red',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'network'),
-                        'complementoruta' => ''
+                        'icon' => 'fa fa-users',
+                        'complementoruta' => '',
                     ],
                 ],
             ],
             // Fin organizacion
-            // Cierre Comisiones
-            'Cierre Comisiones' => [
-                'submenu' => 0,
-                'ruta' => route('commission_closing.index'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => '-',
-                'complementoruta' => '',
-            ],
-            // Fin Cierre Comisiones
+ 
             // Liquidaciones
             'Liquidaciones' => [
                 'submenu' => 1,
@@ -277,8 +278,15 @@ class Menu
                 'icon' => 'fa fa-list-alt',
                 'complementoruta' => '',
                 'submenus' => [
+
                     [
-                        'name' => 'General Liquidaciones',
+                        'name' => 'Cierre Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('commission_closing.index'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Generar Liquidaciones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement'),
                         'complementoruta' => ''
@@ -294,21 +302,31 @@ class Menu
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
-                    ],
+                    ]
                 ],
             ],
-            // Fin Liquidaciones
-
-            // Usuarios
-            'Usuarios' => [
-                'submenu' => 0,
-                'ruta' => route('users.list-user'),
+            'Crons' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'fa fa-users',
+                'icon' => 'fa fa-list-alt',
                 'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('pagarComisiones'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Cambiar estatus inversion',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.checkStatus'),
+                        'complementoruta' => ''
+                    ]
+                ]
             ],
-            // Fin Usuarios
-
+            // Fin Liquidaciones
         ];
     }
 }

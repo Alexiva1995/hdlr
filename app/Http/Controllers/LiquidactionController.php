@@ -99,7 +99,8 @@ class LiquidactionController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->tipo = 'detallada') {
+        if ($request->tipo == 'detallada'){
+            
             $validate = $request->validate([
                 'listComisiones' => ['required', 'array'],
                 'iduser' => ['required']
@@ -112,7 +113,7 @@ class LiquidactionController extends Controller
 
         try {
             if ($validate) {
-                if ($request->tipo = 'detallada') {
+                if ($request->tipo == 'detallada'){
                     $this->generarLiquidation($request->iduser, $request->listComisiones);
                 }else{
                     foreach ($request->listUsers as $iduser) {
@@ -154,7 +155,7 @@ class LiquidactionController extends Controller
                 'iduser' => $id,
                 'fullname' => $user->fullname,
                 'comisiones' => $comiciones,
-                'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
+                'total' => number_format($comiciones->sum('monto'), 2, ',', '.')
             ];
     
             return json_encode($detalles);  
@@ -189,7 +190,7 @@ class LiquidactionController extends Controller
                 'iduser' => $user->id,
                 'fullname' => $user->fullname,
                 'comisiones' => $comiciones,
-                'total' => number_format($comiciones->sum('debito'), 2, ',', '.')
+                'total' => number_format($comiciones->sum('monto'), 2, ',', '.')
             ];
 
             return json_encode($detalles);
@@ -240,7 +241,7 @@ class LiquidactionController extends Controller
                     ['tipo_transaction', '=', 0],
                     ['iduser', '=', $iduser]
                 ])->select(
-                    DB::raw('sum(debito) as total'), 'iduser'
+                    DB::raw('sum(monto) as total'), 'iduser'
                 )->groupBy('iduser')->get();
             }else{
                 $comisionestmp = Wallet::where([
@@ -248,7 +249,7 @@ class LiquidactionController extends Controller
                     ['liquidation_id', '=', null],
                     ['tipo_transaction', '=', 0],
                 ])->select(
-                    DB::raw('sum(debito) as total'), 'iduser'
+                    DB::raw('sum(monto) as total'), 'iduser'
                 )->groupBy('iduser')->get();
             }
 
@@ -309,9 +310,9 @@ class LiquidactionController extends Controller
             }else {
                 $comisiones = Wallet::whereIn('id', $listComision)->get();
             }
-
-            $bruto = $comisiones->sum('debito');
-            $feed = ($bruto * 0);
+            
+            $bruto = $comisiones->sum('monto');
+            $feed = ($bruto * 0.025);
             $total = ($bruto - $feed);
 
             $arrayLiquidation = [
@@ -323,20 +324,21 @@ class LiquidactionController extends Controller
                 'wallet_used',
                 'status' => 0,
             ];
+
             $idLiquidation = $this->saveLiquidation($arrayLiquidation);
 
             $concepto = 'Liquidacion del usuario '.$user->fullname.' por un monto de '.$bruto;
             $arrayWallet =[
                 'iduser' => $user->id,
                 'referred_id' => $user->id,
-                'credito' => $bruto,
+                'monto' => $bruto,
                 'descripcion' => $concepto,
                 'status' => 0,
                 'tipo_transaction' => 1,
             ];
 
             $this->walletController->saveWallet($arrayWallet);
-            
+           
             if (!empty($idLiquidation)) {
                 $listComi = $comisiones->pluck('id');
                 Wallet::whereIn('id', $listComi)->update([
@@ -344,7 +346,7 @@ class LiquidactionController extends Controller
                     'liquidation_id' => $idLiquidation
                 ]);
             }
-        } catch (\Throwable $th) {
+        }catch (\Throwable $th) {
             Log::error('Liquidaction - generarLiquidation -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
@@ -446,12 +448,12 @@ class LiquidactionController extends Controller
             'iduser' => $liquidacion->iduser,
             'cierre_comision_id' => null,
             'referred_id' => $liquidacion->iduser,
-            'debito' => $liquidacion->monto_bruto,
+            'monto' => $liquidacion->monto_bruto,
             'descripcion' => $concepto,
             'status' => 3,
             'tipo_transaction' => 0,
         ];
-
+        
         $this->walletController->saveWallet($arrayWallet);
 
         $liquidacion->status = 2;

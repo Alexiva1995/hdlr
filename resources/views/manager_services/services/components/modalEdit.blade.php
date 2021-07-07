@@ -44,12 +44,7 @@
                                     <input type="date" name="expired" class="form-control" required v-model="Service.expired">
                                 </fieldset>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <fieldset class="form-group">
-                                    <label for="">Precio</label>
-                                    <input type="number" name="price" class="form-control" required v-model="Service.price" step="any">
-                                </fieldset>
-                            </div>
+                        
                             <div class="col-12 col-md-6">
                                 <fieldset class="form-group">
                                     <label for="">Estado</label>

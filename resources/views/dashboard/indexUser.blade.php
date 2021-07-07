@@ -76,4 +76,7 @@ $new = \App\Models\News::where('status', '1')->get();
 
 @include('layouts.componenteDashboard.optionDatatable')
 
+{{-- link de referido --}}
+@include('layouts.componenteDashboard.linkReferido')
+
 @endsection

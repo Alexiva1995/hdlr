@@ -165,13 +165,15 @@ class UserController extends Controller
         $user->update($request->all());
   
         if ($request->hasFile('photoDB')) {
-
             $file = $request->file('photoDB');
-            $name = $user->id.'_'.$file->getClientOriginalName();
-            $file->move(public_path('storage') . '/photo', $name);
-            $user->photoDB = $name;
-    
-         }
+
+            $nombre = time().$file->getClientOriginalName();
+
+            $ruta = 'photo/'. $user->id .'/'.$nombre;
+
+            Storage::disk('public')->put($ruta,  \File::get($file));
+            $user->photoDB = $ruta;
+        }
 
         $user->fullname = $fullname;
         // $user->utc = $request->utc;
@@ -245,14 +247,16 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-     if ($request->hasFile('photoDB')) {
+        if ($request->hasFile('photoDB')) {
+            $file = $request->file('photoDB');
 
-        $file = $request->file('photoDB');
-        $name = $user->id.'_'.$file->getClientOriginalName();
-        $file->move(public_path('storage') . '/photo', $name);
-        $user->photoDB = $name;
+            $nombre = time().$file->getClientOriginalName();
 
-     }
+            $ruta = 'photo/'. $user->id .'/'.$nombre;
+
+            Storage::disk('public')->put($ruta,  \File::get($file));
+            $user->photoDB = $ruta;
+        }
 
         $user->fullname = $fullname;
         $user->whatsapp = $request->whatsapp;
@@ -294,5 +298,19 @@ class UserController extends Controller
       return redirect()->route('users.list-user')->with('msj-success', 'Usuario '.$id.' Eliminado');
     }
 
+    public function updateEstadoReinvertir(Request $request)
+    {
+        $user = Auth::user();
+
+        if($request->reinvertir == "capital"){
+            $user->reinvertir_capital = !$user->reinvertir_capital;
+        }else if($request->reinvertir == "comision"){
+            $user->reinvertir_comision = !$user->reinvertir_comision;
+        }
+
+        $user->save();
+       
+        return back()->with('msj-success', 'estado de reinversion actualizado exitosamente');
+    }
 }
 

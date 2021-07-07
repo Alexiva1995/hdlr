@@ -17,8 +17,6 @@ class CreateCierreComisionsTable extends Migration
             $table->id();
             $table->bigInteger('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->bigInteger('package_id')->unsigned();
-            $table->foreign('package_id')->references('id')->on('packages');
             $table->double('s_inicial')->comment('saldo inicial');
             $table->double('s_ingreso')->comment('saldo ingreso');
             $table->double('s_final')->comment('saldo final');

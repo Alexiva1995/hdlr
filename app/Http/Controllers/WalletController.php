@@ -11,17 +11,23 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TreeController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use App\Http\Controllers\InversionController;
+use App\Models\CierreComision;
+use App\Models\Inversion;
+use App\Models\User;
 
 class WalletController extends Controller
 {
     //
 
     public $treeController;
+    public $inversionController;
 
     public function __construct()
     {
+        $this->inversionController = new InversionController;
         $this->treeController = new TreeController;
+        $this->middleware('kyc')->only('payments', 'index');
         View::share('titleq', 'Billetera');
     }
 
@@ -33,13 +39,37 @@ class WalletController extends Controller
     public function index()
     {
         if (Auth::user()->admin == 1) {
-            $wallets = Wallet::all();
+            $wallets = Wallet::all()->where('iduser', Auth::user()->id)->where('tipo_transaction', 0);
         }else{
-            $wallets = Auth::user()->getWallet;
+            $wallets = Auth::user()->getWallet->where('tipo_transaction', 0);
         }
-        return view('wallet.index', compact('wallets'));
+
+        //$saldoDisponible = $wallets->where('status', 0)->sum('monto');
+        $saldoDisponible = 0;
+
+        foreach($wallets->where('status', 0) as $monto){
+            if($monto->tipo_transaction == 1){
+
+                $monto->monto = $monto->monto * (-1);
+        
+            }
+            $saldoDisponible+= $monto->monto;
+        }
+        return view('wallet.index', compact('wallets', 'saldoDisponible'));
     }
 
+     /**
+     * Lleva a la vista de pagos
+     *
+     * @return void
+     */
+    public function payments()
+    {
+
+        $payments = Wallet::where([['iduser', '=', Auth::user()->id], ['tipo_transaction', '=', '1']])->get();
+
+        return view('wallet.payments', compact('payments'));
+    }
     /**
      * Permite pagar las comisiones a los usuarios
      *
@@ -49,33 +79,80 @@ class WalletController extends Controller
      * @param integer $idcierre
      * @return void
      */
-    public function payComision($monto, $iduser, $name_referred, $idcierre)
+    public function payComision($monto, $iduser, $name_referred, $inversion_id=null, $orden_id=null, $package_id=null)
     {
-        try {
+        //try {
+            $ultimoNivel = 0;
+            $comisionAcumulada = 0;
+            $user = User::findOrFail(1);//ADMIN
+
             $sponsors = $this->treeController->getSponsor($iduser, [], 0, 'ID', 'referred_id');
             // dd($sponsors);
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $iduser) {
-                        $concepto = 'Comision del usuario '.$name_referred.' por un monto de '.$monto;
-                        if ($sponsor->status == 1) {
-                            if ($sponsor->nivel <= 4) {
-                                $pocentaje = $this->getPorcentage($sponsor->nivel);
-                                $comision = ($monto * $pocentaje);
-                                $this->preSaveWallet($sponsor->id, $iduser, $idcierre, $comision, $concepto);
-                            }else{
-                                $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
-                            }
-                        } else {
-                            $this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto);
-                        }   
+                        $concepto = 'Pago de '.$sponsor->email.' Nivel = '.$sponsor->nivel;
+                        $pocentaje = $this->getPorcentage($sponsor->nivel);
+                        $comision = ($monto * $pocentaje);
+                        $comisionAcumulada += $comision;
+                        if ($sponsor->nivel <= 5) {
+                            $ultimoNivel = $sponsor->nivel;
+                            if ($sponsor->status == 1) {
+                                
+                                $this->preSaveWallet($sponsor->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje, $sponsor->reinvertir_comision);
+                            } else {
+                                $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, $sponsor->nivel, $user->fullname, $pocentaje);
+                            }   
+            
+                        }else{
+                            //$this->preSaveWallet(2, $iduser, $idcierre, $monto, $concepto, $sponsor->nivel, $sponsor->fullname);
+                        }
                     }
                 }
+                dump('ultimo nivel');
+                dump($ultimoNivel);
+                $recorrer = 5 - $ultimoNivel;
+                dump('recorrer');
+                dump($recorrer);
+                
+                //PAGAMOS LAS COMISIONES RESTANTES AL ADMIN
+                if($recorrer > 0){
+                    for ($i=0; $i < $recorrer; $i++) { 
+                        $ultimoNivel++;
+                        $concepto = 'Pago de '.$sponsor->email.' Nivel = '.$ultimoNivel;
+                        $pocentaje = $this->getPorcentage($ultimoNivel);
+                        $comision = ($monto * $pocentaje);
+                        $comisionAcumulada += $comision;
+                        $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, $ultimoNivel, $user->fullname, $pocentaje);
+                    }
+                }
+                //PAGAMOS 10% al admin
+                $pocentaje = $this->getPorcentage(6);
+                $comision = ($monto * $pocentaje);
+                $comisionAcumulada += $comision;
+                $user = User::findOrFail(1);
+                $this->preSaveWallet($user->id, $iduser, null, $comision, $concepto, 6, $user->fullname, $pocentaje);
+                
+                dump('comision acumulada');
+                dump($comisionAcumulada);
+                //actualizamos la ganancia
+                
+                $inversion = Inversion::where([
+                    //['iduser', '=', $sponsor->id],
+                    //['package_id', '=', $package_id],
+                    ['orden_id', '=',$orden_id]
+                ])->first();
+            
+                $inversion->ganancia_acumulada += $inversion->ganacia - $comisionAcumulada;
+                $inversion->ganacia = 0;
+                $inversion->capital-= $comisionAcumulada;
+                $inversion->save();
+            
             }
-        } catch (\Throwable $th) {
+        /*} catch (\Throwable $th) {
             Log::error('Wallet - payComision -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
-        }
+        }*/
     }
 
     /**
@@ -88,18 +165,37 @@ class WalletController extends Controller
      * @param string $concepto
      * @return void
      */
-    private function preSaveWallet(int $iduser, int $idreferido, int $idorden,  float $monto, string $concepto)
+    private function preSaveWallet(int $iduser, int $idreferido, int $cierre_id=null,  float $monto, string $concepto, $nivel, $name, $porcentaje=null, $reinvertir_comision=null)
     {
         $data = [
             'iduser' => $iduser,
             'referred_id' => $idreferido,
-            'cierre_comision_id' => $idorden,
-            'debito' => $monto,
+            'cierre_comision_id' => $cierre_id,
+            'monto' => $monto,
             'descripcion' => $concepto,
             'status' => 0,
             'tipo_transaction' => 0,
+            'nivel' => $nivel,
+            'name' => $name,
+            'porcentaje' => $porcentaje,
+            'reinvertir_comision' => $reinvertir_comision
         ];
+
+        //SI TIENE ACTIVADO LA OPCION REINVERTIR COMISION
+        if($reinvertir_comision){
+            $inversion = Inversion::where('iduser', $iduser)->where('status', 1)->whereDate('fecha_vencimiento', '>=', Carbon::now())->orderBy('fecha_vencimiento', 'asc')->first();
+            if(isset($inversion)){
+                $inversion->invertido+= $monto;
+                $inversion->capital+= $monto;
+                $inversion->save();
+                dump("inversion");
+                dump($inversion);
+            }
+        }
+
+        dump($data);
         $this->saveWallet($data);
+      
     }
 
     /**
@@ -111,27 +207,10 @@ class WalletController extends Controller
     public function getPorcentage(int $nivel): float
     {
         $nivelPorcentaje = [
-            1 => 0.20, 2 => 0.05, 3 => 0.02, 4 => 0.01, 5 => 0.02
+            1 => 0.20, 2 => 0.05, 3 => 0.02, 4 => 0.01, 5 => 0.02, 6 => 0.10
         ];
 
         return $nivelPorcentaje[$nivel];
-    }
-
-    /**
-     * Permite Recalcular el monto a pagar por el tipo de medio que recargo
-     *
-     * @param float $monto
-     * @param string $tipo_pago
-     * @return float
-     */
-    public function recalcularMonto(float $monto, string $tipo_pago):float
-    {
-        $arrayMetodo = [
-            'payulatam' => 1.10, 'manual' => 1.00, 'stripe' => 1.10, 'coinbase' => 1.02
-        ];
-        
-        $resultado = ($monto / $arrayMetodo[strtolower($tipo_pago)]);
-        return $resultado;
     }
 
     /**
@@ -170,12 +249,12 @@ class WalletController extends Controller
     public function saveWallet($data)
     {
         try {
-            if ($data['iduser'] != 1) {
+            //if ($data['iduser'] != 1) {
                 if ($data['tipo_transaction'] == 1) {
                     $wallet = Wallet::create($data);
-                    $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['credito']);
+                    $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                    $wallet->update(['balance' => $saldoAcumulado]);
+                    //$wallet->update(['balance' => $saldoAcumulado]);
                 }else{
                     if ($data['cierre_comision_id'] != null) {
                         if ($data['iduser'] == 2) {
@@ -192,11 +271,11 @@ class WalletController extends Controller
                     }else{
                         $wallet = Wallet::create($data);
                     }
-                    $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['debito']);
+                    $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['monto']);
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                    $wallet->update(['balance' => $saldoAcumulado]);
+                    //$wallet->update(['balance' => $saldoAcumulado]);
                 }
-            }
+            //}
         } catch (\Throwable $th) {
             Log::error('Wallet - saveWallet -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -212,9 +291,9 @@ class WalletController extends Controller
     public function getTotalComision($iduser): float
     {
         try {
-            $wallet = Wallet::where([['iduser', '=', $iduser], ['status', '=', 0]])->get()->sum('debito');
+            $wallet = Wallet::where([['iduser', '=', $iduser], ['status', '=', 0]])->get()->sum('monto');
             if ($iduser == 1) {
-                $wallet = Wallet::where([['status', '=', 0]])->get()->sum('debito');
+                $wallet = Wallet::where([['status', '=', 0]])->get()->sum('monto');
             }
             return $wallet;
         } catch (\Throwable $th) {
@@ -234,7 +313,7 @@ class WalletController extends Controller
         try {
             $totalComision = [];
             if (Auth::user()->admin == 1) {
-                $Comisiones = Wallet::select(DB::raw('SUM(debito) as Comision'))
+                $Comisiones = Wallet::select(DB::raw('SUM(monto) as Comision'))
                                 ->where([
                                     ['status', '<=', 1]
                                 ])
@@ -244,7 +323,7 @@ class WalletController extends Controller
                                 ->take(6)
                                 ->get();
             }else{
-                $Comisiones = Wallet::select(DB::raw('SUM(debito) as Comision'))
+                $Comisiones = Wallet::select(DB::raw('SUM(monto) as Comision'))
                                 ->where([
                                     ['iduser', '=',  $iduser],
                                     ['status', '<=', 1]

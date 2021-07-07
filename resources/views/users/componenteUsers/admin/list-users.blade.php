@@ -32,7 +32,7 @@
                     <div class="table-responsive">
                         <h1>Lista de Usuarios</h1>
                         <p>Para ver mas información dar click -> <img src="{{asset('assets/img/sistema/btn-plus.png')}}" alt=""></p>
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
                             
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
@@ -67,41 +67,50 @@
                                     @else
                                     <td>Normal</td>
                                     @endif
+                                    
 
                                     @if ($item->status == '0')
-                                    <td> <a class=" btn btn-info text-white text-bold-600">Inactivo</a></td>
+                                    <td>Inactivo</td>
                                     @elseif($item->status == '1')
-                                    <td> <a class=" btn btn-success text-white text-bold-600">Activo</a></td>
+                                    <td>Activo</td>
                                     @elseif($item->status == '2')
-                                    <td> <a class=" btn btn-warning text-white text-bold-600">Eliminado</a></td>
+                                    <td>Suspendido</td>
+                                    @elseif($item->status == '3')
+                                    <td>Bloquiado</td>
+                                    @elseif($item->status == '4')
+                                    <td>Caducado</td>
+                                    @elseif($item->status == '5')
+                                    <td>Eliminado</td>
                                     @endif
                                     <td>{{ $item->created_at}}</td>
                                     <td>
                                     
                                     @if ($item->dni != NULL && $item->status == 0)
-                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600">Verificar</a>
+                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i class="fa fa-check-square-o "></i></a>
                                     @endif
                                     
                                     @if(Auth::user()->id == $item->id)
-                                    <a href="{{ route('profile') }}" class="btn btn-secondary text-bold-600">Editar</a>
+                                    <a href="{{ route('profile') }}" class="btn btn-secondary text-bold-600"><i class="fa fa-pencil"></i></a>
                                     @else
-                                    <a href="{{ route('users.edit-user',$item->id) }}" class="btn btn-secondary text-bold-600">Editar</a>
+                                    <a href="{{ route('users.edit-user',$item->id) }}" class="btn btn-secondary text-bold-600"><i class="fa fa-pencil"></i></a>
                                     
                                     
                                     <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn">
                                         @csrf
-                                    <button class="btn btn-primary text-bold-600">
-                                    Ver
-                                    </button>
+                                        <button type="submit" class="btn btn-primary text-bold-600">
+                                            <i class="fa fa-eye"></i>
+
+                                        </button>
+
                                      </form>
 
-                                    <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
+                                    {{-- <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
                                         <form action="{{route('users.destroy-user', $item->id)}}" method="post" id="delete{{$item->id}}">
                                             @csrf
-                                            @method('DELETE')
+                                            @method('DELETE')admin
                                         </form>
                                         <i class="fa fa-trash"></i>
-                                    </button>
+                                    </button> --}}
                                     @endif
                                     </td>
                                 </tr>

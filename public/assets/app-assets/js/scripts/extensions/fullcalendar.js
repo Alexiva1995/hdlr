@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // color object for different event types
   var colors = {
-    primary: "#188EFF",
+    primary: "#13192E",
     success: "#28c76f",
     danger: "#ea5455",
     warning: "#ff9f43"

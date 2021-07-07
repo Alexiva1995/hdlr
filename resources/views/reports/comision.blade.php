@@ -7,7 +7,7 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
 
                                 <tr class="text-center text-white bg-purple-alt2">                                
@@ -29,7 +29,7 @@
                                     <td>{{$wallet->name}}</td>
                                     <td>{{$wallet->referido}}</td>
                                     <td>{{$wallet->descripcion}}</td>
-                                    <td>{{$wallet->debito}}</td>
+                                    <td>{{$wallet->monto}}</td>
 
                                     @if ($wallet->status == '0')
                                     <td> <a class=" btn btn-info text-white text-bold-600">Pendiente</a></td>
@@ -41,7 +41,7 @@
                                     <td> <a class=" btn btn-danger text-white text-bold-600">Reservada</a></td>
                                     @endif
 
-                                    <td>{{date('Y-m-d', strtotime($wallet->created_at))}}</td>
+                                    <td>{{date('Y-M-d', strtotime($wallet->created_at))}}</td>
                                 </tr>
                                 @endforeach
                                

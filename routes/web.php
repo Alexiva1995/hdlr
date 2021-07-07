@@ -27,7 +27,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
      // Inicio de usuarios
     Route::get('/home-user', 'HomeController@indexUser')->name('home.user');
     // Ruta para obtener la informacion de la graficas del dashboard
-    Route::get('getdatagraphicdashboard', 'HomeController@getDataGraphic')->name('home.data.graphic');
+    Route::get('getdatagraphicdashboard', 'ReporteController@graphisDashboard')->name('home.data.graphic');
 
     // Red de usuario
     Route::prefix('genealogy')->group(function ()
@@ -46,6 +46,12 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('/', 'WalletController@index')->name('wallet.index');
     });
 
+    // Ruta para la pagos
+    Route::prefix('payments')->group(function ()
+    {
+        Route::get('/', 'WalletController@payments')->name('payments.index');
+    });
+
     // Ruta para la tienda
     Route::prefix('shop')->group(function ()
     {
@@ -53,7 +59,9 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('/groups/{idgroup}/products', 'TiendaController@products')->name('shop.products');
         Route::post('/procces', 'TiendaController@procesarOrden')->name('shop.procces');
         Route::post('/ipn', 'TiendaController@ipn')->name('shop.ipn');
-        Route::get('/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
+        Route::get('{orden}/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
+        Route::get('orden-history', 'TiendaController@ordenHistory')->name('shop.orden.history');
+        Route::post('cambiarStatus', 'TiendaController@cambiar_status')->name('cambiarStatus');
     });
 
     // Ruta para las funciones por alla que no correspondan a otra seccion
@@ -80,11 +88,19 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::patch('profile-update', 'UserController@updateProfile')->name('profile.update');
         Route::patch('profile-update-kyc', 'UserController@updateProfileKYC')->name('profile.update.kyc');
 
+        Route::post('updateEstadoReinvertir', 'UserController@updateEstadoReinvertir')->name('updateEstadoReinvertir');
+
         Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
         Route::get('change-password', 'ChangePasswordController@change-password')->name('profile.change-password');
 
         Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
+    });
+
+    Route::prefix('inversiones')->group(function ()
+    {
+        Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
+        Route::get('/cambiarStatus', 'InversionController@checkStatus')->name('inversiones.checkStatus');
     });
 
     /**
@@ -116,12 +132,14 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         //Rutas para el cierre de productos
         Route::prefix('accounting')->group(function(){
             Route::resource('commission_closing', 'CierreComisionController');
+            Route::get('pagarComisiones', 'CierreComisionController@pagarUtilidadFinDeMes')->name('pagarComisiones');
         });
 
         //Rutas para los reportes
         Route::prefix('reports')->group(function(){
             Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
             Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
+
         });
 
         

@@ -4,12 +4,12 @@
 @push('custom_css')
 <style>
     .bg-fucsia {
-        background: transparent linear-gradient(0deg, #007DFF 0%, #188EFF 100%) 0% 0% no-repeat padding-box;
+        background: transparent linear-gradient(0deg, #13192E 0%, #13192E 100%) 0% 0% no-repeat padding-box;
 
     }
 
     .text-rosado {
-        color: #007DFF;
+        color: #13192E;
     }
 
     .bg-full-screen-image-alt {

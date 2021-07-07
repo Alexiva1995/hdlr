@@ -22,13 +22,13 @@ class Packages extends Model
         return $this->belongsTo('App\Models\Groups', 'group_id', 'id');
     }
 
-    /**
-     * Permite obtener todos los paquetes de un grupo
-     *
-     * @return void
-     */
-    public function E()
-    {
-        return $this->hasMany('App\Models\OrdenPurchases', 'package_id');
-    }
+    // /**
+    //  * Permite obtener todos los paquetes de un grupo
+    //  *
+    //  * @return void
+    //  */
+    // public function E()
+    // {
+    //     return $this->hasMany('App\Models\OrdenPurchases', 'package_id');
+    // }
 }
