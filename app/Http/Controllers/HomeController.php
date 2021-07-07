@@ -12,6 +12,7 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ActivacionController;
 use App\Http\Controllers\TiendaController;
+use App\Models\Inversion;
 
 class HomeController extends Controller
 {
@@ -83,13 +84,13 @@ class HomeController extends Controller
         $data = [
             'directos' => $cantUsers['directos'],
             'indirectos' => $cantUsers['indirectos'],
-            'wallet' => Auth::user()->wallet,
-            'comisiones' => $this->walletController->getTotalComision($iduser),
+            'wallet' => Auth::user()->getWallet->where('status', 0)->sum('monto'),
+            'comisiones' => Auth::user()->getWallet->sum('monto'),
             'tickets' => 0,
             'ordenes' => $this->reportController->getOrdenes(10),
             'usuario' => Auth::user()->fullname,
             'rewards' => Wallet::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()->sum('monto'),
-            'packages' => OrdenPurchases::where([['iduser', '=', $iduser], ['status', '=', '0']])->get()
+            'packages' => OrdenPurchases::where([['iduser', '=', $iduser]])->get()
         ];
 
         return $data;
