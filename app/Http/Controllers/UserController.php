@@ -274,7 +274,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        $user->status = '1';
+        //$user->status = '1';
         $user->verify = '1';
 
         $user->save();

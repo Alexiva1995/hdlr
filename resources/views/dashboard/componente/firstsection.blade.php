@@ -28,11 +28,11 @@
                         <p class="m-auto w-75">
                             KYC: Sin verificar <span class="text-danger h3">◉</span><br>
                         </p>
-                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 0)
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->verify == 0)
                         <p class="m-auto w-75">
                             KYC: En Revision <span class="text-warning h3">◉</span><br>
                         </p>
-                        @elseif (Auth::user()->dni != NULL && Auth::user()->status == 1)
+                        @elseif (Auth::user()->dni != NULL && Auth::user()->verify == 1)
                         <p class="m-auto w-75">
                             KYC: Verificada <span class="text-success h3">◉</span><br>
                         </p>

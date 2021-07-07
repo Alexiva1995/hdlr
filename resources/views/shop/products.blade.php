@@ -61,11 +61,11 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel{{$product->id}}" aria-hidden="true">
+                    <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalCompraLabel{{$product->id}}">Compra</h5>
+                                    <h5 class="modal-title" id="modalCompraLabel">Compra</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>

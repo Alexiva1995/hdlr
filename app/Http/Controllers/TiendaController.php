@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Groups;
 use App\Models\OrdenPurchases;
 use App\Models\Packages;
+use App\Models\User;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -267,6 +268,10 @@ class TiendaController extends Controller
         $orden->save();
 
         $this->registeInversion($request->id);
+
+        $user = User::findOrFail($orden->iduser);
+        $user->status = '1';
+        $user->save();
 
         return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
     }

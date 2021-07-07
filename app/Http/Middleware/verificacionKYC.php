@@ -19,7 +19,7 @@ class verificacionKYC
     {
 
         if (Auth::user()->admin != 1) {
-            if(Auth::user()->dni != NULL && Auth::user()->status == 1){
+            if(Auth::user()->dni != NULL && Auth::user()->verify == 1){
                 return $next($request);
             }else{
                 return back()->with('msj-danger', 'Necesita verificarse con KYC');
