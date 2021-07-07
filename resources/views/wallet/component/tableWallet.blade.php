@@ -5,6 +5,7 @@
             @if (Auth::user()->admin == 0)
             <th>Referido</th>
             @endif
+            <th>Descripción</th>
             <th>Fecha</th>
             <th>Monto</th>
             <th>Estado</th>
@@ -18,6 +19,7 @@
             @if (Auth::user()->admin == 0)
             <td>{{$wallet->getWalletReferred->fullname}}</td>
             @endif
+            <td>{{$wallet->descripcion}}</td>
             <td>{{date('d-m-Y', strtotime($wallet->created_at))}}</td>
             {{--
             @php
