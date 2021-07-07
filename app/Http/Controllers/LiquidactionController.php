@@ -337,7 +337,7 @@ class LiquidactionController extends Controller
                 'tipo_transaction' => 1,
             ];
 
-            $this->walletController->saveWallet($arrayWallet);
+            //$this->walletController->saveWallet($arrayWallet);
            
             if (!empty($idLiquidation)) {
                 $listComi = $comisiones->pluck('id');
@@ -424,7 +424,7 @@ class LiquidactionController extends Controller
             'hash' => $hash
         ]);
 
-        Wallet::where('liquidation_id', $idliquidation)->update(['liquidado' => 1]);
+        Wallet::where('liquidation_id', $idliquidation)->update(['liquidado' => 1, 'status' => 1]);
     }
 
     /**
@@ -439,7 +439,7 @@ class LiquidactionController extends Controller
         $liquidacion = Liquidaction::find($idliquidation);
         
         Wallet::where('liquidation_id', $idliquidation)->update([
-            'status' => 0,
+            'status' => 2,
             'liquidation_id' => null,
         ]);
 
@@ -454,7 +454,7 @@ class LiquidactionController extends Controller
             'tipo_transaction' => 0,
         ];
         
-        $this->walletController->saveWallet($arrayWallet);
+        //$this->walletController->saveWallet($arrayWallet);
 
         $liquidacion->status = 2;
         $liquidacion->save();
