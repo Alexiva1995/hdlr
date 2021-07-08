@@ -304,35 +304,7 @@ class Menu
                         'complementoruta' => ''
                     ]
                 ],
-            ],
-            'Crons' => [
-                'submenu' => 1,
-                'ruta' => 'javascript:;',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'fa fa-list-alt',
-                'complementoruta' => '',
-                'submenus' => [
-                    [
-                        'name' => 'Comisiones',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('pagarComisiones'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Cambiar estatus inversion',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('inversiones.checkStatus'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Reinvertir capital',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('inversiones.reinvertirCapital'),
-                        'complementoruta' => ''
-                    ]
-                ],
-
-            ],
+            ]
             // Fin Liquidaciones
         ];
     }
