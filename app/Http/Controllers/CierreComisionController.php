@@ -216,7 +216,7 @@ class CierreComisionController extends Controller
         }
     }
 
-    public function pagarUtilidadFinDeMes(Request $request)
+    public function pagarUtilidadFinDeMes()
     {
         $inversiones = Inversion::where('status_por_pagar', '1')->get();
 

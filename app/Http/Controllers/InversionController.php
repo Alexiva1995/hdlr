@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class InversionController extends Controller
 {
@@ -155,7 +156,7 @@ class InversionController extends Controller
         }
     }
 
-    public function reinvertirCapital(Request $request)
+    public function reinvertirCapital()
     {
         $users = User::where('reinvertir_capital', true)->get();
 
@@ -186,5 +187,10 @@ class InversionController extends Controller
                 }
             }   
         }
+    }
+
+    public function test(){
+        $texto = "me llamo luis";
+        Storage::append('text.txt', $texto);
     }
 }
