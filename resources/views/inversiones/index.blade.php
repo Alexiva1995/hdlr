@@ -14,7 +14,7 @@
                                     <th>ID</th>
                                     <th>Correo</th>
                                     <th>Paquete</th>
-                                    <th>Invertido</th>
+                                    <th>Ahorro</th>
                                     <th>Ganancia</th>
                                     <th>Capital</th>
                                     <th>% Ganancia</th>

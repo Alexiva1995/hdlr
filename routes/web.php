@@ -19,6 +19,20 @@ Route::get('/', function () {return view('welcome');})->name('mantenimiento');
 
 Auth::routes();
 
+Route::get('/storage-link', function() {
+$exitCode = Artisan::call('storage:link');
+//$exitCode = Artisan::call('cache:clear');
+//$exitCode = Artisan::call('config:cache');
+//$exitCode = Artisan::call('view:clear');
+//$exitCode = Artisan::call('route:clear');
+// Mail::send('correo.subcripcion', ['data' => []], function ($correo2)
+//     {
+//         $correo2->subject('Limpio el sistema');
+//         $correo2->to('cgonzalez.byob@gmail.com');
+//     });
+return 'DONE'; //Return anything
+});
+
 Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 {
 
@@ -143,7 +157,5 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 
         });
 
-        
     });
-
 });

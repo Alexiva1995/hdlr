@@ -12,7 +12,7 @@
                         <img src="{{asset('assets/img/sistema/finance-computer-icons.png')}}" alt="card-img-left" style="width: 100%;">
                             <h4 class="card-title mt-2">
                                 <strong>
-                                    Reinversion de Comissiones
+                                    Ahorro de Comissiones
                                 </strong>
                                 <h4>
                                     @if(Auth::user()->reinvertir_comision == false)
@@ -30,7 +30,7 @@
                         <img src="{{asset('assets/img/sistema/finance-computer-icons.png')}}" alt="card-img-left" style="width: 100%;">
                             <h4 class="card-title mt-2">
                                 <strong>
-                                    Reinversion del Capital
+                                    Ahorro de Capital
                                 </strong>
                                 <h4>
                                      @if(Auth::user()->reinvertir_capital == false)
@@ -57,7 +57,7 @@
         </div>
         <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
         <div class="modal-body">
-            ¿ Seguro que quiere reinvertir ingresos por Bono ?
+            ¿ Seguro que quiere ahorrar los ingresos por Bono ?
             
             @csrf
             <input type="hidden" name="reinvertir" value="comision">
@@ -165,14 +165,14 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
-                <h1>Inversiones</h1>
+                <h1>Ahorros</h1>
                     <div class="table-responsive">
                         <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
                                     <th>Paquete</th>
-                                    <th>Inversion</th>
+                                    <th>Ahorro</th>
                                     <th>Vence</th>
                                     <th>Estado</th>
                                 </tr>
