@@ -81,6 +81,7 @@ $(document).ready(function() {
                                 Cambiar la contraseña
                             </a>
                         </li>
+                        @if (Auth::user()->verify != 1)
                         <li class="nav-item">
                             <a class="nav-link d-flex py-75"
                                 href="{{ route('kyc') }}">
@@ -88,7 +89,7 @@ $(document).ready(function() {
                                 Verificar KYC
                             </a>
                         </li>
-
+                        @endif
                         {{-- <li class="nav-item">
                             <a class="nav-link d-flex py-75"
                                 href="{{ route('profile.change-password')}}">

@@ -84,7 +84,7 @@ $(document).ready(function() {
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <div class="controls">
-                                                            <h4 class="font-weight-bold">Billetera Electronica</h4>
+                                                            <h4 class="font-weight-bold">Billetera USDT TRC20</h4>
                                                         </div>
                                                     </div>
                                                 </div>
