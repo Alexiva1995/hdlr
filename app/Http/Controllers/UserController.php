@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use App\Models\Inversion;
+use Carbon\Carbon;
+use App\Models\Groups;
+use App\Models\Packages;
 
 class UserController extends Controller
 {
@@ -306,6 +310,11 @@ class UserController extends Controller
 
         if($request->reinvertir == "capital"){
             $user->reinvertir_capital = !$user->reinvertir_capital;
+            
+            if($user->reinvertir_capital == true){
+                $user->reinvertir_capital_package_id = $request->package_id;
+                $user->reinvertir_capital_inversion_id = $request->inversion_id;
+            }
         }else if($request->reinvertir == "comision"){
             $user->reinvertir_comision = !$user->reinvertir_comision;
         }
@@ -313,6 +322,28 @@ class UserController extends Controller
         $user->save();
        
         return back()->with('msj-success', 'estado de reinversion actualizado exitosamente');
+    }
+
+    public function listPackageInversion()
+    {
+        //buscamos la inversion mas proxima a vencer
+        $inversion = Inversion::where('iduser',Auth::id())->where('status', 1)->whereDate('fecha_vencimiento', '>=', Carbon::now())->orderBy('fecha_vencimiento', 'asc')->first(); 
+
+        $group_id = $inversion->getPackageOrden->group_id;
+
+        $paquetes = Packages::where('status', '1')->whereDate('expired', '>', Carbon::now())->get()->toArray();
+      
+        return response()->json(['paquete' => $paquetes, 'inversion' => $inversion->id]);
+    }
+
+    public function updateEstadoReinvertirCapital()
+    {
+        $user = Auth::user();
+
+        $user->reinvertir_capital = false;
+        $user->save();
+        
+        return response()->json(true);
     }
 }
 

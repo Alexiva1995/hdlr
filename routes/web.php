@@ -103,12 +103,15 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::patch('profile-update-kyc', 'UserController@updateProfileKYC')->name('profile.update.kyc');
 
         Route::post('updateEstadoReinvertir', 'UserController@updateEstadoReinvertir')->name('updateEstadoReinvertir');
+        Route::get('updateEstadoReinvertirCapital', 'UserController@updateEstadoReinvertirCapital')->name('updateEstadoReinvertirCapital');
 
         Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
         Route::get('change-password', 'ChangePasswordController@change-password')->name('profile.change-password');
 
         Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
+
+        Route::get('listPackageInversion', 'UserController@listPackageInversion')->name('listPackageInversion');
     });
 
     Route::prefix('inversiones')->group(function ()

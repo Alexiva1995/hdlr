@@ -34,9 +34,9 @@
                                 </strong>
                                 <h4>
                                      @if(Auth::user()->reinvertir_capital == false)
-                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>REINVERTIR</b></a href="javascript:;">
+                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" onclick="reinvertirCapital()"><b>REINVERTIR</b></a>
                                     @else
-                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" data-toggle="modal" data-target="#reinvestment_2"><b>Desactivar</b></a href="javascript:;">
+                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" onclick="reinvertirCapital()"><b>Desactivar</b></a href="javascript:;">
                                     @endif
                         </div>
                     </div>
@@ -57,13 +57,17 @@
         </div>
         <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
         <div class="modal-body">
-            ¿ Seguro que quiere ahorrar los ingresos por Bono ?
+            @if(Auth::user()->reinvertir_comision == false)
+                ¿ Seguro que quiere ahorrar los ingresos por Bono ?
+            @else
+            ¿ Seguro que quiere desactivar el ahorro de los ingresos por Bono ?
+            @endif
             
             @csrf
             <input type="hidden" name="reinvertir" value="comision">
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Aceptar</button>
+          <button type="submit" class="btn @if(Auth::user()->reinvertir_comision == false)btn-success @else btn-danger @endif">Aceptar</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
         </form>
@@ -81,13 +85,22 @@
         </div>
         <form method="POST" action="{{ route('updateEstadoReinvertir') }}">
         <div class="modal-body">
-            ¿ Reinvertir Ahorro ?
             @csrf
             <input type="hidden" name="reinvertir" value="capital">
+           
+                ¿ Reinvertir Ahorro ?
+                <select name="package_id" id="package_id" class="form-control" required>
+                    <option value="">Seleccione un paquete</option>
+                </select>
+                <input type="hidden" name="inversion_id" id="inversion_id">
+    
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Aceptar</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+        @if(Auth::user()->reinvertir_capital == true)
+            <button type="button" class="btn btn-danger" onclick="updateEstadoReinvertir()">Desactivar</button>
+        @endif
+        <button type="submit" class="btn btn-success">Aceptar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
         </form>
       </div>

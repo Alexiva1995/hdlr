@@ -37,8 +37,37 @@ $new = \App\Models\News::where('status', '1')->get();
 
 <script>
     $('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
+    $('#myInput').trigger('focus')
+    })
+    
+    function reinvertirCapital(){
+        let url = route('listPackageInversion');
+        axios.get(url).then((response) => {
+            let html = '<option value="">Seleccione un paquete</option>';
+            response.data.paquete.forEach( paquete => {
+                html += '<option value="'+paquete.id+'">'+ paquete.name +'</option>';
+                //$('#package_id').append('<option value="'+paquete.id+'">'+ paquete.name +'</option>');
+            });
+            $('#package_id').html(html);
+            $('#inversion_id').val(response.data.inversion);
+
+            $('#reinvestment_2').modal('show')
+        }).catch(function (error) {
+            toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
+        })
+    }
+
+    function updateEstadoReinvertir(){
+        let url = route('updateEstadoReinvertirCapital');
+        
+        axios.get(url).then((response) => {
+            console.log(response.data);
+            location.reload(true);
+        }).catch(function (error) {
+            toastr.error("Ocurrio un problema con la solicitud", '¡Error!', { "progressBar": true });
+        })
+    }
+    
 </script>
 {{-- <script>
     var vm_news = new Vue({
@@ -52,6 +81,7 @@ $new = \App\Models\News::where('status', '1')->get();
     })
     
     </script> --}}
+ 
 @endpush
 
 @section('content')
