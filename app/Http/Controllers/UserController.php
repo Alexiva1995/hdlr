@@ -73,8 +73,10 @@ class UserController extends Controller
      if($request->hasFile('dni')){
 
         $file = $request->file('dni');
-        $name = $user->id.'_'.$file->getClientOriginalName();
-        $file->move(public_path('storage') . '/dni', $name);
+        $name = time().$file->getClientOriginalName();
+        $ruta = 'dni/'. $user->id .'/'.$name;
+        Storage::disk('public')->put($ruta,  \File::get($file));
+  
         $user->dni = $name;
 
      }
