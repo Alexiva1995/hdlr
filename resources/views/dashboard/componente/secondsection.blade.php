@@ -183,7 +183,7 @@
                                 <tr class="text-center">
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->getPackageOrden->name }}</td>
-                                    <td>{{ $item->getInversionOrden->invertido }}</td>
+                                    <td>{{ $item->getInversionOrden? $item->getInversionOrden->invertido : ''}}</td>
                                     <td>{{ $item->getPackageOrden->expired }}</td>
                                     @if($item->status == 0)
                                     <td>En espera</td>

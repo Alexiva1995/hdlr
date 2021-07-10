@@ -24,6 +24,7 @@ class TiendaController extends Controller
         $this->inversionController = new InversionController();
         $this->apis_key_nowpayments = 'J9KX1AC-8BE4VYV-MQ51VMT-QVWVZTW';
         $this->middleware('kyc')->only('index', 'ordenHistory');
+        $this->middleware('cierre_comision');
     }
     
     /**

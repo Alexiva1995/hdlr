@@ -157,5 +157,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 
         });
 
+        Route::get('/reactivarTienda', 'CierreComisionController@reactivarTienda')->name('reactivarTienda');
+        Route::get('/desactivarTienda', 'CierreComisionController@desactivarTienda')->name('desactivarTienda');
     });
 });

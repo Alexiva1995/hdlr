@@ -10,7 +10,37 @@
 
 @push('custom_js')
 <script src="{{asset('assets/js/accounting.js')}}"></script>
-
+<script>
+    $('#modalCierreComision').on('hide.bs.modal', function (event) {
+        console.log("cerrado modal cierre comision");
+        let url = route('reactivarTienda');
+        axios.get(url).then((response) => {
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error.response);
+        })
+    })
+    //reactivar
+    $('#modalCierreConfirmacion').on('shown.bs.modal', function (event) {
+        console.log("cerrado modal cierre comision");
+        let url = route('desactivarTienda');
+        axios.get(url).then((response) => {
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error.response);
+        })
+    })
+    //desactivar
+    $('#modalCierreConfirmacion').on('hidden.bs.modal', function (event) {
+        console.log("cerrado modal");
+        let url = route('reactivarTienda');
+        axios.get(url).then((response) => {
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error.response);
+        })
+    })
+</script>
 @endpush
 
 <div id="cierre_comision">

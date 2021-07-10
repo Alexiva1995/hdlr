@@ -16,6 +16,7 @@ use App\Models\Inversion;
 use App\Models\Wallet;
 use App\Models\Liquidaction;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class CierreComisionController extends Controller
 {
@@ -128,7 +129,7 @@ class CierreComisionController extends Controller
                   
                     }
                 }
-
+                Cache::forget('cierre_comision');
                 return redirect()->back()->with('msj-success', 'Cierre realizado y Comisiones pagadas con exito');
             }/*
         } catch (\Throwable $th) {
@@ -324,6 +325,7 @@ class CierreComisionController extends Controller
     public function show($id)
     {
         try {
+            Cache::put('cierre_comision', true, now()->addMinutes(60));
             $group = Groups::find($id);
             $ultimoSaldo = CierreComision::where('group_id', $id)->select('s_final', 'cierre', 'created_at')->orderBy('id', 'desc')->first();
 
@@ -389,5 +391,17 @@ class CierreComisionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function desactivarTienda()
+    {
+        Cache::put('cierre_comision', true, now()->addMinutes(60));   
+        return true;
+    }
+
+    public function reactivarTienda()
+    {
+        Cache::forget('cierre_comision');
+        return true;
     }
 }
