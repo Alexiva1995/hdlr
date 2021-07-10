@@ -19,7 +19,7 @@
 <script>
     $(document).ready(function () {
         @if($user->dni != NULL)
-        previewPersistedFile("{{asset('storage/dni/'.$user->dni)}}",'photo_preview');
+        previewPersistedFile("{{asset('storage/dni/'.$user->id.'/'.$user->dni)}}",'photo_preview');
         @endif
     });
 
