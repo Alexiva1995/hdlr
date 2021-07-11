@@ -96,7 +96,8 @@ class PackagesController extends Controller
         try {
             $service = Packages::find($id);
             $category = $service->group_id;
-            $service->delete();
+            $service->status = 0;
+            $service->save();
             $route = route('package.index').'?category='.$category;
             return redirect($route)->with('msj-success', 'Servicio '.$id.' Eliminado');
         } catch (\Throwable $th) {
