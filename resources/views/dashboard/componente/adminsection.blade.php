@@ -108,7 +108,9 @@
                                 <td>{{$orden->total}}</td>
 
                                 @if ($orden->status == '0')
-                                <td> <a class=" btn btn-info text-white text-bold-600">Esperando</a></td>
+                                <td> 
+                                    <a class=" btn btn-info text-white text-bold-600" onclick="cambiarStatus({{$orden->id}})">Esperando</a>
+                                </td>
                                 @elseif($orden->status == '1')
                                 <td> <a class=" btn btn-success text-white text-bold-600">Aprobado</a></td>
                                 @elseif($orden->status >= '2')
@@ -124,6 +126,38 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalstatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('cambiarStatus') }}">
+            <div class="modal-body" style="color: black;">
+                @csrf
+                <input type="hidden" name="id" id="id">
+                ¿Desea cambiar es estatus de la orden?
+                <br>
+                <label>Seleccione el estado</label>
+                <select name="status" required class="form-control">
+                    <option value="">Seleccione un estado</option>
+                    <option value="1">Aprobado</option>
+                    <option value="2">Rechazado</option>
+                </select>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-success cambiarStatus">Guardar</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>

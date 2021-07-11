@@ -44,6 +44,14 @@
 {{-- custom js --}}
 @push('custom_js')
 <script src="{{asset('assets/js/dashboard.js')}}"></script>
+<script>
+
+    function cambiarStatus(id){
+        $('#id').val(id);
+
+        $('#modalstatus').modal('show');
+    }
+</script>
 @endpush
 
 @section('content')
