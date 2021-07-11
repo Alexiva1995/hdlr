@@ -9,10 +9,10 @@
 @push('custom_js')
 <script>
     function getlink(side) {
-        let dni = "{{Auth::user()->dni}}"
+        let verify = "{{Auth::user()->verify}}"
         let status = "{{Auth::user()->status}}"
-        console.log(dni);
-        if((dni == null || dni == "") && status == 1){
+        console.log(verify);
+        if(verify != "1"){
             toastr.error("Necesita verficarse con KYC", '¡Error!', { "progressBar": true });
             return 0;
         }

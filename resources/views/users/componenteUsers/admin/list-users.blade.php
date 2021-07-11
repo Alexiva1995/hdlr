@@ -54,11 +54,11 @@
                                     <td>{{ $item->fullname}}</td>
                                     <td>{{ $item->email}}</td>
 
-                                    @if ($item->dni != NULL && $item->status == '0')
+                                    @if ($item->dni != NULL && $item->verify == '0')
                                     <td><span class="text-primary">Verificar</span></td>
                                     @elseif ($item->dni == NULL)
                                     <td>No Disponible</td>
-                                    @elseif ($item->dni != NULL && $item->status == '1')
+                                    @elseif ($item->verify == '1')
                                     <td>Verificado</td>
                                     @endif
 
@@ -85,7 +85,7 @@
                                     <td>{{ $item->created_at}}</td>
                                     <td>
                                     
-                                    @if ($item->dni != NULL && $item->status == 0)
+                                    @if ($item->verify == "0" && $item->dni != NULL)
                                      <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i class="fa fa-check-square-o "></i></a>
                                     @endif
                                     
