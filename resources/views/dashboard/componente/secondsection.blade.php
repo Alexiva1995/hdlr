@@ -33,10 +33,12 @@
                                     Ahorro de Capital
                                 </strong>
                                 <h4>
-                                     @if(Auth::user()->reinvertir_capital == false)
-                                        <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" onclick="reinvertirCapital()"><b>REINVERTIR</b></a>
-                                    @else
-                                        <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" onclick="reinvertirCapital()"><b>Desactivar</b></a href="javascript:;">
+                                    @if(Auth::user()->getUserInversiones->where('status', '1')->count() > 0)
+                                        @if(Auth::user()->reinvertir_capital == false)
+                                            <a class="btn text-white padding-button-short btn-block bg-purple-alt2 mt-1 waves-effect waves-light" onclick="reinvertirCapital()"><b>REINVERTIR</b></a>
+                                        @else
+                                            <a class="btn text-white padding-button-short btn-block btn-danger mt-1 waves-effect waves-light" onclick="reinvertirCapital()"><b>Desactivar</b></a href="javascript:;">
+                                        @endif
                                     @endif
                         </div>
                     </div>

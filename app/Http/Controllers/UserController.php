@@ -331,7 +331,7 @@ class UserController extends Controller
 
         $group_id = $inversion->getPackageOrden->group_id;
 
-        $paquetes = Packages::where('status', '1')->whereDate('expired', '>', Carbon::now())->get()->toArray();
+        $paquetes = Packages::where('group_id', $group_id)->where('status', '1')->whereDate('expired', '>', Carbon::now())->get()->toArray();
       
         return response()->json(['paquete' => $paquetes, 'inversion' => $inversion->id]);
     }
