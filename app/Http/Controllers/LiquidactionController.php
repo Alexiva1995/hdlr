@@ -439,7 +439,7 @@ class LiquidactionController extends Controller
         $liquidacion = Liquidaction::find($idliquidation);
         
         Wallet::where('liquidation_id', $idliquidation)->update([
-            'status' => 2,
+            'status' => 0,
             'liquidation_id' => null,
         ]);
 

@@ -48,7 +48,6 @@
                                     <th>Usuario</th>
                                     <th>Email</th>
                                     <th>Total Comision</th>
-                                    <th>Estado</th>
                                     <th>Accion</th>
                                 </tr>
                             </thead>
@@ -62,7 +61,6 @@
                                         <td>{{$comision->getWalletUser->fullname}}</td>
                                         <td>{{$comision->getWalletUser->email}}</td>
                                         <td>{{$comision->total}}</td>
-                                        <td>{{$comision->getWalletUser->status}}</td>
                                         <td>
                                             <a onclick="vm_liquidation.getDetailComision({{$comision->iduser}})" class="btn btn-info">
                                                 <i class="feather icon-eye"></i>
