@@ -4,18 +4,12 @@
 @push('custom_css')
 <style>
     .bg-fucsia {
-        background: transparent linear-gradient(0deg, #13192E 0%, #13192E 100%) 0% 0% no-repeat padding-box;
+        background: transparent linear-gradient(90deg, #1c87fa 0%, #000733 100%) 0% 0% no-repeat padding-box;
 
     }
 
     .text-rosado {
         color: #13192E;
-    }
-
-    .bg-full-screen-image-alt {
-        background: url("{{asset('assets/img/sistema/fondo-registro.png')}}") !important;
-        background-size: 100% 60% !important;
-        background-repeat: no-repeat !important;
     }
 
     .btn-login {
@@ -86,12 +80,12 @@ $referred = DB::table('users')
                         <input type="hidden" name="referred_id" value="1">
                         @endif
 
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-bottom: 10px;">
 
                             <div class="col-md-12">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
                                     name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
-                                    placeholder="Nombre y Apellido">
+                                    placeholder="Nombre y Apellido" style="border: 1px solid black;">
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -101,11 +95,11 @@ $referred = DB::table('users')
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-bottom: 10px;">
                             <div class="col-md-12">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required autocomplete="email"
-                                    placeholder="Correo Electronico">
+                                    placeholder="Correo Electronico" style="border: 1px solid black;">
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -115,12 +109,12 @@ $referred = DB::table('users')
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-bottom: 10px;">
 
                             <div class="col-md-12">
                                 <input id="password" type="password"
                                     class="form-control @error('password') is-invalid @enderror" name="password"
-                                    required autocomplete="new-password" placeholder="Ingrese una contraseña">
+                                    required autocomplete="new-password" placeholder="Ingrese una contraseña" style="border: 1px solid black;">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -130,24 +124,24 @@ $referred = DB::table('users')
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-bottom: 10px;">
 
                             <div class="col-md-12">
                                 <input id="password-confirm" type="password" class="form-control"
                                     name="password_confirmation" required autocomplete="new-password"
-                                    placeholder="confirme su contraseña">
+                                    placeholder="confirme su contraseña" style="border: 1px solid black;">
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
+                        <div class="form-group row mb-0 text-center">
                             <div class="col-12">
-                                <button type="submit" class="btn bg-fucsia text-white btn-block btn-login">
+                                <button type="submit" class="btn bg-fucsia text-white w-75 btn-login">
                                     {{ __('Registrarme') }}
                                 </button>
                             </div>
                         </div>
 
-                        <fieldset class="checkbox mt-1 ml-2">
+                        <fieldset class="checkbox mt-1 ml-2 d-inline" style="font-size: 0.7em;">
                             <div class="vs-checkbox-con vs-checkbox-primary float-left justify-content-center">
                                 <input type="checkbox" name="term" id="term" {{ old('term') ? 'checked' : '' }}>
                                 <span class="vs-checkbox">
@@ -160,21 +154,29 @@ $referred = DB::table('users')
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-
-                            </div>
-                            <span class="">Acepto los <a href="{{-- {{ route('term') }} --}}">Terminos y
+                                <span class="font-italic font-weight-bold" style="color: black;">Acepto los <a href="{{-- {{ route('term') }} --}}">Terminos y
                                     Condiciones</a></span>
+                            </div>
+                            
                         </fieldset>
+
+                        <div class="text-center font-weight-bold" style="color: black;">
+                            <img src="{{asset('assets/img/sistema/icono-youtube.png')}}" alt="youtube-icon">
+                            <img src="{{asset('assets/img/sistema/icono-instagram.png')}}" alt="instagram-icon">
+                            <div class="font-italic" style="font-size: 0.7em;">
+                                Siguenos en redes sociales.
+                            </div>
+                        </div>
 
                     </form>
                 </div>
             </div>
             <div class="col-12">
                 <p class="text-center">
-                    <small>
+                    <small class="text-white font-italic">
                         <span>¿Ya tienes una cuenta?</span>
                         <br>
-                        <a class="text-rosado" href="{{ route('login') }}">
+                        <a class="text-white" href="{{ route('login') }}">
                             {{ __('Inicia sesión') }}
                         </a>
                     </small>

@@ -24,8 +24,8 @@
 @stack('custom_css')
 <style>
     .bg-full-screen-image-alt{
-        background: url("{{asset('assets/img/sistema/fondo-iniciar-sesion.png')}}");
-        background-size: 100% 60%;
+        background: url("{{asset('assets/img/sistema/FONDO-.png')}}");
+        background-size: 100% 100%;
         background-repeat: no-repeat;
     }
     @media screen and (max-width: 600px){
