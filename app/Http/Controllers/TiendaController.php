@@ -6,6 +6,7 @@ use App\Models\Groups;
 use App\Models\OrdenPurchases;
 use App\Models\Packages;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -251,6 +252,7 @@ class TiendaController extends Controller
                     Log::error('Tienda - generalUrlOrden -> Error curl: '.$err);        
                 } else {
                     $response = json_decode($response);
+                    // dd($response);
                     OrdenPurchases::where('id', $data['idorden'])->update(['idtransacion' => $response->id]);
                     $resul = $response->invoice_url;
                 }
@@ -275,5 +277,66 @@ class TiendaController extends Controller
         $user->save();
 
         return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
+    }
+
+    /**
+     * Permite saber el estado de las ordenes realizadas
+     *
+     * @return void
+     */
+    public function checkStatusOrden()
+    {
+
+        $headers = [
+            'x-api-key: '.$this->apis_key_nowpayments,
+            'Content-Type:application/json'
+        ];
+
+        $resul = ''; 
+        $curl = curl_init();
+
+        $fechaTo = Carbon::now();
+        $fechaFrom = $fechaTo->copy()->subDays(2);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.nowpayments.io/v1/payment?limit=100&dateFrom=".$fechaFrom->format('Y-m-d')."&dateTo=".$fechaTo->copy()->addDays(1)->format('Y-m-d'),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => $headers
+        ));
+            
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+        if ($err) {
+            Log::error('Tienda - checkStatusOrden -> Error curl: '.$err);        
+        } else {
+            $response = json_decode($response);
+            $pagos = $response->data;
+            // dd($pagos);
+            foreach ($pagos as $pago) {
+                if ($pago->payment_status == 'expired') {
+                    $estado = '2';
+                    OrdenPurchases::where('id', '=', $pago->order_id)->update(['status' => $estado]);
+                }
+                if($pago->payment_status == 'finished'){
+                    $estado = '1';
+                    OrdenPurchases::where('id', '=', $pago->order_id)->update(['status' => $estado]);
+                }
+                if($pago->payment_status == 'partially_paid'){
+                    $resta = ($pago->pay_amount - $pago->actually_paid);
+                    if ($resta <= 1) {
+                        $estado = '1';
+                        OrdenPurchases::where('id', '=', $pago->order_id)->update(['status' => $estado]);
+                    }
+                }
+                Log::info('ID Orden: '.$pago->order_id.' - Transacion: '.$pago->invoice_id.' Estado: '.$pago->payment_status);
+            }
+            // $resul = $response->invoice_url;
+        }
     }
 }

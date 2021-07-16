@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\checkStatusPurchase;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
         //
         Commands\CambiarStatusInversion::class,
         Commands\ReinvertirCapital::class,
-        Commands\PagarUtilidadFinMes::class
+        Commands\PagarUtilidadFinMes::class,
+        Commands\checkStatusPurchase::class
         //'App\Console\Commands\CambiarStatusInversion'
     ];
 
@@ -32,6 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('status:inversion')->daily();
         $schedule->command('reinvertir:capital')->daily();
         $schedule->command('Pagar:utilidad')->monthly();
+        $schedule->command('checkstatus:purchase')->everyFifteenMinutes();
         //$schedule->command('status:inversion')->everyMinute();
     }
 
